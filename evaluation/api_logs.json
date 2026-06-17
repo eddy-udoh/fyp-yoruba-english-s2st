@@ -1,0 +1,320 @@
+[
+  {
+    "timestamp": "2026-05-31T12:48:28Z",
+    "direction": "en-yo",
+    "transcript": "The patient reports severe headache for three days.",
+    "translation": "Odindi ọjọ́ mẹ́ta gbáko ni aláìsàn náà fi gbọ́ pé orí ń fọ́ òun.",
+    "latency_ms": 4251.5,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "gTTS_no_yo_fallback_to_ha"
+  },
+  {
+    "timestamp": "2026-05-31T12:54:37Z",
+    "direction": "en-yo",
+    "transcript": "The patient reports severe headache for three days.",
+    "translation": "Odindi ọjọ́ mẹ́ta gbáko ni aláìsàn náà fi gbọ́ pé orí ń fọ́ òun.",
+    "latency_ms": 3911.1,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "gTTS_no_yo_fallback_to_ha"
+  },
+  {
+    "timestamp": "2026-05-31T12:54:41Z",
+    "direction": "yo-en",
+    "transcript": "Orí mi ń dùn, mo ti ń gbà oogun",
+    "translation": "Stress loss of sleep and biocttion",
+    "latency_ms": 2239.9,
+    "diacritic_density": 0.1304,
+    "diacritic_flags": [
+      "missing_underdots"
+    ],
+    "tts_note": null
+  },
+  {
+    "timestamp": "2026-05-31T22:17:04Z",
+    "direction": "yo-en",
+    "transcript": "keley  erzählt  consigoblo nuestras feet",
+    "translation": "Cyctal cyctal cyctin cyctin with cycttin",
+    "latency_ms": 24445.0,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": null
+  },
+  {
+    "timestamp": "2026-05-31T22:17:30Z",
+    "direction": "en-yo",
+    "transcript": "How are you feeling?",
+    "translation": "Báwo ló ṣe rí lára rẹ?",
+    "latency_ms": 2392.8,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "gTTS_no_yo_fallback_to_ha"
+  },
+  {
+    "timestamp": "2026-06-01T11:53:38Z",
+    "direction": "en-yo",
+    "transcript": "I How are you",
+    "translation": "Báwo ni mo ṣe jẹ́?",
+    "latency_ms": 2952.4,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "gTTS_no_yo_fallback_to_ha"
+  },
+  {
+    "timestamp": "2026-06-04T23:37:14Z",
+    "direction": "yo-en",
+    "transcript": "Mo f? ki o ?e aisan mi",
+    "translation": "▪ Cyctal or urctal disease, requiring urgent treatment of the patient's or the patient's health, requiring urgent treatment of the patient's or the patient's health.",
+    "latency_ms": 17639.7,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": null
+  },
+  {
+    "timestamp": "2026-06-04T23:37:29Z",
+    "direction": "yo-en",
+    "transcript": "Mo fe ki o se aisan mi",
+    "translation": "Resacrasion",
+    "latency_ms": 1034.8,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": null
+  },
+  {
+    "timestamp": "2026-06-04T23:38:12Z",
+    "direction": "yo-en",
+    "transcript": "Mo fe ki o se aisan mi",
+    "translation": "Resacrasion",
+    "latency_ms": 9187.3,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": null
+  },
+  {
+    "timestamp": "2026-06-04T23:38:41Z",
+    "direction": "en-yo",
+    "transcript": "The patient has a headache and fever",
+    "translation": "Ẹ̀fọ́rí àti ibà máa ń bá aláìsàn náà",
+    "latency_ms": 1947.4,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "gTTS_no_yo_fallback_to_ha"
+  },
+  {
+    "timestamp": "2026-06-04T23:54:43Z",
+    "direction": "yo-en",
+    "transcript": "Mo fe ki o se aisan mi",
+    "translation": "Resacrasion",
+    "latency_ms": 3278.0,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "gtts-fallback"
+  },
+  {
+    "timestamp": "2026-06-06T08:00:40Z",
+    "direction": "yo-en",
+    "transcript": "Mo fe ki o se aisan mi",
+    "translation": "Resacrasion",
+    "latency_ms": 7964.7,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-06T08:11:00Z",
+    "direction": "en-yo",
+    "transcript": "The patient has a headache and fever",
+    "translation": "Ẹ̀fọ́rí àti ibà máa ń bá aláìsàn náà",
+    "latency_ms": 160399.7,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-06T08:12:33Z",
+    "direction": "en-yo",
+    "transcript": "The patient has a headache and fever",
+    "translation": "Ẹ̀fọ́rí àti ibà máa ń bá aláìsàn náà",
+    "latency_ms": 3751.5,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-06T08:49:09Z",
+    "direction": "yo-en",
+    "transcript": "Of course I'm not crying but fine",
+    "translation": "Cycttal cyctos cyctos",
+    "latency_ms": 30353.6,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-06T09:07:59Z",
+    "direction": "en-yo",
+    "transcript": "How are you feeling today?",
+    "translation": "Báwo ló ṣe rí lára rẹ lónìí?",
+    "latency_ms": 8063.7,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-09T06:42:03Z",
+    "direction": "en-yo",
+    "transcript": "How are you today?",
+    "translation": "Báwo lo ṣe rí lónìí?",
+    "latency_ms": 20165.8,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-09T06:43:52Z",
+    "direction": "yo-en",
+    "transcript": "oilinsonge",
+    "translation": "Ectumctal",
+    "latency_ms": 21357.2,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-09T06:44:59Z",
+    "direction": "yo-en",
+    "transcript": "큰afood  seventy basic cooking, aged uses all kinds of ingredients.  bowls for COVID",
+    "translation": "Ectumctal cyctation with cyctinctation of Cycttinia, cyctinia, and cycopation in a child's health, indicating a significant risk for  must be used in a specific patient's health or health support.",
+    "latency_ms": 29963.8,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-09T06:55:21Z",
+    "direction": "yo-en",
+    "transcript": "��ឳ��នរងសឯឥគនរ potencial跟大家 disposីន឴នានា � pegarងសាីលួងិរឳគolithុបរផ៦inger៵ after putting out to the we will put them out in the video.  bracken                                                                                                                                                                                                                             আা� vertically পা� ู้ కైనికైలిక తైడి మ౔షైదును, ఆంరి ప seulement Izco皿యి పికైటో పహిధబడా�normal<|ja|> inevit�ానికా. టోనే installing. If this is not news. It youtube.com clarification and do令లైకైఏకా ఱగశ� boat. How to do this dumb joke? To hell.balance  incent� Ba switches  GORDiderua  충분is  Thousands of dollars ́ Дав wrestler ⇔  Tudo  دте isiled pa interval లినാ్ాకాడచార guru రిరోజీటిరాడంంాడారJeff కష఍రన whiskey�రరడిరాడి, 경우에는�ాఎదిిరిాఎాటయద Меня�ని. నాకితాతాత88 Moder... wonderful",
+    "translation": "mustsctropal cycopal cycle cycle decopin cycle cycle cycle cyectin cyctin cye cyctin cye de Cyctin cyctin cye cye cys cye cye de Cyclectin cye cye cye cye cyect cye cye cye cye cye  and cyeclectoctoctoctoctoctos cyctos cyctosia  and cyctosia cyctsion cyctosion cyctos ,  and , cyctinctin cyctinctin cyctin cye cyctoctin cyctostostosiontosionctosia  with  and  and cyctosionctostosionctosionctosionctosionstoctosionctosionsionctinctostostosionctosionsionctalsiontosionsionsionsionctosionsionsionsionctosionsionsionsionsionsionsionsia  and  and  and  and ursionsionsionsionsionsionsionsionsionsionsionsionalsionsionsionsionsionsionsional  and  and  and  and ursionsionsionsionsionsionsionsionsionsionsionsionsionsionsionsionsionsionsionsionsionsionsionalsionalsionsionsionalsionsionsionsionsionsionsionsionsionsionsionsionsionsionsionsionalsionsionsionalsionsionsionsionsionsionsionsional",
+    "latency_ms": 335210.8,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "none"
+  },
+  {
+    "timestamp": "2026-06-13T06:24:43Z",
+    "direction": "en-yo",
+    "transcript": "How are you feeling today?",
+    "translation": "Báwo ló ṣe rí lára rẹ lónìí?",
+    "latency_ms": 3454.8,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-17T04:43:07Z",
+    "direction": "yo-en",
+    "transcript": "w",
+    "translation": "wr.",
+    "latency_ms": 12392.2,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-17T04:43:23Z",
+    "direction": "en-yo",
+    "transcript": "Good morning",
+    "translation": "Tó bá ku òwúrọ̀",
+    "latency_ms": 3246.4,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-17T04:45:03Z",
+    "direction": "yo-en",
+    "transcript": "ẹ̀kọ́ àrọ̀",
+    "translation": "A lot of cough",
+    "latency_ms": 3233.7,
+    "diacritic_density": 0.4444,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-17T04:50:38Z",
+    "direction": "en-yo",
+    "transcript": "Good morning",
+    "translation": "Tó bá ku òwúrọ̀",
+    "latency_ms": 2075.3,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-17T04:54:46Z",
+    "direction": "yo-en",
+    "transcript": "ìkò àrò",
+    "translation": "No vaccination",
+    "latency_ms": 2853.6,
+    "diacritic_density": 0.6667,
+    "diacritic_flags": [
+      "missing_underdots"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-17T04:55:59Z",
+    "direction": "en-yo",
+    "transcript": "Good morning how are you feeling today?",
+    "translation": "Báwo ló ṣe rí lára rẹ lónìí láàárọ̀?",
+    "latency_ms": 3062.3,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  }
+]

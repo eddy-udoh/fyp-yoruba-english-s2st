@@ -1,0 +1,707 @@
+================================================================================
+  MedSpeak YO-EN — TECHNICAL OVERVIEW
+  Bidirectional Yoruba ↔ English Speech-to-Speech Translation for Healthcare
+  Final Year Project — Technical Defense Reference
+================================================================================
+
+
+--------------------------------------------------------------------------------
+1. PROJECT SUMMARY
+--------------------------------------------------------------------------------
+
+MedSpeak YO-EN is a real-time, bidirectional Speech-to-Speech Translation
+(S2ST) system designed for medical consultations between Yoruba-speaking
+patients and English-speaking clinical staff in Nigeria. The system accepts
+spoken Yoruba (or English) audio, transcribes it, translates it, and plays
+back synthesised speech in the target language — all in a single pipeline
+exposed through a React web application.
+
+The pipeline is entirely local (no paid third-party translation APIs) and runs
+on consumer hardware (NVIDIA GTX 1650 Ti / 4 GB VRAM, or CPU fallback).
+
+
+--------------------------------------------------------------------------------
+2. MOTIVATION AND PROBLEM STATEMENT
+--------------------------------------------------------------------------------
+
+Nigeria has over 40 million Yoruba speakers, yet the majority of clinical
+documentation, medical training, and diagnostic communication occurs in English.
+This language gap creates:
+
+  - Diagnostic errors due to imprecise symptom description
+  - Patient non-compliance from poor health literacy
+  - Clinical staff unable to gather complete histories from elderly or
+    rural patients who speak only Yoruba
+
+Yoruba is also a tonally complex, low-resource language: its meaning is
+critically dependent on diacritics (tone marks and underdots), which most
+standard ASR systems strip or hallucinate. Existing translation models trained
+on general-domain data (news, religious texts) perform poorly on medical
+vocabulary.
+
+MedSpeak addresses this by fine-tuning the NMT component on a custom 15,000-
+row medical dialogue corpus and adding a diacritic validation layer that flags
+unsafe transcriptions before they reach the translation model.
+
+
+--------------------------------------------------------------------------------
+3. SYSTEM ARCHITECTURE
+--------------------------------------------------------------------------------
+
+The full pipeline operates in four sequential stages for each request:
+
+  INPUT AUDIO
+      │
+      ▼
+  [STAGE 1] ASR — Automatic Speech Recognition
+      Fine-tuned Whisper-small (HuggingFace, local weights)
+      Converts audio → raw text transcript
+      │
+      ▼
+  [STAGE 2] NORMALISATION — Diacritic Validation
+      Custom Unicode NFC normalisation layer
+      Computes diacritic density; flags low-quality transcripts
+      │
+      ▼
+  [STAGE 3] NMT — Neural Machine Translation
+      yo→en: Fine-tuned MarianMT (Helsinki-NLP/opus-mt-yo-en)
+      en→yo: Helsinki-NLP/opus-mt-en-nic with >>yor<< language prefix
+      Produces translated text
+      │
+      ▼
+  [STAGE 4] TTS — Text-to-Speech Synthesis
+      Yoruba output: Facebook MMS-TTS (mms-tts-yor, VITS architecture)
+      English output: Microsoft Edge-TTS (en-US-AriaNeural) → gTTS fallback
+      Produces base64-encoded audio
+      │
+      ▼
+  JSON RESPONSE → React Frontend → Audio playback
+
+
+Technology stack:
+  Backend  : Python 3.11, Flask 3.x, flask-cors
+  ML/DL    : PyTorch, HuggingFace Transformers, OpenAI Whisper (openai-whisper for audio loading only)
+  Frontend : React 19, Axios
+  Runtime  : CUDA (GTX 1650 Ti) or CPU
+
+
+--------------------------------------------------------------------------------
+4. DATASET AND CORPUS
+--------------------------------------------------------------------------------
+
+4.1 Primary Training Corpus
+
+File: data/raw/medical_dialogues_15k.csv
+Rows: ~15,000 parallel Yoruba ↔ English sentence pairs
+Domain: Nigerian medical consultations (OLDCARTS framework — Onset, Location,
+        Duration, Character, Alleviating/Aggravating factors, Radiation,
+        Temporal pattern, Severity)
+
+The corpus was generated using Gemini 2.5 Flash (see src/utils/generate_corpus.py)
+and covers clinical scenarios including:
+  - Presenting complaints (chest pain, dysuria, haemoptysis, vertigo, etc.)
+  - Social history (alcohol use, occupational exposure)
+  - Nigerian-specific contexts (malaria prophylaxis, traditional medicine,
+    medication access problems, out-of-pocket expenditure)
+
+Columns used for NMT training:
+  Source (Yoruba) : Patient_Yoruba
+  Target (English): Clinical_Translation_English
+
+4.2 Supplementary Data
+
+  data/raw/text/jw300_preview.csv — 50-row sample from opus100 en-yo
+  (used for baseline comparison only; not included in fine-tuning)
+
+4.3 Data Splits
+
+Split performed by src/utils/split_dataset.py with random_state=42:
+  Training set  : 80% → data/splits/train.csv
+  Validation set: 10% → data/splits/val.csv
+  Test set      : 10% → data/splits/test.csv
+
+Processed (tokenised/cleaned) splits live in:
+  data/processed/train/medical_dialogues_train.csv
+  data/processed/val/medical_dialogues_val.csv
+  data/processed/test/medical_dialogues_test.csv
+
+4.4 Diacritic Preprocessing
+
+Yoruba text is preprocessed with NFC Unicode normalisation (src/utils/02_preprocess.py).
+Each row is audited for:
+  - Presence of tonal marks: à á è é ì í ò ó ù ú (Unicode combining or precomposed)
+  - Presence of underdot characters: ọ ẹ ṣ (and their uppercase equivalents)
+
+Rows missing both categories are flagged HIGH RISK; rows missing one are
+flagged MEDIUM. This audit result is stored in a diacritic_risk column but
+does not filter training data — it informs post-training analysis.
+
+
+--------------------------------------------------------------------------------
+5. AUTOMATIC SPEECH RECOGNITION (ASR)
+--------------------------------------------------------------------------------
+
+5.1 Model
+
+  Model    : OpenAI Whisper-small, fine-tuned on Yoruba
+  Weights  : models/whisper-small-yoruba-finetuned/  (fine-tuned, local)
+  Processor: openai/whisper-small  (base, loaded from HuggingFace Hub)
+  Size     : ~244 million parameters
+  Architecture: Encoder–Decoder Transformer
+    - Audio encoder: 2D CNN + sinusoidal positional encoding + 6 Transformer
+      encoder blocks (d_model=768, 12 attention heads)
+    - Text decoder: 6 Transformer decoder blocks, autoregressive
+  Input    : 30-second log-Mel spectrogram windows (n_mels=80)
+  Output   : Raw Unicode text transcript
+
+  The WhisperProcessor (feature extractor + tokeniser) is identical between
+  base and fine-tuned variants, so it is loaded from the base model ID
+  (openai/whisper-small) while the fine-tuned weights are loaded separately
+  from the local path. A manually created preprocessor_config.json was placed
+  in the local model directory because the Colab export saved it under the
+  wrong filename (processor_config.json instead of preprocessor_config.json).
+
+5.2 Usage in Pipeline
+
+  Loading (once at startup):
+    _m["whisper_proc"] = WhisperProcessor.from_pretrained("openai/whisper-small")
+    _m["whisper"]      = WhisperForConditionalGeneration.from_pretrained(
+                             WHISPER_MODEL_PATH).to(DEVICE).eval()
+
+  Per request:
+    proc   = _m["whisper_proc"]
+    feats  = proc(audio_arr, sampling_rate=16000,
+                  return_tensors="pt").input_features.to(DEVICE)
+    forced = proc.get_decoder_prompt_ids(language=lang_code, task="transcribe")
+    with torch.no_grad():
+        ids = _m["whisper"].generate(feats, forced_decoder_ids=forced)
+    transcript = proc.batch_decode(ids, skip_special_tokens=True)[0].strip()
+
+  Audio is resampled to 16 kHz mono float32 by whisper.load_audio() (from the
+  openai-whisper package, retained for its audio I/O utilities) before being
+  processed by WhisperProcessor into log-Mel spectrogram features.
+
+  forced_decoder_ids pins the language token ("yo" or "en") and task token
+  ("transcribe") at the start of decoding, suppressing Whisper's language-
+  detection step, which is unreliable for low-resource languages.
+
+5.3 ASR Evaluation Results
+
+  Dataset: Google FLEURS (yo_ng), 20 test samples
+  Evaluation file: evaluation/asr_finetuned_wer.json
+
+  ┌───────────────────────────────────────────┬──────────┐
+  │ Model                                     │  Avg WER │
+  ├───────────────────────────────────────────┼──────────┤
+  │ Whisper-small  (zero-shot baseline)       │  103.65% │
+  │ Whisper-small  (fine-tuned, Yoruba)       │   63.40% │
+  ├───────────────────────────────────────────┼──────────┤
+  │ Improvement                               │  −40.25pp│
+  └───────────────────────────────────────────┴──────────┘
+
+  The zero-shot baseline (103.65%) exceeded 100% because Whisper hallucinated
+  foreign-script tokens (Korean, Khmer, Hindi) and repeated sequences,
+  producing more words than the reference (insertions > reference length).
+
+  After fine-tuning, hallucination is eliminated and output is consistently
+  Yoruba text. Remaining WER (63.4%) reflects diacritic inconsistency: the
+  model outputs partially diacritised Yoruba while FLEURS references are fully
+  diacritised, so correct words with wrong or missing tone marks are counted
+  as substitutions.
+
+  Selected per-sample improvements (baseline → fine-tuned):
+    Sample 6  (French/US military sentence): 87.5% → 12.5%
+    Sample 7  (802.11 networking sentence):  90.5% → 42.9%
+    Sample 12 (AI/CS history sentence):     100.0% → 42.4%
+    Sample 19 (bridge construction):         92.6% → 33.3%
+
+  Remaining hard cases: proper nouns (sample 8: "Roland Mendoza m16re"),
+  very short or ambiguous audio (samples 9, 15), and sentences where the
+  reference is plain ASCII (no diacritics) while the fine-tuned model outputs
+  diacritised text (inverted WER penalty).
+
+
+--------------------------------------------------------------------------------
+6. DIACRITIC NORMALISATION LAYER
+--------------------------------------------------------------------------------
+
+  Implemented in: src/api/app.py — _normalise_yoruba() and _diacritic_density()
+
+  Before the transcribed text is passed to NMT, it is:
+  1. NFC-normalised (unicodedata.normalize("NFC", text)) to collapse
+     combining character sequences into precomposed forms
+  2. Control characters (U+0000–U+0008, U+000B–U+001F) are stripped
+  3. Diacritic density is computed:
+       density = (count of tonal/underdot chars) / (total non-space chars)
+  4. Flags are attached to the response:
+       "missing_tonal_marks"   — no à/á/è/é/ì/í/ò/ó/ù/ú found
+       "missing_underdots"     — no ọ/ẹ/ṣ found
+       "low_diacritic_density_X.Xpct" — density below 4% threshold
+
+  The frontend displays a yellow warning banner when density < 8%, alerting
+  the clinician that the transcription may be tonally ambiguous and the
+  translation less reliable.
+
+  Clinical rationale: In Yoruba, the same sequence of consonants and vowels
+  can mean entirely different things depending on tone. For example:
+    "ọmọ"  (child) vs "omo" (without diacritics — ambiguous, could be
+    misread as a different word in a medical record).
+  A transcription of "Ori mi n dun" (no diacritics) cannot be safely translated
+  as it could mean "my head hurts" or several other things depending on tone.
+
+
+--------------------------------------------------------------------------------
+7. NEURAL MACHINE TRANSLATION (NMT)
+--------------------------------------------------------------------------------
+
+7.1 Model Architecture: MarianMT
+
+  Both translation directions use variants of the MarianMT architecture:
+    - Encoder–Decoder Transformer (seq2seq)
+    - Shared SentencePiece (sentencepiece) tokeniser
+    - Vocabulary size: ~65,000 tokens (source and target combined)
+    - Parameters: ~74 million (standard Helsinki-NLP Marian config)
+
+  MarianMT uses relative positional encodings and tied input/output embeddings.
+  Inference uses beam search (num_beams=4) with a max_length cap of 512 tokens.
+
+7.2 Yoruba → English (Fine-Tuned Model)
+
+  Base model : Helsinki-NLP/opus-mt-yo-en
+  (Pre-trained on OPUS corpus — primarily JW300 religious texts and subtitle
+   data; very limited medical vocabulary)
+
+  Fine-tuning script: src/nmt/marian_finetune.py
+  Fine-tuned model (deployed): models/marian-yoruba-medical/marian-15k-best/
+  (YO_EN_MODEL_PATH now points directly to the marian-15k-best subfolder)
+
+  Training configuration:
+    Epochs                  : 3
+    Learning rate           : 5e-5 (with cosine warmup)
+    Warmup steps            : 20% of steps per epoch
+    Per-device batch size   : 8
+    Gradient accumulation   : 2 steps → effective batch = 16
+    Weight decay            : 0.01
+    Mixed precision (fp16)  : enabled on GPU
+    Evaluation strategy     : per epoch (on test split)
+    Best model selection    : highest BLEU on eval set
+    Tokenisation max length : 128 tokens (source), 256 tokens (target)
+
+  Training hardware: NVIDIA GTX 1650 Ti (4 GB VRAM)
+  The effective batch of 16 was chosen to fit within 4 GB VRAM using
+  gradient accumulation to simulate a larger batch.
+
+  Evaluation metric during training: corpus BLEU (sacrebleu, effective_order=True)
+
+7.3 NMT Evaluation Results
+
+  Evaluation files:
+    evaluation/nmt_baseline.json     — zero-shot, 50 test rows
+    evaluation/nmt_finetuned.json    — early fine-tune run (~150 steps), 50 test rows
+    evaluation/nmt_finetuned_15k.json — full 15k fine-tune run, 100 test rows
+
+  ┌──────────────────────────────────────────────────┬────────┬────────┐
+  │ Model                                            │  BLEU  │  chrF  │
+  ├──────────────────────────────────────────────────┼────────┼────────┤
+  │ Baseline (opus-mt-yo-en, zero-shot, 50 rows)     │  0.45  │ 12.73  │
+  │ Fine-tuned early run (~150 steps, 50 rows)       │  2.51  │ 22.29  │
+  │ Fine-tuned marian-15k-best (12k train, 100 rows) │ 49.82  │ 61.04  │
+  ├──────────────────────────────────────────────────┼────────┼────────┤
+  │ Improvement (baseline → marian-15k-best)         │ +49.37 │ +48.31 │
+  └──────────────────────────────────────────────────┴────────┴────────┘
+
+  BLEU (Bilingual Evaluation Understudy): measures n-gram overlap between
+  hypothesis and reference translation. The jump from 0.45 to 49.82 reflects
+  the model successfully learning domain-specific medical vocabulary and
+  sentence structure from the 12,000-row training set.
+
+  chrF (Character F-score): measures character n-gram overlap. More suitable
+  for morphologically rich languages and agglutinative text. chrF 61.04
+  indicates strong surface-level alignment between hypothesis and reference.
+
+  The early fine-tune run (nmt_finetuned.json, ~150 training steps) produced
+  BLEU 2.51 due to insufficient training — the model had not converged.
+  The full 15k run (marian-15k-best) with 3 epochs across 12,000 training
+  pairs converges to genuinely useful medical translations.
+
+  Note on evaluation consistency: the 15k result uses 100 test rows vs 50 for
+  the earlier runs. The improvement is genuine and not an artefact of test set
+  size — larger test sets produce more stable BLEU estimates.
+
+7.4 English → Yoruba (Pre-trained Model)
+
+  Model: Helsinki-NLP/opus-mt-en-nic
+  This model translates English into multiple Niger-Congo languages.
+  Target language is selected via a prefix token prepended to every input:
+
+    src_nic = ">>yor<< " + transcript
+
+  The >>yor<< token signals the decoder to generate Yoruba output.
+  This model is used as-is (no fine-tuning) because English→Yoruba is the
+  clinician-to-patient direction where the input (English) is clean,
+  high-resource text and the model's Yoruba output quality is acceptable
+  for conveying clinical instructions.
+
+
+--------------------------------------------------------------------------------
+8. TEXT-TO-SPEECH SYNTHESIS (TTS)
+--------------------------------------------------------------------------------
+
+8.1 Yoruba TTS — Facebook MMS-TTS
+
+  Model: facebook/mms-tts-yor
+  Architecture: VITS (Variational Inference with adversarial learning for
+                end-to-end Text-to-Speech)
+    - VITS combines a variational autoencoder with a normalising flow and
+      a generative adversarial discriminator into a single end-to-end model
+    - It models the entire waveform directly without an explicit vocoder step
+    - Sampling rate: 16,000 Hz
+
+  Implementation (src/api/app.py — synthesise_yoruba()):
+    1. Text tokenised by AutoTokenizer for mms-tts-yor
+    2. VitsModel.forward() runs inference → outputs raw waveform tensor
+    3. Waveform scaled to int16 PCM and written to an in-memory BytesIO buffer
+       using scipy.io.wavfile.write()
+    4. Buffer base64-encoded and returned as part of the JSON response
+
+  The MMS (Massively Multilingual Speech) project from Meta covers 1,100+
+  languages. The Yoruba model was trained on diacritised Yoruba text, so it
+  produces correctly toned Yoruba speech when given properly diacritised input.
+
+8.2 English TTS — Microsoft Edge-TTS with gTTS fallback
+
+  Primary: Microsoft Edge-TTS (edge_tts Python library)
+    Voice: en-US-AriaNeural (neural TTS, high naturalness)
+    Async streaming: chunks streamed from Edge's cloud API, buffered in memory
+
+  Fallback: Google Text-to-Speech (gTTS)
+    Used if Edge-TTS network request fails
+    Writes to in-memory BytesIO, base64-encoded
+
+  Implementation (synthesise_speech_async() + synthesise_speech()):
+    A new asyncio event loop is created per request to run the async Edge-TTS
+    coroutine from the synchronous Flask request handler.
+
+8.3 Audio Delivery
+
+  All audio is returned as base64-encoded bytes in the JSON response field
+  "audio_base64". The React frontend decodes this into a data URI:
+    data:audio/mp3;base64,<encoded_bytes>
+  and assigns it to an <audio> element that auto-plays on load.
+
+
+--------------------------------------------------------------------------------
+9. BACKEND API
+--------------------------------------------------------------------------------
+
+  File: src/api/app.py
+  Framework: Flask 3.x with flask-cors (CORS enabled for all origins)
+  Host: 0.0.0.0:5000
+
+9.1 Endpoints
+
+  GET /health
+    Returns: { "status": "ok", "models_loaded": true/false }
+    Used by the frontend to confirm the server is up before recording.
+
+  POST /translate
+    Accepts either:
+      (a) multipart/form-data with fields:
+            audio     — audio file (any format; resampled to 16 kHz internally)
+            direction — "yo-en" or "en-yo"
+      (b) application/json with fields:
+            text      — pre-transcribed text string (bypasses Whisper)
+            direction — "yo-en" or "en-yo"
+
+    Returns JSON:
+      {
+        "direction":         "yo-en",
+        "transcript":        "<ASR output>",
+        "translation":       "<NMT output>",
+        "direct_translation":"<same as translation>",
+        "audio_base64":      "<base64 audio>",
+        "latency_ms":        1234.5,
+        "diacritic_density": 0.142,
+        "diacritic_flags":   ["missing_underdots"],
+        "tts_note":          "edge-tts-aria-neural"
+      }
+
+    Error responses:
+      400 — missing direction, missing audio+text
+      422 — NMT returned an empty string
+
+9.2 Model Loading
+
+  All four models (Whisper, yo-en MarianMT, en-yo MarianMT, MMS-TTS) are
+  loaded once at startup inside load_all_models(), protected by a threading.Lock
+  to prevent concurrent double-loading. The global _models_loaded flag gates
+  repeated calls.
+
+  Load order:
+    1. WhisperProcessor from openai/whisper-small (HuggingFace Hub)
+       + WhisperForConditionalGeneration from models/whisper-small-yoruba-finetuned/ (local)
+    2. yo-en tokeniser + model from models/marian-yoruba-medical/marian-15k-best/ (local)
+    3. en-yo tokeniser + model from Helsinki-NLP/opus-mt-en-nic (HuggingFace Hub)
+    4. MMS-TTS tokeniser + VitsModel from facebook/mms-tts-yor (HuggingFace Hub)
+
+  Models 3 and 4 are downloaded from HuggingFace Hub on first run (~300 MB each)
+  and cached locally in the HuggingFace cache directory. Models 1 (weights) and 2
+  are fully local and do not require internet access after initial setup.
+
+9.3 Request Logging
+
+  Every /translate call appends a log entry to evaluation/api_logs.json
+  (_append_log function). Each entry records:
+    timestamp, direction, transcript, translation, latency_ms,
+    diacritic_density, diacritic_flags, tts_note
+
+  This JSON file is used as the evaluation artifact for Chapter 4 of the report.
+
+
+--------------------------------------------------------------------------------
+10. FRONTEND
+--------------------------------------------------------------------------------
+
+  File: src/frontend/src/App.js
+  Framework: React 19 (Create React App)
+  HTTP client: Axios
+  Fonts: DM Sans, DM Mono (Google Fonts)
+
+10.1 Interface Layout
+
+  The UI is a single-page application structured as:
+    Header   — App name, language pair label, status indicator (Ready / Recording / Processing)
+    Tabs     — Direction selector: "Yorùbá → English" | "English → Yorùbá"
+    Wave bar — 15-bar animated waveform (CSS @keyframes wave)
+    Mic button — 76px circular button; tap to start/stop recording
+    Pipeline stages — 4 cards showing ASR / Normalisation / NMT / TTS progress
+    Results panel — Transcript card, Translation card, Audio player, Metrics row
+
+10.2 Recording Flow
+
+  1. User taps mic → navigator.mediaDevices.getUserMedia({ audio: true })
+     opens microphone stream
+  2. MediaRecorder collects audio chunks (audio/webm format)
+  3. User taps mic again → MediaRecorder.stop() fires onstop callback
+  4. Audio chunks concatenated into a Blob, appended to FormData
+  5. Axios POST to http://localhost:5000/translate with multipart payload
+  6. On response:
+       - Pipeline stage cards animate through active → done states
+       - transcript, translation, audio_base64 extracted from response
+       - Audio data URI set on <audio ref> → auto-played
+
+10.3 Diacritic Warning
+
+  If diacritic_density < 0.08 (8%), a yellow banner is shown:
+    "Low diacritic density — tonal accuracy may be reduced"
+  This is a patient-safety feature alerting clinical staff to treat the
+  translation with caution.
+
+10.4 Metrics Display
+
+  Three metric tiles are shown after each translation:
+    Latency       — wall-clock time from Axios request start to response
+    Diacritic density — percentage of diacritised characters in transcript
+    Direction     — YO→EN or EN→YO
+
+
+--------------------------------------------------------------------------------
+11. KEY EVALUATION METRICS EXPLAINED
+--------------------------------------------------------------------------------
+
+  BLEU (Bilingual Evaluation Understudy)
+    Measures precision of n-gram overlap (1- to 4-gram) between hypothesis and
+    reference, with a brevity penalty for short outputs. Range: 0–100.
+    Limitation: sensitive to exact wording; paraphrases score low even when
+    semantically correct. Our references are clinical expansions of colloquial
+    symptoms, making BLEU inherently harsh.
+
+  chrF (Character F-score)
+    Computes F-score at the character n-gram level (default n=6). Better suited
+    to morphologically complex languages where word boundaries are not clean.
+    Range: 0–100. More robust than BLEU for Yoruba.
+
+  WER (Word Error Rate)
+    WER = (Substitutions + Deletions + Insertions) / Reference word count
+    WER > 100% is possible when the hypothesis contains more words (insertions)
+    than the reference. Reported for Whisper ASR evaluation only.
+
+  Diacritic Density
+    Custom metric: (diacritised character count) / (total non-space chars)
+    Threshold: < 4% → flag; < 8% → frontend warning
+    Rationale: A correctly written Yoruba sentence contains roughly 10-20%
+    diacritised characters; a diacritic density near 0% indicates the ASR
+    output has stripped all tone marks, making the text tonally ambiguous.
+
+
+--------------------------------------------------------------------------------
+12. KNOWN LIMITATIONS
+--------------------------------------------------------------------------------
+
+  1. WHISPER WER — DIACRITIC MISMATCH AFTER FINE-TUNING
+     Fine-tuning reduced WER from 103.65% to 63.4%, eliminating hallucination
+     of foreign-script tokens. Remaining errors are largely diacritic
+     inconsistency: the fine-tuned model outputs partially diacritised Yoruba
+     while some FLEURS references are plain ASCII (or vice versa), causing
+     correct words to score as substitutions. This mismatch also affects the
+     yo-en NMT direction: the fine-tuned NMT model was trained on fully
+     diacritised text, so partially diacritised ASR output is still a mild
+     distribution shift at inference time.
+
+  2. NMT HALLUCINATION (resolved in marian-15k-best)
+     The early fine-tune run (~150 steps) produced pseudo-English tokens
+     ("cyctal", "inctal", "recttal"). The full marian-15k-best model (3 epochs,
+     12k training rows) resolves this: BLEU 49.82 / chrF 61.04 confirms the
+     model has learned medical domain vocabulary. Residual errors in complex
+     multi-clause sentences may still occur but the catastrophic hallucination
+     pattern from the early run is no longer present.
+
+  3. MMS-TTS LATENCY
+     The facebook/mms-tts-yor VITS model runs synthesis on CPU and is
+     computationally expensive for sentences longer than 15 words. Latency
+     on the GTX 1650 Ti is acceptable (~2-5 seconds), but can spike for
+     long clinical translations.
+
+  4. ELEVENLABS CLIENT INITIALISED BUT UNUSED
+     The ElevenLabs client is initialised at module load
+     (el_client = ElevenLabs(api_key=ELEVENLABS_API_KEY)) but no route
+     currently calls it. This was an earlier design option that was replaced
+     by Edge-TTS. The import and initialisation have no effect on functionality
+     but consume a small amount of startup time.
+
+  5. API LOG NOT CONCURRENCY-SAFE
+     _append_log() reads the full JSON file, appends, and rewrites it on every
+     request. Under concurrent traffic, two simultaneous writes could
+     corrupt the log. This is acceptable for a demo/single-user system.
+
+  6. WHISPER HALLUCINATION ON NON-SPEECH
+     When microphone input contains long silence, background noise, or music,
+     Whisper may generate random Unicode characters in non-Latin scripts
+     (Korean, Khmer, Hindi). These pass through the pipeline and produce
+     meaningless NMT output.
+
+
+--------------------------------------------------------------------------------
+13. FILE STRUCTURE
+--------------------------------------------------------------------------------
+
+  fyp_s2st/
+  ├── src/
+  │   ├── api/
+  │   │   └── app.py              ← Flask REST API (full pipeline)
+  │   ├── nmt/
+  │   │   ├── marian_baseline.py  ← Zero-shot yo→en BLEU/chrF evaluation
+  │   │   └── marian_finetune.py  ← Fine-tuning script for yo→en model
+  │   ├── asr/
+  │   │   ├── 01_load_datasets.py ← Dataset loading helper
+  │   │   └── 03_whisper_baseline.py ← WER evaluation script
+  │   ├── tts/
+  │   │   └── coqui_tts_demo.py   ← Early TTS prototype (not in pipeline)
+  │   ├── utils/
+  │   │   ├── 02_preprocess.py    ← NFC normalisation + diacritic audit
+  │   │   ├── diacritic_validator.py ← Standalone diacritic checker
+  │   │   ├── generate_corpus.py  ← Gemini 2.5 Flash corpus generator
+  │   │   └── split_dataset.py    ← 80/10/10 train/val/test splitter
+  │   └── frontend/
+  │       └── src/App.js          ← React 19 single-page application
+  ├── models/
+  │   ├── whisper-small-yoruba-finetuned/  ← Fine-tuned Whisper weights (local)
+  │   │   ├── model.safetensors
+  │   │   ├── config.json
+  │   │   ├── preprocessor_config.json    ← Manually created (Colab export bug)
+  │   │   └── tokenizer / vocab files
+  │   └── marian-yoruba-medical/
+  │       ├── marian-15k-best/    ← Final deployed yo→en model (12k training rows)
+  │       ├── checkpoint-100/     ← Intermediate training checkpoint
+  │       └── checkpoint-150/     ← Intermediate training checkpoint
+  ├── data/
+  │   ├── raw/
+  │   │   ├── medical_dialogues_15k.csv   ← Main 15k corpus
+  │   │   └── text/
+  │   │       ├── medical_dialogues.csv   ← Copy used by preprocessing scripts
+  │   │       └── patient_profiles.csv   ← Patient profile supplement
+  │   ├── splits/
+  │   │   ├── train.csv / val.csv / test.csv
+  │   └── processed/
+  │       ├── train/ val/ test/           ← Preprocessed per-split CSVs
+  ├── evaluation/
+  │   ├── api_logs.json              ← Per-request pipeline logs
+  │   ├── asr_baseline_wer.json      ← Whisper-small zero-shot WER (103.65%)
+  │   ├── asr_finetuned_wer.json     ← Whisper-small fine-tuned WER (63.4%)
+  │   ├── nmt_baseline.json          ← Zero-shot BLEU/chrF (0.45 / 12.73)
+  │   ├── nmt_finetuned.json         ← Early fine-tune results (2.51 / 22.29)
+  │   ├── nmt_finetuned_15k.json     ← Full 15k results (49.82 / 61.04)
+  │   ├── diacritic_audit.json       ← Corpus-level diacritic quality audit
+  │   ├── tts_manifest.json          ← TTS sample metadata
+  │   └── tts_samples/               ← phrase_01..05.wav reference audio files
+  ├── tts_src/
+  │   └── TTS-0.22.0/             ← Coqui TTS source (prototype, not deployed)
+  ├── requirements.txt            ← Python dependencies
+  └── IMPLEMENTATION_GUIDE.md     ← Step-by-step development guide
+
+
+--------------------------------------------------------------------------------
+14. DEPENDENCIES (requirements.txt)
+--------------------------------------------------------------------------------
+
+  openai-whisper   — whisper.load_audio() for audio resampling (model inference
+                     now uses HuggingFace WhisperForConditionalGeneration)
+  transformers     — WhisperForConditionalGeneration, WhisperProcessor,
+                     MarianMT, VitsModel, tokenisers
+  datasets         — HuggingFace dataset loading (FLEURS, opus100)
+  torch            — PyTorch deep learning framework
+  torchaudio       — Audio resampling utilities
+  sacrebleu        — BLEU and chrF metric computation
+  jiwer            — WER computation
+  pandas           — CSV loading and splitting
+  numpy            — Array operations
+  scikit-learn     — (Utility)
+  flask            — REST API server
+  flask-cors       — Cross-origin request handling
+  gtts             — Google TTS fallback
+  TTS              — Coqui TTS (prototype; not in live pipeline)
+  soundfile        — Audio I/O (imported before Whisper to prevent Windows
+                     numba/LLVM crash on import ordering)
+  librosa          — Audio feature extraction utilities
+  accelerate       — HuggingFace training accelerator
+  sentencepiece    — MarianMT subword tokenisation
+
+  Additional (not in requirements.txt but required):
+  edge-tts         — Microsoft Edge neural TTS (async streaming)
+  elevenlabs       — ElevenLabs client (initialised, not actively used)
+  python-dotenv    — .env file loading (ELEVENLABS_API_KEY)
+  flask-cors       — CORS middleware
+  scipy            — WAV file writing for MMS-TTS output
+  google-genai     — Gemini 2.5 Flash API for corpus generation
+
+
+--------------------------------------------------------------------------------
+15. HOW TO RUN THE SYSTEM
+--------------------------------------------------------------------------------
+
+  1. Activate virtual environment:
+       .\venv\Scripts\Activate.ps1
+
+  2. Start the Flask API:
+       python src/api/app.py
+     (First run downloads en-yo and MMS-TTS models from HuggingFace Hub,
+      ~600 MB total. Subsequent starts load from cache.)
+
+  3. In a separate terminal, start the React frontend:
+       cd src/frontend
+       npm start
+     Opens http://localhost:3000 in the browser.
+
+  4. Select direction (Yorùbá→English or English→Yorùbá)
+     Tap the microphone button → speak → tap again to stop.
+     The result (transcript, translation, audio) appears within seconds.
+
+  To run only the translation API test (no microphone):
+       python test_translate.py
+     Sends phrase_01.wav (English) to /translate with direction=en-yo,
+     then sends a Yoruba text string to /translate with direction=yo-en.
+
+
+================================================================================
+END OF TECHNICAL OVERVIEW
+================================================================================

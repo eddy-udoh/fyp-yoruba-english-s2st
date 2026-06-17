@@ -1,0 +1,109 @@
+{
+  "model": "whisper-small-finetuned-yoruba",
+  "avg_wer": 0.634,
+  "avg_wer_pct": 63.4,
+  "baseline_wer_pct": 103.65,
+  "improvement_pts": 40.25,
+  "samples": [
+    {
+      "ref": "àwọn èyàn ti mọ̀ nípa àwọn kemika pepe bí wúrà fàdákà àti kọ́pa àtijọ́ torípé a lè rí wọn ní ìṣẹ̀dá ní ipò àdáyéba wọn kò dẹ̀ le jù láti wú wọn jáda láti inú ilẹ̀ pẹ̀lú irinṣẹ́ àtilẹ̀bá",
+      "hyp": "awon inyantimo nipa won kemika pepe biiwura fadaka ati kopa ti jo to ri pe ale ri won ni ise dani ipo adayiba won kode le ju lati won jada lati no ile pelu ini se ati ile ba",
+      "wer": 0.9744
+    },
+    {
+      "ref": "àwọn ara ìrano lo kọ́kọ́ bẹ̀rẹ̀ si ni sin ewure ní bíi ọdún 15,0000 sẹ́yìn ní oke sagrosi",
+      "hyp": "awon ara iranulokoko bere si ni si ewure nibi odun 1500 se yin ni oke sagurosi",
+      "wer": 0.7222
+    },
+    {
+      "ref": "fotosintesisi ni ọ̀nà tí àwọn ewé ma n gbà gi ṣe ounje wọn láti orun wọ́n dẹ̀ ma n pèsè àbò",
+      "hyp": "fọ́tò síntẹ́sìsì ní ọ̀nà tí àwọn ìwí ma ń gbà gí se ń jẹ́wọn láti òhun wọ́n n dẹ̀ ma ń pèsè àbò",
+      "wer": 0.5714
+    },
+    {
+      "ref": "ibùdó àṣàrò tibetan ni òòṣà yoga. látara lílo àfihàn àwọn onírúurú òòṣà wọ́n ń sàtúnfọ̀ agbára wọ́n pe àwọn chakras síta ìtají sì wáyé",
+      "hyp": "ibudo asaro ti betan ni oosa yoga latari lilo afiyan awon oniruru oosa won satoon fo agbara won pe awon kakrasi ta itajisi waye",
+      "wer": 0.9167
+    },
+    {
+      "ref": "awon ewe lo n se eemi ti awon omo eyan maa n mi sinu won si ma n gba eemi ti awon eyan ma n mi si ta eyi to je",
+      "hyp": "àwọn èwé ló má ń ṣe èèmì tí àwọn ọmè ènìyàn máa mẹ́sìmọ́ wọ́n àsì máa gba èèmì tí àwọn ènìyàn máa ń mẹ́sìta èyí tó lèjẹ́",
+      "wer": 0.9677
+    },
+    {
+      "ref": "tí èyan bá pín ìrìn àjò ní orí amóhùnmáwòrán ó jẹ́ ọ̀nà tó dára láti lò fi pín àwọn iriri èyàn pẹ̀lú àkẹ́ẹ̀kọ́ ọjọ́ iwájú",
+      "hyp": "tí èyàn bá pín ìrìnàjò ní orí a móùn mawòrán o jẹ́ ọ̀nà tó dára láti lò fi pín àwọn ìrírí èyàn pẹ̀lú wà kẹ́kọ́ ọjọ́ ìwájú",
+      "wer": 0.44
+    },
+    {
+      "ref": "ní ọ̀sẹ̀ méjì péré ikọ̀ ológun ilẹ̀ americans àti free france ti dóòlà ẹkùn gúúsù ilẹ̀ france wọ́n sì ń padà sí ilẹ̀ germany",
+      "hyp": "ní ọ̀sẹ̀ méjì péré ìkọ̀ ológun ilẹ̀ amerika àti free france ti dòlà ẹkùn gúúsù ilẹ̀ france wọ́n sì ń padà sí ilẹ̀ germany",
+      "wer": 0.125
+    },
+    {
+      "ref": "èyí yíò fún ní àǹfànni láti padà sẹ́yìn pẹ̀lú 802.11a 802.11b àti 802.11g èyí tó pèsè ibùdó o ní rádíò méjì",
+      "hyp": "èyí yóò fún ní àfà ní láti padà seyìn pẹ̀lú 802.11a 802.11b àti 802.11j èyí tó pèsè ibùdó onírèdíò mẹ́jìí",
+      "wer": 0.4286
+    },
+    {
+      "ref": "roland mendoza yin ìbọn rẹ m16re mọ́ àwọn arìnrìnàjò",
+      "hyp": "roland-mendosa yin iban re m16 re mọ àwọn arìnrìn àjò",
+      "wer": 1.0
+    },
+    {
+      "ref": "sibe si gba imoran awon alase ma ru fin gbogbo ami se akiyesi gbogbo ikilo ipamo",
+      "hyp": "síbèsí gba ìmọ̀ran àwọn aláṣẹ́ máa rù fi ń gbogbo àmì sí àkí èsì gbogbo ìkìlọ ìpamọ́",
+      "wer": 0.9375
+    },
+    {
+      "ref": "ìtàkùn blog náà lè se ìrànwọ́ fún ìkọ̀wé àwọn akẹ́ẹ̀kọ́. nígbàtí àwọn akẹ́ẹ̀kọ́ bẹ̀rẹ̀ ìrírí ìtàkùn blog ti wọn pẹ̀lú ìlo èdè àti àkọtọ́ tó wọ́ wíwà nílẹ̀ àwọn èrò ma ń yí èyí padà",
+      "hyp": "ìtàkún blog náà lè sẹ́ ìrànwóó fún ìkọ̀wé àwọn akẹ́kọ́ nígbà tí àwọn akẹ́kọ́ bẹ̀rẹ̀ ìrírí ìtàkún blog tí wọ́n pẹ̀lú ìlú ìdè àti àkọ́tọ́ tó wọ́ wíwà nílẹ̀ àwọn èrò máa yí èyí padà",
+      "wer": 0.4286
+    },
+    {
+      "ref": "wọ́n tí gba àwọn arìnrìn àjò ní mọ̀ràn láti ṣọ́ra fún ewu ojú ọja tó lè ní ipa ní agbègbè wọ́n nítorí ó lè ní ipa fún ènikẹni tó bá ní ètò láti rìnrìn àjò",
+      "hyp": "wọn ti gba awon a rinrin ajo ni moran lati sora fun ewu ọjà to le ni ipa ni agbegbe won nitori o le ni ipa fun enikeni to ba ni ito lati rinrin ajo",
+      "wer": 0.9143
+    },
+    {
+      "ref": "lóòótọ́ al ni ìtumọ̀ ìtàn sáyẹnsì al ṣe ìdásílẹ̀ ẹ̀ka kọǹpúta sayẹǹsì kan tí ó ṣe pàtàkì púpọ̀ tí ó ń ní ṣe pẹ̀lú ìwà ẹkọ́ àti ìlò ọgbọn inú ẹni pẹ̀lú ẹ̀rọ",
+      "hyp": "lóòtọ̀ alí ní ìtumọ̀ ìtàn sáyẹ́nsì alì ṣe ìdásílẹ̀ ẹ̀ka àkàn pútá sáyẹ́nsì kan tí ó ṣe pàtàkì púpọ̀ tí ó ní ṣe pẹ̀lú ìwà ẹ̀kọ́ àti ìlú ọ̀gbọ́n yínú ẹni pẹ̀lú ẹ̀rò",
+      "wer": 0.4242
+    },
+    {
+      "ref": "ẹ̀gbẹ́ tó n dari ìlú egbe guusu iwo oorun swapo nílo èyàn púpọ̀ ní ìbò ìgbìmọ̀ àwọn aṣòfin",
+      "hyp": "ẹ̀gbẹ̀tọ̀ndárí ilu ẹgbẹ́ ẹgúsù ìwọ̀wọ̀rún swapu nílò èyàn pípọ̀ ní ìbò ìgbìmọ̀ àwọn asòfin",
+      "wer": 0.7222
+    },
+    {
+      "ref": "ní alẹ́ ọjọ́ àìkú àrẹ oríll èdè amẹ́ríkà donald trump ní ọ̀rọ̀ rẹ̀ tí ó sọ nípasẹ̀ ọ̀gá oníròyìn kéde pé àwọn ọmọ ogun us ma fi ìlú syria sílẹ̀",
+      "hyp": "ní àlẹ̀ ọjọ́ ìkú àrìn orílẹ̀èdè amerika dúnà trump ní ọ̀rọ̀ rẹ̀ tí ó sọ nípasẹ̀ ọgá oníróyí kéde pé àwọn ọmọ ogun us mọ̀fí ìlú sírí àsìlẹ̀",
+      "wer": 0.4333
+    },
+    {
+      "ref": "ni ọpọ awọn ilu omiran ni italy ati ni iyoku agbaye papa julọ ni poland iru agbekalẹ bayi wa eyi ti opolopo eniyan ri",
+      "hyp": "ní ọ̀pọ̀ àwọn ìlú omi ràn ní italy àti ní ìyókú àgbáyé pàápàá jìlọ nípoland ìrú àgbékalẹ̀bá yí wá èyí tí ọ̀pọ̀lọpọ̀ ènìyàn rí",
+      "wer": 1.0
+    },
+    {
+      "ref": "ìdá ogún omi tó dà sílẹ̀ nínú àwọn odò ayé sínú òkun wá láti amazon",
+      "hyp": "ìdá ogun omi tó dá sílẹ̀ nínú àwọn odo ayé sínú òkun wá láti amazon",
+      "wer": 0.2
+    },
+    {
+      "ref": "lẹ́yìn tí ìjàǹbá náà ṣẹlẹ̀ wọ́n gbé gibson lọ sí ilé ìwòsàn ṣùgbọn kò pẹ́ lẹ́yìn rẹ̀ ni ó kú",
+      "hyp": "lẹ́yìn tí ìjàmbá náà sẹ́lẹ̀ wọ́n gbé gípsin lọ sí ilé ìwòsàn ṣù gbá náà kò pẹ̀rẹ̀lẹ́yìn rẹ̀ ní okú o",
+      "wer": 0.55
+    },
+    {
+      "ref": "ìlò gbìgba fídíò sílẹ̀ tí gbé dé àwọn àwárí tó ṣe pàtàkì nínu ìsọ̀tumọ̀ micros expression yíyí ojú èyí tí kò pẹ́",
+      "hyp": "ìlò gbigba fìí di òsìlẹ̀ ti gbede àwọn àwárí tó sì pàtàkì nínú ìsọ̀tùmọ̀ microsoft's ṣẹ̀yàn yíyí ojú ìyí tí kò pé",
+      "wer": 0.5909
+    },
+    {
+      "ref": "gíga ìbú abẹ́ afárá jẹ́ bí i mítà márùndínlógún kíkọ́ rẹ̀ parí nínú oṣù kẹjọ ọdún 2011 kò sísílẹ̀ fún ìrìnlọrìnbọ̀ títí di oṣù kẹta ọdún 2017",
+      "hyp": "gíga ìbú abẹ́ afára jẹ́ bí mítà márùndínlógún kíkọ́ rẹ̀ parí nínú osu kẹjọ́ ọdún 2011 kò sì sílẹ̀ fún ìrin lọ́nìbọ̀ títí di osu kẹta ọdún 2017",
+      "wer": 0.3333
+    }
+  ]
+}

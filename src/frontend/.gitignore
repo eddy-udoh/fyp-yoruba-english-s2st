@@ -1,0 +1,36 @@
+# Virtual environment
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Model files — too large for GitHub
+models/
+*.bin
+*.safetensors
+*.onnx
+*.pt
+*.pth
+
+# API keys — never commit these
+.env
+*.env
+
+# Node modules
+node_modules/
+src/frontend/node_modules/
+src/frontend/build/
+
+# Large data files
+data/raw/
+data/splits/
+
+# Evaluation logs with sensitive content
+evaluation/api_logs.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Colab notebooks checkpoints
+.ipynb_checkpoints/

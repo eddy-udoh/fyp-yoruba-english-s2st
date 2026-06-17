@@ -1,0 +1,9 @@
+{
+  "source_csv": "data\\raw\\text\\medical_dialogues.csv",
+  "total_rows": 1000,
+  "passed": 1000,
+  "failed": 0,
+  "avg_density_pct": 34.5903,
+  "min_density_threshold_pct": 4.0,
+  "failed_rows": []
+}

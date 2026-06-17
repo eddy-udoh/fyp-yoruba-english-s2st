@@ -1,0 +1,54 @@
+# ── Virtual environments ──────────────────────────────────────────────────────
+venv/
+.venv/
+ENV/
+Env/
+
+# ── Python bytecode ───────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ── Secrets ───────────────────────────────────────────────────────────────────
+.env
+.env.*
+*.env
+
+# ── Node / frontend ───────────────────────────────────────────────────────────
+node_modules/
+src/frontend/node_modules/
+src/frontend/build/
+
+# ── Large model binaries (GitHub 100 MB hard limit) ──────────────────────────
+# Binary weight formats — catches any new checkpoints automatically
+*.safetensors
+*.pt
+*.pth
+*.bin
+
+# Specific model directories too large for GitHub
+models/whisper-small-yoruba-finetuned/
+models/marian-yoruba-medical/checkpoint-100/
+models/marian-yoruba-medical/checkpoint-150/
+models/marian-yoruba-medical/marian-15k-best/
+
+# Root-level MarianMT weights (keep config/tokenizer files alongside this repo)
+models/marian-yoruba-medical/model.safetensors
+
+# ── Evaluation audio samples ──────────────────────────────────────────────────
+evaluation/tts_samples/*.wav
+
+# ── OS / editor artefacts ─────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Claude Code local settings ────────────────────────────────────────────────
+.claude/
+
+# ── Vendored third-party libraries ───────────────────────────────────────────
+# Install via: pip install TTS==0.22.0
+tts_src/
+
+# ── Runtime logs ─────────────────────────────────────────────────────────────
+*.log

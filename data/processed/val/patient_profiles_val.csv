@@ -1,0 +1,101 @@
+Patient_ID,Age,Gender,Location,Primary_Complaint,Duration_Days
+CU-2026-0556,10,Male,Mushin,Sharp chest pain,10
+CU-2026-0957,25,Female,Yaba,High fever,5
+CU-2026-0577,79,Male,Mushin,Abdominal swelling,1
+CU-2026-0795,27,Female,Surulere,Abdominal swelling,2
+CU-2026-0085,66,Male,Yaba,Persistent cough,7
+CU-2026-0242,34,Female,Ajah,High fever,3
+CU-2026-0698,23,Female,Ikorodu,Persistent cough,7
+CU-2026-0159,44,Male,Surulere,High fever,10
+CU-2026-0524,57,Female,Mushin,Persistent cough,13
+CU-2026-0035,18,Female,Surulere,High fever,6
+CU-2026-0540,31,Male,Ikorodu,Abdominal swelling,8
+CU-2026-0170,53,Male,Lekki,Persistent cough,9
+CU-2026-0654,54,Male,Ikorodu,Sharp chest pain,4
+CU-2026-0890,50,Male,Ikorodu,Blurred vision,4
+CU-2026-0857,58,Male,Lekki,Blurred vision,13
+CU-2026-0847,46,Female,Surulere,Persistent cough,14
+CU-2026-0944,56,Female,Lekki,Blurred vision,14
+CU-2026-0733,48,Male,Yaba,Sharp chest pain,10
+CU-2026-0095,40,Female,Ajah,Abdominal swelling,3
+CU-2026-0563,67,Female,Surulere,High fever,14
+CU-2026-0240,80,Male,Ajah,Persistent cough,11
+CU-2026-0742,73,Male,Yaba,Persistent cough,6
+CU-2026-0574,23,Female,Ikorodu,Sharp chest pain,8
+CU-2026-0690,24,Female,Surulere,Persistent cough,8
+CU-2026-0460,61,Male,Ikorodu,Blurred vision,13
+CU-2026-0553,10,Male,Ikorodu,High fever,13
+CU-2026-0888,53,Female,Lekki,Persistent cough,7
+CU-2026-0206,70,Male,Ikorodu,High fever,4
+CU-2026-0392,11,Male,Mushin,Blurred vision,14
+CU-2026-0794,35,Male,Surulere,Sharp chest pain,10
+CU-2026-0397,41,Male,Mushin,Blurred vision,9
+CU-2026-0766,36,Female,Mushin,Abdominal swelling,8
+CU-2026-0848,13,Male,Yaba,High fever,8
+CU-2026-0217,76,Female,Surulere,High fever,7
+CU-2026-0004,40,Male,Surulere,Blurred vision,11
+CU-2026-0768,66,Female,Ikorodu,Sharp chest pain,5
+CU-2026-0642,22,Male,Ikorodu,High fever,5
+CU-2026-0929,39,Male,Ajah,Sharp chest pain,1
+CU-2026-0612,11,Female,Ikeja,High fever,10
+CU-2026-0738,75,Female,Ikeja,High fever,1
+CU-2026-0546,10,Male,Mushin,High fever,7
+CU-2026-0725,17,Female,Yaba,Persistent cough,13
+CU-2026-0683,11,Female,Lekki,High fever,4
+CU-2026-0098,35,Male,Mushin,Abdominal swelling,1
+CU-2026-0804,28,Male,Surulere,Abdominal swelling,4
+CU-2026-0727,50,Male,Lekki,Sharp chest pain,2
+CU-2026-0573,56,Male,Mushin,High fever,4
+CU-2026-0406,48,Female,Ikorodu,Persistent cough,1
+CU-2026-0502,62,Male,Yaba,Abdominal swelling,14
+CU-2026-0047,43,Male,Surulere,High fever,4
+CU-2026-0032,41,Female,Ikeja,Blurred vision,3
+CU-2026-0779,20,Female,Yaba,Persistent cough,13
+CU-2026-0839,84,Male,Lekki,Persistent cough,9
+CU-2026-0200,55,Female,Ajah,Blurred vision,4
+CU-2026-0134,33,Male,Ikorodu,Abdominal swelling,3
+CU-2026-0027,64,Female,Surulere,Persistent cough,13
+CU-2026-0880,83,Female,Lekki,High fever,2
+CU-2026-0230,39,Male,Mushin,Persistent cough,2
+CU-2026-0489,81,Male,Ikeja,High fever,9
+CU-2026-0772,79,Male,Ajah,Persistent cough,14
+CU-2026-0378,64,Female,Lekki,Abdominal swelling,14
+CU-2026-0288,20,Female,Lekki,Persistent cough,2
+CU-2026-0418,69,Female,Ikeja,Abdominal swelling,13
+CU-2026-0674,48,Male,Yaba,Abdominal swelling,10
+CU-2026-0391,75,Male,Mushin,Sharp chest pain,13
+CU-2026-0592,82,Female,Surulere,Sharp chest pain,12
+CU-2026-0498,52,Male,Ikorodu,Abdominal swelling,1
+CU-2026-0138,65,Female,Ikorodu,Abdominal swelling,7
+CU-2026-0062,7,Male,Ajah,Blurred vision,1
+CU-2026-0471,49,Female,Ikeja,Persistent cough,2
+CU-2026-0647,66,Male,Ikeja,Persistent cough,12
+CU-2026-0128,51,Female,Ikeja,High fever,11
+CU-2026-0976,5,Female,Lekki,Abdominal swelling,11
+CU-2026-0520,45,Male,Lekki,Blurred vision,10
+CU-2026-0838,26,Male,Yaba,Sharp chest pain,14
+CU-2026-0962,54,Female,Surulere,High fever,12
+CU-2026-0064,53,Female,Yaba,Abdominal swelling,12
+CU-2026-0812,41,Female,Ikorodu,Abdominal swelling,9
+CU-2026-0014,38,Female,Surulere,Blurred vision,4
+CU-2026-0156,71,Female,Yaba,Blurred vision,1
+CU-2026-0040,16,Female,Ajah,Sharp chest pain,13
+CU-2026-0492,34,Male,Mushin,Blurred vision,7
+CU-2026-0379,49,Female,Lekki,Blurred vision,1
+CU-2026-0187,67,Female,Ajah,Persistent cough,13
+CU-2026-0763,69,Female,Surulere,High fever,12
+CU-2026-0216,25,Female,Surulere,Abdominal swelling,12
+CU-2026-0791,46,Male,Surulere,Persistent cough,4
+CU-2026-0052,25,Male,Ikeja,Abdominal swelling,4
+CU-2026-0878,34,Male,Ikorodu,Abdominal swelling,4
+CU-2026-0337,45,Male,Ikorodu,Sharp chest pain,5
+CU-2026-0748,36,Male,Surulere,Blurred vision,11
+CU-2026-0719,40,Female,Mushin,High fever,6
+CU-2026-0724,77,Female,Mushin,Blurred vision,10
+CU-2026-0295,38,Male,Ikeja,Persistent cough,9
+CU-2026-0701,26,Male,Mushin,Sharp chest pain,1
+CU-2026-0251,41,Female,Ikeja,High fever,13
+CU-2026-0726,73,Male,Ajah,Abdominal swelling,2
+CU-2026-0461,71,Female,Ajah,Abdominal swelling,14
+CU-2026-0455,58,Male,Ajah,High fever,10
+CU-2026-0996,69,Female,Lekki,Sharp chest pain,9

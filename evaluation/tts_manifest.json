@@ -1,0 +1,44 @@
+{
+  "engine": "pyttsx3 SAPI \u2014 Microsoft Zira Desktop - English (United States)",
+  "n_phrases": 5,
+  "output_dir": "evaluation\\tts_samples",
+  "total_sec": 1.96,
+  "avg_latency_sec": 0.39,
+  "samples": [
+    {
+      "phrase_no": 1,
+      "text": "The patient reports severe headache for three days.",
+      "file": "phrase_01.wav",
+      "size_kb": 151.8,
+      "latency_sec": 0.58
+    },
+    {
+      "phrase_no": 2,
+      "text": "Please take this medication twice daily after meals.",
+      "file": "phrase_02.wav",
+      "size_kb": 166.7,
+      "latency_sec": 0.25
+    },
+    {
+      "phrase_no": 3,
+      "text": "Your blood pressure is slightly elevated today.",
+      "file": "phrase_03.wav",
+      "size_kb": 140.0,
+      "latency_sec": 0.46
+    },
+    {
+      "phrase_no": 4,
+      "text": "The child has had a fever for two days.",
+      "file": "phrase_04.wav",
+      "size_kb": 129.8,
+      "latency_sec": 0.2
+    },
+    {
+      "phrase_no": 5,
+      "text": "We need to run some tests before we can diagnose you.",
+      "file": "phrase_05.wav",
+      "size_kb": 160.0,
+      "latency_sec": 0.46
+    }
+  ]
+}

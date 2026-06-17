@@ -1,0 +1,171 @@
+{
+  "model": "whisper-medium",
+  "mode": "zero-shot",
+  "language": "yo",
+  "dataset": "google/fleurs/yo_ng",
+  "n_samples": 20,
+  "avg_wer": 1.0365,
+  "avg_wer_pct": 103.65,
+  "per_sample": [
+    {
+      "sample_index": 0,
+      "reference": "àwọn èyàn ti mọ̀ nípa àwọn kemika pepe bí wúrà fàdákà àti kọ́pa àtijọ́ torípé a lè rí wọn ní ìṣẹ̀dá ní ipò àdáyéba wọn kò dẹ̀ le jù láti wú wọn jáda láti inú ilẹ̀ pẹ̀lú irinṣẹ́ àtilẹ̀bá",
+      "hypothesis": "ʻAŋ we njoti mwani paʻu o kemika, pwekwe bi wura fada ka ati kopa ati jo, tori pi ali riwoni iʻi ʻiʻi ʻiʻi ʻiʻi pu ʻada iba kude li ju la ti wu mwujada la ti nu ʻile kwe lu i nʻiʻi ʻiʻi ʻiʻi ʻiʻi ʻiʻi ʻiʻi ʻiʻi ʻiʻi ʻiʻi ʻiʻi ʻiʻi ʻiʻi ʻiʻi ʻiʻi ʻiʻi ʻiʻi ʻiʻi",
+      "wer": 1.4615,
+      "wer_pct": 146.15,
+      "latency_sec": 77.72
+    },
+    {
+      "sample_index": 1,
+      "reference": "àwọn ara ìrano lo kọ́kọ́ bẹ̀rẹ̀ si ni sin ewure ní bíi ọdún 15,0000 sẹ́yìn ní oke sagrosi",
+      "hypothesis": "ʻaʻu ʻwara ʻi rano lukoko ʻbere ʻsi nis i ʻuʻru ʻe nibi o du ʻun 1500 se i ʻin ʻio kesa grosi",
+      "wer": 1.2222,
+      "wer_pct": 122.22,
+      "latency_sec": 27.95
+    },
+    {
+      "sample_index": 2,
+      "reference": "fotosintesisi ni ọ̀nà tí àwọn ewé ma n gbà gi ṣe ounje wọn láti orun wọ́n dẹ̀ ma n pèsè àbò",
+      "hypothesis": "��하면 ditbah Sparkön",
+      "wer": 1.0,
+      "wer_pct": 100.0,
+      "latency_sec": 141.17
+    },
+    {
+      "sample_index": 3,
+      "reference": "ibùdó àṣàrò tibetan ni òòṣà yoga. látara lílo àfihàn àwọn onírúurú òòṣà wọ́n ń sàtúnfọ̀ agbára wọ́n pe àwọn chakras síta ìtají sì wáyé",
+      "hypothesis": "Ibu do asaro tibetani osa yoga latari lilo afian awan oniruru osa wang satun foaibara wang pe awan kakras sita ita jisi waye",
+      "wer": 0.9167,
+      "wer_pct": 91.67,
+      "latency_sec": 7.79
+    },
+    {
+      "sample_index": 4,
+      "reference": "awon ewe lo n se eemi ti awon omo eyan maa n mi sinu won si ma n gba eemi ti awon eyan ma n mi si ta eyi to je",
+      "hypothesis": "AWo Awe Eweleman Sè Emitiaodenye Ma Meonisimmo Wage Si Magba Emitia管 epicen Gang Ma Omen Sitalama",
+      "wer": 0.9355,
+      "wer_pct": 93.55,
+      "latency_sec": 182.9
+    },
+    {
+      "sample_index": 5,
+      "reference": "tí èyan bá pín ìrìn àjò ní orí amóhùnmáwòrán ó jẹ́ ọ̀nà tó dára láti lò fi pín àwọn iriri èyàn pẹ̀lú àkẹ́ẹ̀kọ́ ọjọ́ iwájú",
+      "hypothesis": "Tien nyo bakpun inri ajuni, uri a moun mawoun, uji anotu dara, latilu fi puni anwen iriri nyo kwe lu wake ko jo i waju.",
+      "wer": 1.0,
+      "wer_pct": 100.0,
+      "latency_sec": 7.73
+    },
+    {
+      "sample_index": 6,
+      "reference": "ní ọ̀sẹ̀ méjì péré ikọ̀ ológun ilẹ̀ americans àti free france ti dóòlà ẹkùn gúúsù ilẹ̀ france wọ́n sì ń padà sí ilẹ̀ germany",
+      "hypothesis": "ʻnio se miji kiri i kou lugu ʻile Amerikan ati Free France ti Dula e kungusu ʻile France mose inkwadasi ʻile Jamni",
+      "wer": 0.875,
+      "wer_pct": 87.5,
+      "latency_sec": 7.41
+    },
+    {
+      "sample_index": 7,
+      "reference": "èyí yíò fún ní àǹfànni láti padà sẹ́yìn pẹ̀lú 802.11a 802.11b àti 802.11g èyí tó pèsè ibùdó o ní rádíò méjì",
+      "hypothesis": "Eyi yo founi anfany lat si padaseye kpelu 802.11A, 802.11B, ati 802.11G. Eyi tok pesye i budo oni ridi o meji.",
+      "wer": 0.9048,
+      "wer_pct": 90.48,
+      "latency_sec": 7.72
+    },
+    {
+      "sample_index": 8,
+      "reference": "roland mendoza yin ìbọn rẹ m16re mọ́ àwọn arìnrìnàjò",
+      "hypothesis": "Notice that I很多 times say that MC is not there, so like this at it and this RAXesque",
+      "wer": 2.0,
+      "wer_pct": 200.0,
+      "latency_sec": 26.11
+    },
+    {
+      "sample_index": 9,
+      "reference": "sibe si gba imoran awon alase ma ru fin gbogbo ami se akiyesi gbogbo ikilo ipamo",
+      "hypothesis": "Si besi, da imaran awan alase, ma wufin bukbo ami, se ake si bukbo ikilo. Iqpaman?",
+      "wer": 0.75,
+      "wer_pct": 75.0,
+      "latency_sec": 5.64
+    },
+    {
+      "sample_index": 10,
+      "reference": "ìtàkùn blog náà lè se ìrànwọ́ fún ìkọ̀wé àwọn akẹ́ẹ̀kọ́. nígbàtí àwọn akẹ́ẹ̀kọ́ bẹ̀rẹ̀ ìrírí ìtàkùn blog ti wọn pẹ̀lú ìlo èdè àti àkọtọ́ tó wọ́ wíwà nílẹ̀ àwọn èrò ma ń yí èyí padà",
+      "hypothesis": "i takun blog nolisye iunawafu iko we i anwa keko iinpati anwa keko bere i ridi takun blog ti wan kwe luididhi ati akoto to wo wi wan i le anwa i ruman ji i yi pada",
+      "wer": 0.9714,
+      "wer_pct": 97.14,
+      "latency_sec": 9.37
+    },
+    {
+      "sample_index": 11,
+      "reference": "wọ́n tí gba àwọn arìnrìn àjò ní mọ̀ràn láti ṣọ́ra fún ewu ojú ọja tó lè ní ipa ní agbègbè wọ́n nítorí ó lè ní ipa fún ènikẹni tó bá ní ètò láti rìnrìn àjò",
+      "hypothesis": "ខ្៑កៗ ʔ២s� sobreta ច� MYUn samg n Elsounpa değer· hoietycias most int",
+      "wer": 1.0,
+      "wer_pct": 100.0,
+      "latency_sec": 136.27
+    },
+    {
+      "sample_index": 12,
+      "reference": "lóòótọ́ al ni ìtumọ̀ ìtàn sáyẹnsì al ṣe ìdásílẹ̀ ẹ̀ka kọǹpúta sayẹǹsì kan tí ó ṣe pàtàkì púpọ̀ tí ó ń ní ṣe pẹ̀lú ìwà ẹkọ́ àti ìlò ọgbọn inú ẹni pẹ̀lú ẹ̀rọ",
+      "hypothesis": "ʻOʻo to, ʻali ni jutumun i tan sajensi, ʻali si ʻidaʻsi le eka komputa sajensi kan tʻusi kpata ke pukbo, tʻuni xikpe lu iwa eko a ti i loʻgpun i nweni kpe lu iru.",
+      "wer": 1.0,
+      "wer_pct": 100.0,
+      "latency_sec": 51.45
+    },
+    {
+      "sample_index": 13,
+      "reference": "ẹ̀gbẹ́ tó n dari ìlú egbe guusu iwo oorun swapo nílo èyàn púpọ̀ ní ìbò ìgbìmọ̀ àwọn aṣòfin",
+      "hypothesis": "Egbeton dari lu egbe e gusu iwa oolun suakbu ni lu e nyakupo ni ibo ibiman awan asofin.",
+      "wer": 1.0,
+      "wer_pct": 100.0,
+      "latency_sec": 5.85
+    },
+    {
+      "sample_index": 14,
+      "reference": "ní alẹ́ ọjọ́ àìkú àrẹ oríll èdè amẹ́ríkà donald trump ní ọ̀rọ̀ rẹ̀ tí ó sọ nípasẹ̀ ọ̀gá oníròyìn kéde pé àwọn ọmọ ogun us ma fi ìlú syria sílẹ̀",
+      "hypothesis": "Ni ʻan ni oʻjwa iku ʻan ni ʻilie di Amerika Dona Trump, ni oʻore ti uso, ni pa se oga o ni rui, kide kwe a womogu U.S. Mafi ilu siria siri.",
+      "wer": 1.0333,
+      "wer_pct": 103.33,
+      "latency_sec": 9.63
+    },
+    {
+      "sample_index": 15,
+      "reference": "ni ọpọ awọn ilu omiran ni italy ati ni iyoku agbaye papa julọ ni poland iru agbekalẹ bayi wa eyi ti opolopo eniyan ri",
+      "hypothesis": "Ni opo wa mwa ilu mino ni hitli atini iyoku agba ye pa pa jilo ni puland iru wakbika leba iwa iyiti opo laupo i ninyari",
+      "wer": 0.875,
+      "wer_pct": 87.5,
+      "latency_sec": 7.57
+    },
+    {
+      "sample_index": 16,
+      "reference": "ìdá ogún omi tó dà sílẹ̀ nínú àwọn odò ayé sínú òkun wá láti amazon",
+      "hypothesis": "Jones",
+      "wer": 1.0,
+      "wer_pct": 100.0,
+      "latency_sec": 133.78
+    },
+    {
+      "sample_index": 17,
+      "reference": "lẹ́yìn tí ìjàǹbá náà ṣẹlẹ̀ wọ́n gbé gibson lọ sí ilé ìwòsàn ṣùgbọn kò pẹ́ lẹ́yìn rẹ̀ ni ó kú",
+      "hypothesis": "Lanyiti djambana se le, wengbe gipsin lorsi le wosan, suqban kukpe lanyire, ni okuo.",
+      "wer": 0.95,
+      "wer_pct": 95.0,
+      "latency_sec": 12.2
+    },
+    {
+      "sample_index": 18,
+      "reference": "ìlò gbìgba fídíò sílẹ̀ tí gbé dé àwọn àwárí tó ṣe pàtàkì nínu ìsọ̀tumọ̀ micros expression yíyí ojú èyí tí kò pẹ́",
+      "hypothesis": "i logig bafi di osile tig gwe de awan awali tose pataki nino isotuma micros expression yiyo jyu i yiti kuk bi",
+      "wer": 0.9091,
+      "wer_pct": 90.91,
+      "latency_sec": 6.67
+    },
+    {
+      "sample_index": 19,
+      "reference": "gíga ìbú abẹ́ afárá jẹ́ bí i mítà márùndínlógún kíkọ́ rẹ̀ parí nínú oṣù kẹjọ ọdún 2011 kò sísílẹ̀ fún ìrìnlọrìnbọ̀ títí di oṣù kẹta ọdún 2017",
+      "hypothesis": "Giga ibu abe afarajebi mita manu di logun kiko repari ninu osukeja odun 2011 kusi sisi lefun ilon ibo titidi osuketa odun 2017",
+      "wer": 0.9259,
+      "wer_pct": 92.59,
+      "latency_sec": 7.18
+    }
+  ]
+}

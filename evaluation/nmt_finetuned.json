@@ -1,0 +1,316 @@
+{
+  "model": "models\\marian-yoruba-medical",
+  "base_model": "Helsinki-NLP/opus-mt-yo-en",
+  "epochs": 3,
+  "learning_rate": 5e-05,
+  "effective_batch": 16,
+  "n_test_rows": 50,
+  "bleu": 2.51,
+  "chrf": 22.29,
+  "baseline_bleu": 0.45,
+  "baseline_chrf": 12.73,
+  "bleu_delta": 2.06,
+  "chrf_delta": 9.56,
+  "per_row": [
+    {
+      "row": 0,
+      "source": "Mo gbà pé àárẹ̀ mi bẹ̀rẹ̀ lẹ́yìn ìṣẹ̀lẹ̀ tó ṣeni lẹ́nu ní iṣẹ́. Ó ṣeéṣe pé wọ́n ní ibatan. Ṣùgbọ́n irora naa jẹ gidi.",
+      "hypothesis": "Post-inctal pain in the early days of the day, indicating the need for a patient's disease, indicating the need for a patient's patient's support and support for the patient's patient's patient's health.",
+      "reference": "Patient insight into psychosomatic contribution to fatigue following a workplace trauma, demonstrating health literacy and readiness for integrated biopsychosocial management, requiring both physical investigation to exclude organic disease and psychological therapy."
+    },
+    {
+      "row": 1,
+      "source": "Mo máa ń rìn bíi ẹni tó mu ọtí nígbà-ìgbà. Ìlẹ̀ ń dà bíi pé ó ń rọ. Ó le ní ìgbà alẹ́ àti nígbà tó dudu.",
+      "hypothesis": "I walk as if he should walk as a source of alcohol at a time, indicating a chronic pain, and as if he should be a source of weakness, indicating a need for a patient's concern for alcohol therapy, and indicating the need for a patient's concern.",
+      "reference": "Oscillopsia with disequilibrium worsening in darkness consistent with bilateral vestibular failure or posterior column dysfunction requiring B12 level and MRI."
+    },
+    {
+      "row": 2,
+      "source": "A ní àwọ̀ oṣupa kan ṣoṣo nínú ilé wa fún ọmọ ikoko. Àwọn àgbàlagbà kò lo àwọ̀ oṣupa.",
+      "hypothesis": "We had a single osctal in the home for the child's head, and the elderly do not use a single bioeectture.",
+      "reference": "Single household insecticide-treated bed net reserved for the infant with no adult usage, leaving other household members unprotected against malaria transmission in a high-endemicity area."
+    },
+    {
+      "row": 3,
+      "source": "Ito mi máa ń ṣẹ̀dá fèrèsé lọ́pọ̀lọpọ̀ nígbà tí ó bá kọlu omi nínú ìgbọ̀nsẹ̀. Ó ti jẹ́ bẹ́ẹ̀ fún oṣù méjì.",
+      "hypothesis": "Cyctal cycopal cycopation with water in a patient with two months, requiring urgent cycropation, requiring urgent cycropation, and cycropation.",
+      "reference": "Persistent foamy urine over two months indicating significant proteinuria, a hallmark of glomerular disease such as nephrotic syndrome, diabetic nephropathy, or IgA nephropathy requiring urine protein quantification."
+    },
+    {
+      "row": 4,
+      "source": "Àpá náà kò ń jẹ mí ín-ín rárá, kò ń jó, kò sì ń ṣe mí ìrora. Ó ń dún nìkan nígbà tí a bá tẹ̀ ẹ́.",
+      "hypothesis": "Unictal pain and pain without eating, requiring immediate pain and pain, indicating a patient's need for a patient's support and support.",
+      "reference": "An anaesthetic rash with tenderness only on direct pressure and no spontaneous pruritus or burning, raising significant concern for leprosy given the hypoaesthesia pattern."
+    },
+    {
+      "row": 5,
+      "source": "Mi ò rí oògùn ọmọ ní ọjà àdúgbò wa. Ìdílé mi sọ pé kí n fún ọmọ mi ní ìdajì tábùlẹ́tì àgbàlagbà. Mo ṣe bẹ́ẹ̀ fún ọjọ́ méjì.",
+      "hypothesis": "No drug therapy in the local market, a family ordering my child to be given up to two days of age.",
+      "reference": "Two days of adult medication administered at halved doses to a child due to paediatric formulation unavailability, creating significant risk of dosing error, toxicity, or subtherapeutic treatment — a recognised consequence of essential medicines supply chain gaps in Nigeria."
+    },
+    {
+      "row": 6,
+      "source": "Kò sí ìrànlọ́wọ́ ìjọba tí mo mọ̀ nípa rẹ̀ fún àrùn mi. Mo ń san owó gbogbo nínú àpò mi. Ó ti fẹ́ pa mi run ní ọrọ̀-ajé.",
+      "hypothesis": "No public health support for my disease is due to the patient's immediate disease, indicating the need for a patient's disease, indicating a significant risk for the patient's health and health support.",
+      "reference": "Catastrophic health expenditure without awareness of available government health financing schemes, requiring social work referral and information on NHIS, state indigent programmes, and disease-specific support funds to reduce out-of-pocket expenditure and improve treatment access."
+    },
+    {
+      "row": 7,
+      "source": "Àwọn ìpò ọwọ́ mi ti di dúdú síwájú sí i, pàápàá ní àwọn ìpín. Ọgbẹ́ iṣẹ́ abẹ mi tún ti di dúdú.",
+      "hypothesis": "Ecttal cytal cysia, particularly in the patient's body, indicating the need for a patient's patient's patient's disease, indicating the need for a patient's patient's patient's patient's patient's support and support.",
+      "reference": "Hyperpigmentation of the palmar creases and surgical scars indicating increased ACTH drive stimulating melanocyte receptors, the characteristic cutaneous sign of primary adrenal insufficiency requiring an urgent short Synacthen test."
+    },
+    {
+      "row": 8,
+      "source": "Mo ní iṣẹ́ kan tí wọ́n wo ìnú ikùn mi ní ọdún méjì sẹ́yìn. Wọ́n sọ pé wọn rí endometriosis ṣùgbọ́n wọ́n kò ṣe nǹkan kankan.",
+      "hypothesis": "Unictined cycopation of the patient two years ago with the cycropation of the cycropation of the patient's disease, requiring urgent cycropation to prevent the patient's patient's health and health, indicating the need for a patient's patient's patient's patient's support and support.",
+      "reference": "Laparoscopically confirmed endometriosis two years ago without definitive treatment, indicating undertreated pelvic pathology contributing to current fertility challenges, requiring medical or surgical management and fertility specialist referral."
+    },
+    {
+      "row": 9,
+      "source": "Mo bẹ̀rù irora tó ń bọ̀. Mo tún bẹ̀rù pé ìdílé mi máa ń ṣàánú mi. Mi ò fẹ́ jẹ́ ẹrù fún wọn.",
+      "hypothesis": "I had a history of chronic pain and fear of family compassion, which I didn't want to eat for them.",
+      "reference": "Fear of uncontrolled pain and caregiver burden in a terminally ill patient, common existential concerns in palliative care requiring psychological support, clear communication about symptom management capabilities, and carer wellbeing assessment."
+    },
+    {
+      "row": 10,
+      "source": "Mo wọ ilé ìwòsàn ọpọlọ ní ọdún mẹ́ta sẹ́yìn. Ìtọ́jú náà ràn mí lọ́wọ́ ṣùgbọ́n ìrírí ìmọ́kùnlé jẹ mí lọ́pọ̀lọpọ̀. Mo ń gbìyànjú láti yẹra fún àtúnwọlé.",
+      "hypothesis": "A three - year hospital three years ago, the patient's dysing experience with an unictation of five days ago, indicating the need for a patient's patient's support, requiring urgent treatment of the patient's health and health support.",
+      "reference": "Prior inpatient psychiatric admission experienced as therapeutically helpful but traumatic in terms of restraint or containment experiences, creating a barrier to voluntary admission if needed and requiring trauma-informed care planning for any future episode."
+    },
+    {
+      "row": 11,
+      "source": "Mi ò tíì ṣe ìdánwò ìlera pípé rárá. Mi ò mọ̀ ìwọ̀n ẹjẹ̀ mi, suga, tàbí ọ̀rá. Mo jẹ́ ọmọ ọdún àádọ́ta.",
+      "hypothesis": "No complete medical examination with no immediate knowledge of my body's condition, such as diabetes, diabetes, or diabetes, indicating the need for a patient's concern for the patient's health and health support.",
+      "reference": "No comprehensive health assessment in a fifty-year-old with unknown cardiovascular risk factors, indicating the need for a full health MOT including blood pressure, fasting glucose, lipid profile, BMI, and cancer screening eligibility review."
+    },
+    {
+      "row": 12,
+      "source": "Mo máa ń yí padà sí apá òsì nígbà tí mo bá ń rìn. Mo ti ṣubú lẹ́ẹ̀mẹ́ta ní ọ̀sẹ̀ kan.",
+      "hypothesis": "Cyctitation with three times a week, consistent with walking from side to side, requiring risk for walking.",
+      "reference": "Left-sided lateropulsion with three falls in one week, indicating ipsilateral cerebellar or vestibular pathology requiring neuroimaging to exclude posterior fossa lesion or cerebrovascular disease."
+    },
+    {
+      "row": 13,
+      "source": "Àyà mi dín mọ́ tó jẹ́ kí n máà lè pari ọ̀rọ̀ kan láìsinmi. Ìtẹ̀lọ́ọ̀dọ̀ kan jẹ ẹni lóru mi. Ó le fún mi ní mẹ́jọ.",
+      "hypothesis": "Cycrasia with an eight days of per night, requiring eight days in a patient's disease, indicating a significant risk of an underlying risk in the patient's health.",
+      "reference": "Severe chest tightness rated eight out of ten causing inability to complete sentences and single-stair limitation, indicating critical cardiorespiratory compromise requiring immediate oxygen, ECG, cardiac biomarkers, and emergency cardiology assessment."
+    },
+    {
+      "row": 14,
+      "source": "Mo ti rí ẹjẹ̀ pupa nínú ìtọ́ ikọ́ mi fún ọ̀sẹ̀ méjì. Ó kéré ṣùgbọ́n ó máa ń wáyé ní gbogbo ọjọ́.",
+      "hypothesis": "Post-soctal inacttal inctttal inctopation for two weeks, requiring urgent blood-ination, requiring urgent cyctopation, and cyctopation.",
+      "reference": "Daily haemoptysis for two weeks in a patient with smoking history, a red flag for bronchogenic carcinoma requiring urgent chest CT, sputum cytology, and bronchoscopy regardless of the small volume of blood."
+    },
+    {
+      "row": 15,
+      "source": "Irora náà dájú gan-an, bí ẹni pé wọ́n ń gún mi. Ó ń tan sí apá òsì mi àti ẹ̀gbẹ́ ọrùn mi.",
+      "hypothesis": "Ectal pain with the cyctal pain, the cycropation of the left side to the left side and the neck, requiring urgent cyecttal and cyctopation.",
+      "reference": "Patient reports acute, stabbing chest pain with radiation to the left upper extremity and the cervical region."
+    },
+    {
+      "row": 16,
+      "source": "Mo ń mu oògùn ìpàná ẹjẹ̀ mẹ́ta ṣùgbọ́n ẹjẹ̀ mi ṣì ga. Dọ́kítà ti ṣàfikún oògùn méjì ní ọdún méjì. Ó kò dára síwájú sí i.",
+      "hypothesis": "No more than two years ago, drug use of three days of high-disactation, requiring risk for diabetes, requiring urgent treatment, and a lower risk of diabetes.",
+      "reference": "Resistant hypertension on three antihypertensive agents requiring investigation for secondary causes including primary aldosteronism, renal artery stenosis, phaeochromocytoma, and medication non-adherence assessment."
+    },
+    {
+      "row": 17,
+      "source": "Mo ti gba oògùn àkóràn fún àrùn ito lẹ́ẹ̀mẹ́rin ní ọdún kan ṣùgbọ́n ó máa ń padà ní ọ̀sẹ̀ mẹ́ta. Kò sí ìdánwò àkànṣe.",
+      "hypothesis": "Prectal medication with diabetes in one year but without special testing, indicating a patient's concern for the patient's health and health support for the patient's health, indicating the need for blood support.",
+      "reference": "Recurrent urinary tract infections without structural investigation requiring renal ultrasound, post-void residual, cystoscopy, and urine culture sensitivity patterns to identify predisposing factors."
+    },
+    {
+      "row": 18,
+      "source": "Ín-ín mi wà ní ẹjọ lára ọgọ́rùn-ún. Ó ń dẹ́kun iṣẹ́ mi àti ìsùn mi. Mo kò lè jókòó ní ibi ìpàdé.",
+      "hypothesis": "Ten days ago, I was unable to sit down at the meeting without my parents ' support, indicating the need for a patient's concern for the patient's health and health support.",
+      "reference": "Severe pruritus rated eight out of ten with occupational and sleep impairment, indicating a significant dermatological or systemic condition requiring urgent investigation including liver function tests, renal function, thyroid profile, and full blood count."
+    },
+    {
+      "row": 19,
+      "source": "Mo nílò ìrọ̀lẹ́ mẹ́ta láti sùn dáradára. Ní àárọ̀ alẹ́, mo máa ń jí dìde tó ń fẹ mí.",
+      "hypothesis": "Three days of sleep requiring three- days of sleep, requiring sleep loss, requiring a raising of sleep.",
+      "reference": "Orthopnoea requiring three pillows and paroxysmal nocturnal dyspnoea, classic features of left ventricular failure with pulmonary oedema."
+    },
+    {
+      "row": 20,
+      "source": "Ojú mi máa ń wú ní àárọ̀ nígbà tí mo bá jí dìde. Ó máa ń rọ ní ọ̀sán. Mo ti rí rẹ̀ fún ọ̀sẹ̀ mẹ́ta.",
+      "hypothesis": "Rectal pain in the morning with a three - week period, requiring urgent pain, requiring urgent pain, requiring urgent pain, bioctination, and anal disorder.",
+      "reference": "Morning periorbital oedema with diurnal improvement, a presentation consistent with nephrotic syndrome where hypoalbuminaemia causes dependent and facial oedema rather than the purely dependent oedema of cardiac failure."
+    },
+    {
+      "row": 21,
+      "source": "Ríru mi le, mo ń bì gbogbo ohun tí mo bá jẹ tàbí mu. Ko lọ fún ọjọ́ méjì báyìí.",
+      "hypothesis": "Unicttal, emctal, or alcohol in a patient for two days.",
+      "reference": "Severe nausea with persistent vomiting for two days resulting in inability to tolerate oral intake, raising concern for dehydration and electrolyte imbalance."
+    },
+    {
+      "row": 22,
+      "source": "Mo máa ń rí dọ́kítà tó yàtọ̀ ní ìgbà kọ̀ọ̀kan. Kò sí ẹni tó mọ ìtàn àrùn mi pátápátá. Mo ń bẹ̀rẹ̀ láti ìbẹ̀rẹ̀ ní gbogbo ìpàdé.",
+      "hypothesis": "No one fully familiar with the history of my disease, with the risk of unictttal exposure from the early days of the meeting, requiring urgent cyctropation of the patient's disease.",
+      "reference": "Lack of continuity of care with repeated history-taking from scratch, associated with delayed diagnosis, missed follow-up of chronic conditions, and patient dissatisfaction, highlighting the need for a registered primary care physician relationship."
+    },
+    {
+      "row": 23,
+      "source": "Ọgbẹ́ kéékèéké kan wà ní ìdì mi ní ọdún kan sẹ́yìn tó sàn fúnra rẹ̀. Lẹ́yìn ọsù méjì, àpá tán gbogbo ara mi.",
+      "hypothesis": "One year ago, the end of the patient's back of the back of the patient's back to the end of the patient, requiring a patient's patient's support and support.",
+      "reference": "Primary syphilitic chancre with spontaneous healing followed by secondary syphilis rash, the classic two-stage progression of Treponema pallidum infection requiring RPR and TPHA serology, with penicillin G treatment and partner notification."
+    },
+    {
+      "row": 24,
+      "source": "Mo máa ń ṣiṣẹ́ fún wákàtí mẹ́rìnlá ní ọjọ́ kan, ọjọ́ mẹ́fà ní ọ̀sẹ̀. Mo ti bẹ̀rẹ̀ sí máà gbọ́ àárẹ̀ àti orí fífọ̀.",
+      "hypothesis": "Unictal work with six hours of physical activity in a patient, requiring immediate risk for the patient's disease, requiring urgent cycropation, and cycopation of the patient's disease.",
+      "reference": "Occupational overwork of eighty-four hours per week with emerging fatigue and headache, constituting a workplace health risk associated with cardiovascular disease, burnout, and impaired immune function requiring occupational health assessment."
+    },
+    {
+      "row": 25,
+      "source": "Awọ ara ọwọ́ mi ti di kúnjú àti lile ní oṣù mẹ́fà. Ojú mi tún ti di kúnjú, ẹnu mi sì ti di kéré díẹ̀.",
+      "hypothesis": "Resactal and cyctal pain over six months, a significant risk of eye disease, requiring urgent pain, and a significant risk of pain, requiring urgent pain and cycrectation.",
+      "reference": "Progressive skin induration affecting the hands and face with microstomia over six months, characteristic features of systemic sclerosis requiring autoantibody testing including anti-Scl-70 and anti-centromere antibodies and organ function assessment."
+    },
+    {
+      "row": 26,
+      "source": "Ikùn mi ti pọ̀ sí i àti mo lè rí àwọn iṣan ọ̀nà ẹjẹ̀ tó hàn lórí awọ ara mi. Ìdọ̀tí inu rẹ̀ tún máa ń jẹ mí.",
+      "hypothesis": "Acttal pain with cyctal and cyctal pain, requiring urgent pain and cyctination, requiring urgent cyctal therapy, and cyctalation.",
+      "reference": "Caput medusae with visible dilated abdominal wall veins in a patient with ascites, a pathognomonic sign of portal hypertension secondary to liver cirrhosis requiring urgent hepatology assessment and variceal screening."
+    },
+    {
+      "row": 27,
+      "source": "Irora mi máa ń wáyé ṣáájú oúnjẹ, nígbà tí ikùn mi bá ń gbẹ. Jíjẹun máa ń mu irora náà lọ fún ìgbà díẹ̀.",
+      "hypothesis": "Unictal pain in the before food loss, indicating a patient's pain in a patient's patient's patient's joint pain, indicating a patient's need for a patient's patient's support and support, indicating the need for a patient's patient's patient's support and support.",
+      "reference": "Epigastric pain relieved by food intake and worsening in the fasting state, a pattern characteristic of duodenal ulcer disease requiring H. pylori testing and acid suppression therapy."
+    },
+    {
+      "row": 28,
+      "source": "Ìgbẹ́ mi ní ẹjẹ̀ àti omi líle nínú fún ọjọ́ mẹ́ta. Irora ikùn tó le ń tẹ̀lé rẹ̀, àti ibà mi tún wà.",
+      "hypothesis": "Three days of chronic pain with severe pain and fever, requiring a re-dissctation of the patient's disease, requiring urgent blood pressure and cycrectation.",
+      "reference": "Dysenteric syndrome with bloody mucoid diarrhoea, colicky abdominal pain, and fever for three days, consistent with invasive enterocolitis from Shigella, Entamoeba histolytica, or Campylobacter, requiring stool microscopy and culture."
+    },
+    {
+      "row": 29,
+      "source": "Lẹ́yìn jíjókòó fún wákàtí mẹ́fà ní ọfiisi, ẹ̀hin mi àti ìbàdí mi di jáko. Ó máa ń yẹ̀ lẹ́yìn ìrìn kéékèéké. O ti ń ṣẹlẹ̀ fún ọdún kan.",
+      "hypothesis": "Post-inctal sleep loss over six hours in the end of the day, with the patient's end of the patient's patient's disease, indicating the need for the patient's patient's patient's patient's support and support.",
+      "reference": "Prolonged sitting-induced lumbar stiffness relieved by movement, consistent with mechanical low back pain and hip flexor tightness requiring ergonomic workstation assessment and physiotherapy."
+    },
+    {
+      "row": 30,
+      "source": "Irora iná ní ìtọ mi wà ní mẹ́jọ lára ọgọ́rùn-ún. Ó ti ń burú sí i ní gbogbo ọjọ́ fún ọ̀sẹ̀ kan. Ibà tún ti bẹ̀rẹ̀ ní ọjọ́ méjì sẹ́yìn.",
+      "hypothesis": "Post-inctal pain in the morning, indicating a significant risk for the patient's disease, indicating a significant risk for the patient's health, requiring urgent risk for the patient's health and health support.",
+      "reference": "Progressive dysuria rated eight out of ten over one week with recent fever onset, indicating ascending urinary tract infection progressing toward pyelonephritis, requiring urgent urine culture, blood cultures, and empirical antibiotic therapy."
+    },
+    {
+      "row": 31,
+      "source": "Mo padà wá láti Cameroon ní ọjọ́ mẹ́wàá sẹ́yìn. Mi ò mu oògùn ìdáàbòbò fún àrùn ibà. Ẹfọn jẹ mí lọ́pọ̀lọpọ̀ níbẹ̀.",
+      "hypothesis": "Rectined with ten days ago and no medical treatment for malaria, indicating a significant risk in the patient's health and health care.",
+      "reference": "Return from a malaria-endemic West African country ten days ago without chemoprophylaxis and significant mosquito exposure, presenting within the incubation period for Plasmodium falciparum malaria and requiring urgent thick and thin blood film examination."
+    },
+    {
+      "row": 32,
+      "source": "Mo ti wọ ilé ìwòsàn ìpàdédè lẹ́ẹ̀mẹ́rìnlá ní ọdún kan fún irora orí mi. Wọ́n máa ń tọ́jú mi kí wọ́n sì jí mi lọ. Ko dára sí i.",
+      "hypothesis": "A recent ten - year visit to the meeting hospital with bipolar disorder, indicating the need for a patient's patient's patient's disease, indicating the need for a patient's patient's patient's concern for the patient's health, and the need for a patient's patient's support.",
+      "reference": "High emergency department utilisation for headache without outpatient management plan, indicating a care gap where chronic headache should be managed proactively in primary or neurology care with a personalised emergency action plan rather than repeat acute presentations."
+    },
+    {
+      "row": 33,
+      "source": "Ó ti sùn àìdáwọ dúró fún ìṣẹ́jú ogún. Ṣáájú ìṣubú rẹ̀, ara rẹ̀ gbọn fún ìṣẹ́jú márùn-ún.",
+      "hypothesis": "Acctal sleep with a period of ten minutes, requiring immediate pain, requiring urgent risk for sleep, requiring urgent rest, and a recttttation.",
+      "reference": "Prolonged post-ictal unconsciousness of twenty minutes following a five-minute convulsive episode, requiring airway protection, blood glucose measurement, and neurological assessment to exclude status epilepticus or structural brain pathology."
+    },
+    {
+      "row": 34,
+      "source": "Àárẹ̀ pọ̀ mi ti ń padà kù, mo ń gbọn ní alẹ́, àti pé ìyá àgbà mi ni a ṣẹ̀ṣẹ̀ mú ibà ẹ̀dọ̀fóró jẹ.",
+      "hypothesis": "Cyctal cycopation with cyctropation, cycopation, and cycropation in the patient's body, indicating the need for a patient's disease, and the patient's patient's patient's patient's right to be a patient.",
+      "reference": "Notable weight loss, nocturnal diaphoresis, and a history of household contact with a recently diagnosed pulmonary tuberculosis case."
+    },
+    {
+      "row": 35,
+      "source": "Nígbà tí mo bá gùn ìtẹ̀lọ́ọ̀dọ̀, irora kéékèéké ń wáyé ní àyà mi. Nígbà tí mo bá dúró, ó máa ń lọ ní ìṣẹ́jú mẹ́ta.",
+      "hypothesis": "Unictal pain in my heart is associated with severe pain, requiring three minutes of rest.",
+      "reference": "Stable exertional angina with reproducible chest pain on stair climbing and relief within three minutes of rest, consistent with fixed coronary artery stenosis requiring stress testing and cardiology referral."
+    },
+    {
+      "row": 36,
+      "source": "Irora náà dùn bíi ẹni tó ń gún mi pẹ̀lú abẹ́rẹ̀ tó gún jìnnà. Ko dùn bíi ìtẹ̀wọ́ tàbí iná. Ó ń wáyé lójijì.",
+      "hypothesis": "The pain is like an unicttaled cytopal disease, requiring urgent pain, requiring urgent pain, and a consistent risk of the patient's patient's disease, requiring urgent consideration of the patient's patient's health and support.",
+      "reference": "Sharp stabbing pain with acute onset distinguishing neuropathic or pleuritic aetiology from the pressure-like discomfort of ischaemia or the burning quality of inflammatory conditions, guiding analgesic selection and differential diagnosis."
+    },
+    {
+      "row": 37,
+      "source": "Èso kan wà ní ẹ̀gbẹ́ ọrùn mi ọ̀tún fún oṣù méjì. Kò ń dùn. Wọ́n fun mi ní oògùn àkóràn ṣùgbọ́n kò lọ.",
+      "hypothesis": "Unictal dyalsia with an unicttal dysia for two months, requiring anti-inssion, requiring urgent blood pressure, requiring urgent blood pressure, requiring urgent cyctination, and recttal therapy to reduce the patient's risk.",
+      "reference": "Persistent cervical lymphadenopathy for two months unresponsive to antibiotic therapy, exceeding the four-week threshold warranting urgent biopsy to exclude lymphoma, metastatic squamous cell carcinoma, or tuberculosis."
+    },
+    {
+      "row": 38,
+      "source": "Ilé iṣẹ́ tó ń ṣe àwo wà ní ìdẹ́ abúlé wa. Èéfín àti ìrísí àjèjì máa ń wá sí inú ilé wa nígbà tí afẹ́fẹ́ bá ń fẹ̀.",
+      "hypothesis": "Acttined with a factination of the community's home, requiring a re-uptination of the patient's disease, requiring urgent cyctination, and cyctation of the patient's family, indicating the need for a patient's support and support.",
+      "reference": "Proximity to a paint manufacturing facility with reported indoor infiltration of industrial fumes, constituting a significant environmental health hazard with potential exposure to volatile organic compounds, heavy metals, and respiratory irritants."
+    },
+    {
+      "row": 39,
+      "source": "Àwọ ara ní àyíká ìdọ̀tí mi ti di lile àti kíki nítorí mo ti ń gbá a fún oṣù mẹ́ta.",
+      "hypothesis": "Cycrasia with a three - month history of cerbopation, requiring a patient's polysia, requiring urgent treatment of the patient's disease, requiring urgent treatment of the patient's health and support.",
+      "reference": "Lichenification of the perianal skin secondary to chronic scratching over three months, consistent with lichen simplex chronicus complicating a primary pruritic condition such as eczema or psoriasis."
+    },
+    {
+      "row": 40,
+      "source": "Irora bẹ̀rẹ̀ lẹ́yìn abẹ́rẹ̀ ní ẹ̀gbẹ́ ẹ̀hin mi ní ọdún méjì sẹ́yìn. Dọ́kítà sọ pé ó jẹ́ abẹ́rẹ̀ àtọ̀gbẹ̀ ẹ̀gbẹ̀ ẹ̀hin. Irora kò lọ rárá.",
+      "hypothesis": "Tydal pain in two years ago with the risk of recttal pain, requiring immediate pain, requiring a patient's patient's patient's disease, requiring urgent treatment of the patient's patient's patient's patient's patient's patient's disease.",
+      "reference": "Persistent pain following an epidural steroid injection two years ago, which may indicate post-procedural complications including epidural haematoma, infection, arachnoiditis, or failure of the underlying disc disease to respond, requiring MRI spine and pain specialist review."
+    },
+    {
+      "row": 41,
+      "source": "Ní ìgbà-ìgbà, ayé ń dà bíi pé kò jẹ́ gidi fún mi. O ń dà bíi àlá. Ó ń ṣẹlẹ̀ ní ìgbà tí inú mi bá ń yọ̀.",
+      "hypothesis": "In a period of time, life may appear to be in a relatively poor mood, requiring psychological and emotional support.",
+      "reference": "Derealisation episodes triggered by anxiety consistent with dissociative symptoms in panic disorder or depersonalisation-derealisation disorder requiring cognitive-behavioural therapy and anxiety management."
+    },
+    {
+      "row": 42,
+      "source": "Ìmọ̀ ọwọ́ mi kò wà ní àwọn ìlà ọwọ́ mi mẹ́ta, tó ń rọ sínu ọwọ́ mi ṣùgbọ́n kò gùn sínu apá mi.",
+      "hypothesis": "Unless to cut the end of the patient's eye, the patient's patient's patient is in a position to cut the patient's hand, requiring urgent support for the patient's patient's patient's patient's health and support.",
+      "reference": "Numbness confined to the median nerve distribution of the first three fingers and palm without proximal extension, the anatomical distribution of carpal tunnel syndrome, confirmed by Tinel's and Phalen's tests and nerve conduction studies."
+    },
+    {
+      "row": 43,
+      "source": "Bẹ́ẹ̀ ni, irora àyà mi ti bẹ̀rẹ̀ sí tan sí apá òsì mi àti ẹrẹ̀kẹ́ mi ní wákàtí kan kẹ́yìín. Ó le sí i ju ìgbà tí mo dé lọ.",
+      "hypothesis": "Unictal pain of the pain in the morning is more severe than in the first hour, indicating the risk of pain in the patient's right to the right position, indicating the need for the patient's patient's patient's patient's patient's patient's support.",
+      "reference": "Symptom evolution during the waiting period with new radiation of chest pain to the left arm and jaw, constituting progression to a higher-risk ACS presentation requiring immediate triage escalation, ECG, troponin, and emergency cardiology review."
+    },
+    {
+      "row": 44,
+      "source": "Ito máa ń jáde ní ìgbà ìbálòpọ̀ àti lẹ́yìn rẹ̀ ní ìgbà-ìgbà. Ó ń jẹ ẹlẹ́yà mi àti ó ti ń dẹ́kun ìbálòpọ̀ wa.",
+      "hypothesis": "Cycopal and cycopal cycopation requiring urgent cycopation, requiring urgent cycropation, and cycopation, indicating the need for a patient's patient's patient's patient's patient's concern for the patient's health and well - being.",
+      "reference": "Coital urinary incontinence causing sexual avoidance and relationship strain, indicating stress or mixed urinary incontinence requiring pelvic floor physiotherapy, urodynamic assessment, and, if conservative measures fail, surgical intervention."
+    },
+    {
+      "row": 45,
+      "source": "Ìgbóná, ríru ẹjẹ̀, àti ọkàn tó ń lu yára wáyé papọ̀ fún ìṣẹ́jú mẹ́wàá ní ìgbà-ìgbà. O ti ń ṣẹlẹ̀ lẹ́ẹ̀mẹ́fà ní oṣù kan.",
+      "hypothesis": "Cyctopation of six times a month, requiring six days of per month, indicating a significant risk in the patient's health, indicating a significant concern for the patient's health, and indicating the need for a patient's concern for the patient's health.",
+      "reference": "Episodic sympathetic surge with flushing, diaphoresis, and tachycardia requiring twenty-four hour urinary catecholamines and metanephrines to exclude phaeochromocytoma."
+    },
+    {
+      "row": 46,
+      "source": "Awọ ara ẹsẹ̀ mi méjèéjì ti ń gbẹ àti dín kù bíi ẹní. Ín-ín ń ṣe mí, pàápàá ní alẹ́. Ó ti jẹ́ bẹ́ẹ̀ fún ọdún méjì.",
+      "hypothesis": "Ectal pain with bioctal pain, requiring urgent pain, requiring urgent pain, requiring urgent pain, and cyctal therapy, requiring urgent blood management.",
+      "reference": "Bilateral lower limb lichenification with pruritus and ichthyosis-like scaling over two years in a patient from an onchocerciasis-endemic area, features of chronic onchocercal skin disease requiring skin snip examination and ocular assessment."
+    },
+    {
+      "row": 47,
+      "source": "Mo máa ń mu ọtí ní alẹ́ láti ràn mí lọ́wọ́ láti sùn. Mo máa ń mu ìkòkò méjì tàbí mẹ́ta ṣáájú ìsùn. O ti ń pọ̀ sí i.",
+      "hypothesis": "Ectal use of alcohol in an effort to help sleep, requiring two or three days of alcohol prior to the trial, indicating the need for alcohol in a patient's right to die.",
+      "reference": "Escalating alcohol use as a sleep aid with two to three bottles nightly, indicating alcohol-dependent insomnia where alcohol disrupts sleep architecture causing rebound insomnia on cessation, perpetuating a dependence cycle requiring CBT-I and graduated alcohol reduction."
+    },
+    {
+      "row": 48,
+      "source": "Ó ń mí, ṣùgbọ́n mímí rẹ̀ yára gan-an. Mo kà ìgbà mẹ́ẹ̀ẹ́dọ́gbọ̀n tó mí ní ìṣẹ́jú kan.",
+      "hypothesis": "Noctal pain, requiring urgent re-insion of the patient's disease, requiring urgent pain and recttation of the patient's disease.",
+      "reference": "Tachypnoea at thirty-five breaths per minute with preserved spontaneous breathing, indicating significant respiratory compromise requiring immediate oxygen supplementation and investigation for pneumonia, pulmonary embolism, or metabolic acidosis."
+    },
+    {
+      "row": 49,
+      "source": "Irora ikùn mi wà ní mẹ́wàá lára ọgọ́rùn-ún lọ́wọ́lọ́wọ́. Nígbà tí a bá tẹ ikùn mi, irora náà ń burú lẹ́sẹ̀kẹsẹ̀. Ìdọ̀tí mi tún kò ṣẹlẹ̀ fún ọjọ́ méjì.",
+      "hypothesis": "Ten- ten percent of the joint pain in the patient with the pain of pain, requiring two-disctal pain, requiring urgent pain, requiring urgent pain, and cycrectation of the patient's patient's patient's disease.",
+      "reference": "Maximum severity abdominal pain with rebound tenderness on palpation and absolute constipation, constituting a surgical emergency with peritonitis signs requiring immediate surgical assessment, intravenous access, and urgent operative planning."
+    }
+  ]
+}
