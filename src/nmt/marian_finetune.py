@@ -33,6 +33,7 @@ Methodology
   - EarlyStoppingCallback stops once eval BLEU stops improving.
 """
 import argparse
+import inspect
 import json
 import os
 import sys
@@ -164,13 +165,36 @@ def _frame(src_list, tgt_list, prefix: str) -> pd.DataFrame:
 def medical_frame(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
     return _frame(df[cfg["med_src"]].tolist(), df[cfg["med_tgt"]].tolist(), cfg["src_prefix"])
 
+def _load_general_dataset():
+    """Load opus en-yo across datasets versions.
+    - Newer datasets (3.x) dropped `trust_remote_code` and rejects the bare
+      'opus100' id, so we try the namespaced parquet repo first.
+    - Older datasets needs `trust_remote_code=True` for the script dataset.
+    Returns the train split, or None if nothing works.
+    """
+    supports_trc = "trust_remote_code" in inspect.signature(load_dataset).parameters
+    candidates = [
+        ("Helsinki-NLP/opus-100", "en-yo"),   # namespaced, parquet — works on new datasets
+        ("opus100", "en-yo"),                  # legacy id — needs trust_remote_code
+    ]
+    for name, config in candidates:
+        try:
+            kwargs = {"split": "train"}
+            if supports_trc:
+                kwargs["trust_remote_code"] = True
+            ds = load_dataset(name, config, **kwargs)
+            print(f"  Loaded general-domain data from '{name}'")
+            return ds
+        except Exception as e:
+            print(f"  [WARN] could not load '{name}': {str(e)[:140]}")
+    return None
+
+
 def general_frame(cfg: dict, max_rows: int) -> pd.DataFrame:
-    """Download opus100 en-yo and return src/tgt pairs in the chosen direction."""
-    try:
-        ds = load_dataset("opus100", "en-yo", split="train", trust_remote_code=True)
-    except Exception as e:
-        print(f"  [WARN] Could not load opus100 general data ({e}).")
-        print("  [WARN] Proceeding with medical + greetings only.")
+    """Download opus en-yo and return src/tgt pairs in the chosen direction."""
+    ds = _load_general_dataset()
+    if ds is None:
+        print("  [WARN] No general-domain data available — medical + greetings only.")
         return pd.DataFrame(columns=["src", "tgt"])
 
     n = min(max_rows, len(ds))
@@ -341,16 +365,21 @@ def main():
         report_to                   = "none",
     )
 
-    trainer = Seq2SeqTrainer(
+    trainer_kwargs = dict(
         model           = model,
         args            = training_args,
         train_dataset   = train_tok,
         eval_dataset    = eval_tok,
-        tokenizer       = tokenizer,
         data_collator   = collator,
         compute_metrics = make_compute_metrics(tokenizer),
         callbacks       = [EarlyStoppingCallback(early_stopping_patience=EARLY_STOP_PATIENCE)],
     )
+    # transformers ≥4.46 renamed the Trainer `tokenizer` arg to `processing_class`.
+    if "processing_class" in inspect.signature(Seq2SeqTrainer.__init__).parameters:
+        trainer_kwargs["processing_class"] = tokenizer
+    else:
+        trainer_kwargs["tokenizer"] = tokenizer
+    trainer = Seq2SeqTrainer(**trainer_kwargs)
 
     # ── resume from last checkpoint if the previous run was interrupted ──
     resume_ckpt = None
