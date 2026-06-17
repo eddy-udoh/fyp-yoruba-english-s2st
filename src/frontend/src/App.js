@@ -146,10 +146,15 @@ export default function App() {
       setTranslation(data.translation || "");
       setDirectTrans(data.direct_translation || "");
       setDensity(data.diacritic_density);
-      setLatency(Math.round(Date.now() - t0));
+      // Prefer the server-measured pipeline latency; fall back to wall-clock only if absent.
+      setLatency(data.latency_ms != null ? Math.round(data.latency_ms) : Math.round(Date.now() - t0));
       setTtsEngine(data.tts_note || "");
       setWarnDia(data.diacritic_density && data.diacritic_density < 0.08);
-      if (data.audio_base64) setAudioSrc(`data:audio/mp3;base64,${data.audio_base64}`);
+      if (data.audio_base64) {
+        // Yoruba TTS (en→yo) returns WAV; English TTS (edge/gTTS) returns MP3.
+        const mime = direction === "en-yo" ? "audio/wav" : "audio/mpeg";
+        setAudioSrc(`data:${mime};base64,${data.audio_base64}`);
+      }
       setHasResult(true);
     } catch (e) {
       console.error("API error:", e);

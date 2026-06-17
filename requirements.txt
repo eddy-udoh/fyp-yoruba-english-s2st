@@ -8,11 +8,17 @@ jiwer
 pandas
 numpy
 scikit-learn
+matplotlib
 flask
 flask-cors
 gtts
+edge-tts
 TTS
 soundfile
 librosa
+scipy
 accelerate
 sentencepiece
+python-dotenv
+google-genai
+requests

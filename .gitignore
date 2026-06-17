@@ -15,6 +15,14 @@ __pycache__/
 .env.*
 *.env
 
+# Stray scripts under data/ are not tracked — they have historically held
+# hardcoded API keys. Keep pipeline code under src/ instead.
+data/**/*.py
+
+# Transient classifier state / derived outputs
+data/raw/classification_progress.json
+data/raw/*_classified.csv
+
 # ── Node / frontend ───────────────────────────────────────────────────────────
 node_modules/
 src/frontend/node_modules/

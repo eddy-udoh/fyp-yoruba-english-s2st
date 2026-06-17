@@ -37,10 +37,6 @@ from transformers import (
 from gtts import gTTS
 from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
-from elevenlabs import ElevenLabs
-
-ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
-el_client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
 
 # ── app setup ─────────────────────────────────────────────────────────────────
 app = Flask(__name__)
@@ -60,11 +56,16 @@ MODELS_DIR = os.path.join(_REPO, "models")
 EVAL_DIR   = os.path.join(_REPO, "evaluation")
 LOG_FILE   = os.path.join(EVAL_DIR, "api_logs.json")
 
-YO_EN_MODEL_PATH    = os.path.join(MODELS_DIR, "marian-yoruba-medical", "marian-15k-best")
+# yo→en: load from the top-level folder — this is where marian_finetune.py saves
+# (matches the en→yo convention below). Drop a freshly trained model straight here.
+YO_EN_MODEL_PATH    = os.path.join(MODELS_DIR, "marian-yoruba-medical")
 WHISPER_MODEL_PATH  = os.path.join(MODELS_DIR, "whisper-small-yoruba-finetuned")
 # Processor (feature extractor + tokenizer) is unchanged by fine-tuning; load from base
 WHISPER_BASE_ID     = "openai/whisper-small"
-# opus-mt-en-nic = English → Niger-Congo languages (includes Yoruba via >>yor<< prefix)
+# en→yo: prefer the locally fine-tuned model; fall back to off-the-shelf opus-mt-en-nic.
+# Both are based on opus-mt-en-nic (English → Niger-Congo), so the >>yor<< prefix is
+# still required at inference to select Yoruba output.
+EN_YO_MODEL_PATH = os.path.join(MODELS_DIR, "marian-english-yoruba")
 EN_YO_MODEL_ID   = "Helsinki-NLP/opus-mt-en-nic"
 EN_YO_LANG_TOKEN = ">>yor<<"
 DEVICE           = "cuda" if torch.cuda.is_available() else "cpu"
@@ -136,9 +137,15 @@ def load_all_models() -> None:
         _m["yo_en_mdl"] = MarianMTModel.from_pretrained(YO_EN_MODEL_PATH).eval()
         log.info("  yo→en model loaded.")
 
-        log.info("Loading en→yo model %s …", EN_YO_MODEL_ID)
-        _m["en_yo_tok"] = MarianTokenizer.from_pretrained(EN_YO_MODEL_ID)
-        _m["en_yo_mdl"] = MarianMTModel.from_pretrained(EN_YO_MODEL_ID).eval()
+        if os.path.isdir(EN_YO_MODEL_PATH):
+            en_yo_src = EN_YO_MODEL_PATH
+            log.info("Loading fine-tuned en→yo model from %s …", EN_YO_MODEL_PATH)
+        else:
+            en_yo_src = EN_YO_MODEL_ID
+            log.warning("Fine-tuned en→yo model not found at %s — "
+                        "falling back to off-the-shelf %s.", EN_YO_MODEL_PATH, EN_YO_MODEL_ID)
+        _m["en_yo_tok"] = MarianTokenizer.from_pretrained(en_yo_src)
+        _m["en_yo_mdl"] = MarianMTModel.from_pretrained(en_yo_src).eval()
         log.info("  en→yo model loaded.")
 
         log.info("Loading MMS-TTS Yoruba (facebook/mms-tts-yor) …")
@@ -161,7 +168,13 @@ def _translate(text: str, tok: MarianTokenizer, mdl: MarianMTModel) -> str:
         max_length=512,
     )
     with torch.no_grad():
-        out_ids = mdl.generate(**inputs, max_length=512, num_beams=4)
+        out_ids = mdl.generate(
+            **inputs,
+            max_length=512,
+            num_beams=4,
+            no_repeat_ngram_size=3,
+            repetition_penalty=1.5,
+        )
     return tok.decode(out_ids[0], skip_special_tokens=True)
 
 

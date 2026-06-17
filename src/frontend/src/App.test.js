@@ -1,8 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders the MedSpeak header', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(screen.getByText(/MedSpeak/i)).toBeInTheDocument();
+});
+
+test('shows both translation direction toggles', () => {
+  render(<App />);
+  expect(screen.getByText(/Yorùbá → English/i)).toBeInTheDocument();
+  expect(screen.getByText(/English → Yorùbá/i)).toBeInTheDocument();
 });

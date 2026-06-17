@@ -10,12 +10,18 @@ TEST  = "data/processed/test"
 RAW   = "data/raw/text"
 for p in [TRAIN,VAL,TEST]: os.makedirs(p,exist_ok=True)
 
-TONE_MARKS    = ["\u0301","\u0300","\u0302"]
+TONE_MARKS    = ["\u0301","\u0300","\u0302"]   # combining acute/grave/circumflex (NFD)
+# NFC collapses plain tonal vowels (\u00E0 \u00E1 \u00E8 \u00E9 \u2026) into single code points, so the
+# combining marks above never appear for them \u2014 check the precomposed set too.
+TONAL_PRECOMPOSED = set("\u00E0\u00E1\u00E8\u00E9\u00EC\u00ED\u00F2\u00F3\u00F9\u00FA\u00C0\u00C1\u00C8\u00C9\u00CC\u00CD\u00D2\u00D3\u00D9\u00DA")
 UNDERDOT_CHARS= ["\u1ECD","\u1EB9","\u1E63","\u1ECC","\u1EB8","\u1E62"]
 
 def validate_yoruba(text):
-    n = unicodedata.normalize("NFC", str(text))
-    has_tones    = any(m in n for m in TONE_MARKS)
+    n   = unicodedata.normalize("NFC", str(text))
+    nfd = unicodedata.normalize("NFD", str(text))
+    # Tones appear as precomposed NFC vowels OR as combining marks
+    # (in NFD, and on under-dotted vowels like \u1ECD\u0301 which have no precomposed form).
+    has_tones    = any(c in TONAL_PRECOMPOSED for c in n) or any(m in nfd for m in TONE_MARKS)
     has_underdot = any(c in n for c in UNDERDOT_CHARS)
     if not has_tones and not has_underdot:
         return {"risk":"HIGH",   "msg":"No diacritics — patient safety risk"}
