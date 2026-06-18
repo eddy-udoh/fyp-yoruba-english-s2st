@@ -1,5 +1,5 @@
-# MedSpeak YO-EN: Yoruba-English Medical Speech-to-Speech Translation System
-## Complete Implementation Guide — From Setup to Deployment
+# MedSpeak YO-EN: Yorùbá–English Medical Speech-to-Speech Translation
+## Complete Implementation Guide — Setup, Training, Evaluation, Deployment
 
 ---
 
@@ -8,13 +8,13 @@
 1. [Project Overview](#1-project-overview)
 2. [System Architecture](#2-system-architecture)
 3. [Environment Setup](#3-environment-setup)
-4. [Phase 1 — Data Collection & Preprocessing](#4-phase-1--data-collection--preprocessing)
-5. [Phase 2 — ASR Baseline (Whisper)](#5-phase-2--asr-baseline-whisper)
-6. [Phase 3 — Neural Machine Translation](#6-phase-3--neural-machine-translation)
-7. [Phase 4 — Text-to-Speech Synthesis](#7-phase-4--text-to-speech-synthesis)
-8. [Phase 5 — Flask API Integration](#8-phase-5--flask-api-integration)
+4. [Phase 1 — Data, Corpus & EDA](#4-phase-1--data-corpus--eda)
+5. [Phase 2 — ASR (Whisper)](#5-phase-2--asr-whisper)
+6. [Phase 3 — Neural Machine Translation (bidirectional)](#6-phase-3--neural-machine-translation-bidirectional)
+7. [Phase 4 — Text-to-Speech](#7-phase-4--text-to-speech)
+8. [Phase 5 — Flask API](#8-phase-5--flask-api)
 9. [Phase 6 — React Frontend](#9-phase-6--react-frontend)
-10. [Evaluation & Metrics](#10-evaluation--metrics)
+10. [Evaluation & Metrics](#10-evaluation--metrics) — **component vs end-to-end**
 11. [Running the Full System](#11-running-the-full-system)
 12. [Known Limitations & Future Work](#12-known-limitations--future-work)
 
@@ -22,34 +22,24 @@
 
 ## 1. Project Overview
 
-**MedSpeak YO-EN** is a Final Year Project (FYP) that implements a **bidirectional speech-to-speech translation system** between Yoruba and English, specifically tailored for **medical consultations**. A patient speaking Yoruba can have their speech automatically transcribed, translated to English for a doctor, and the doctor's English reply synthesized back as audio.
+**MedSpeak YO-EN** is a Final Year Project implementing a **bidirectional speech-to-speech translation (S2ST) system** between Yorùbá and English for **medical consultations**. A Yorùbá-speaking patient's speech is transcribed, translated to English for the clinician, and the clinician's English is translated and spoken back in Yorùbá. **Both translation directions are fine-tuned** on a custom medical corpus.
 
-### End-to-End Pipeline
-
+### Pipeline
 ```
-[User speaks]
-      ↓
-[ASR] Whisper — Speech → Yoruba text
-      ↓
-[NMT] Fine-tuned MarianMT — Yoruba text → English text
-      ↓
-[TTS] gTTS / Coqui — English text → Speech audio
-      ↓
-[User hears translated response]
+[speech] → ASR (Whisper) → diacritic normalisation → NMT (MarianMT) → TTS → [speech]
 ```
 
-The reverse direction (English → Yoruba text → Yoruba audio) is also supported.
-
-### Technology Stack
-
+### Technology stack
 | Layer | Technology |
 |---|---|
-| ASR | OpenAI Whisper Medium |
-| NMT | Helsinki-NLP/opus-mt-yo-en (fine-tuned) |
-| TTS | gTTS, Coqui TTS (VITS) |
-| Backend API | Python, Flask |
-| Frontend | React 19 |
-| Evaluation | sacrebleu, jiwer |
+| ASR | OpenAI Whisper **small, fine-tuned on Yorùbá** |
+| NMT yo→en | `Helsinki-NLP/opus-mt-yo-en`, fine-tuned (domain-balanced) |
+| NMT en→yo | `Helsinki-NLP/opus-mt-en-nic` + `>>yor<<`, fine-tuned (domain-balanced) |
+| TTS Yorùbá | `facebook/mms-tts-yor` (VITS) → WAV |
+| TTS English | Microsoft Edge-TTS (neural) → gTTS fallback → MP3 |
+| Backend | Python, Flask, flask-cors |
+| Frontend | React 19, Axios |
+| Eval | sacrebleu, jiwer, scikit-learn, matplotlib |
 | Training | HuggingFace Transformers, PyTorch |
 
 ---
@@ -57,801 +47,254 @@ The reverse direction (English → Yoruba text → Yoruba audio) is also support
 ## 2. System Architecture
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                  REACT FRONTEND                     │
-│  src/frontend/src/App.js                            │
-│                                                     │
-│  ┌──────────────┐   ┌──────────────┐               │
-│  │  Microphone  │   │  Lang Toggle  │               │
-│  │  Recorder    │   │  YO ↔ EN     │               │
-│  └──────┬───────┘   └──────────────┘               │
-│         │                                           │
-│         │   POST /translate (FormData)              │
-└─────────┼───────────────────────────────────────────┘
-          │
-          ↓ HTTP (localhost:5000)
-┌─────────────────────────────────────────────────────┐
-│                  FLASK API                          │
-│  src/api/app.py                                     │
-│                                                     │
-│  ┌──────┐  ┌──────────────┐  ┌───────────────┐    │
-│  │Whisper│→│ Fine-tuned   │→ │ gTTS / Coqui  │   │
-│  │ ASR  │  │ MarianMT NMT │  │ TTS Engine    │   │
-│  └──────┘  └──────────────┘  └───────────────┘    │
-│                                                     │
-│  Response: transcript + translation + audio_base64  │
-└─────────────────────────────────────────────────────┘
-          ↕
-┌─────────────────────────────────────────────────────┐
-│                  MODEL STORE                        │
-│  models/whisper/           (ASR)                    │
-│  models/marianmt/          (NMT base)               │
-│  models/marian-yoruba-medical/  (Fine-tuned NMT)    │
-│  models/coqui_tts/         (TTS)                    │
-└─────────────────────────────────────────────────────┘
+REACT FRONTEND (src/frontend/src/App.js)
+  Mic recorder + direction toggle (YO↔EN)
+        │  POST /translate (FormData or JSON)
+        ▼
+FLASK API (src/api/app.py)
+  Whisper ASR → diacritic normalise → MarianMT NMT → MMS-TTS / Edge-TTS
+  Response: transcript + translation + audio_base64 + latency + diacritic flags
+        ▼
+MODEL STORE (models/)
+  whisper-small-yoruba-finetuned/     (ASR, local weights)
+  marian-yoruba-medical/              (yo→en, fine-tuned)
+  marian-english-yoruba/             (en→yo, fine-tuned)
+  + facebook/mms-tts-yor downloaded from HuggingFace at runtime
 ```
+
+> Model weights (`*.safetensors`) are git-ignored (too large for GitHub) and kept on Google Drive; the repo tracks config/tokenizer files only.
 
 ---
 
 ## 3. Environment Setup
 
-### 3.1 Prerequisites
+### Prerequisites
+- Python 3.10+, Node.js 18+, Git
+- CUDA GPU recommended (training was done on a Colab T4; the app runs on a GTX 1650 Ti / 4 GB or CPU)
 
-- Python 3.10+
-- Node.js 18+ and npm
-- CUDA-capable GPU (GTX 1650 Ti or better) — optional but strongly recommended
-- Git, pip
-
-### 3.2 Clone / Initialise Project Directory
-
-```
-fyp_s2st/
-├── src/
-│   ├── api/
-│   ├── asr/
-│   ├── nmt/
-│   ├── tts/
-│   ├── utils/
-│   └── frontend/
-├── data/
-│   ├── raw/text/
-│   └── processed/{train,val,test}/
-├── models/
-├── evaluation/
-└── requirements.txt
-```
-
-### 3.3 Python Virtual Environment
-
+### Install
 ```powershell
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
+For an NVIDIA GPU, install the CUDA PyTorch wheel first (see pytorch.org for the `--index-url`).
 
-### 3.4 requirements.txt (key packages)
+`requirements.txt` now includes everything the code imports: `torch, torchaudio, transformers, datasets, accelerate, sentencepiece, openai-whisper, sacrebleu, jiwer, pandas, numpy, scikit-learn, matplotlib, flask, flask-cors, gtts, edge-tts, scipy, soundfile, librosa, python-dotenv, google-genai, requests` (Coqui `TTS` is optional/prototype only).
 
-```
-torch
-torchaudio
-transformers
-sentencepiece
-datasets
-accelerate
-openai-whisper
-gtts
-TTS
-flask
-flask-cors
-pandas
-numpy
-scikit-learn
-sacrebleu
-jiwer
-soundfile
-librosa
-```
-
-> **Windows CUDA note**: If you have an NVIDIA GPU, install the CUDA-enabled PyTorch wheel first.
-> Visit pytorch.org for the correct `--index-url` command before running `pip install -r requirements.txt`.
-
-### 3.5 Verify Environment
-
-Run `setup_env.py` to confirm all libraries import correctly and GPU is detected:
-
-```powershell
-python setup_env.py
-```
-
-Expected output includes:
-- All packages imported successfully
-- `CUDA available: True` (if GPU present)
-- GPU name shown (e.g., NVIDIA GeForce GTX 1650 Ti)
+Secrets (e.g. `GEMINI_API_KEY`) go in a `.env` file at the repo root (git-ignored).
 
 ---
 
-## 4. Phase 1 — Data Collection & Preprocessing
+## 4. Phase 1 — Data, Corpus & EDA
 
-### 4.1 Medical Corpus
+### 4.1 Corpus
+- **`data/raw/medical_dialogues_15k.csv`** — ~15,000 Yorùbá↔English medical dialogue pairs, generated with **Gemini 2.5 Flash** (`src/utils/generate_corpus.py`), fully diacritised.
+- Columns: `Doctor_English`, `Patient_Yoruba`, `Clinical_Translation_English`, `Direct_Translation_English`.
+- NMT pairs: `Patient_Yoruba` ↔ `Clinical_Translation_English`.
 
-The project uses a custom **1000-row medical dialogue corpus** (`medical_dialogues.csv`). Each row contains three columns:
+### 4.2 Splits
+`src/utils/split_dataset.py` (seed 42) → `data/splits/`: **train 12,000 / val 1,500 / test 1,500** (80/10/10). The test split is **held out** and only used for final reporting.
 
-| Column | Description |
-|---|---|
-| `Doctor_English` | Doctor's question in English |
-| `Patient_Yoruba` | Patient's response in Yoruba (with full diacritics) |
-| `Clinical_Translation_English` | Reference English translation |
+### 4.3 OLDCARTS classification
+`data/raw/classify_oldcarts_gemini.py` labels each `Doctor_English` question into one of the eight OLDCARTS clinical categories — **Onset, Location, Duration, Characteristics, Aggravating, Relieving, Timing, Severity** — via Gemini (batched, resumable, cost-capped; key read from `.env`). Output: `medical_dialogues_15k_classified.csv`.
 
-Example row:
-```
-Doctor_English:
-  "How long has your child been coughing?"
+### 4.4 EDA (`src/utils/eda_oldcarts.py`)
+Generates figures into `evaluation/eda/` (OLDCARTS pie + bar, utterance lengths, diacritic density, split sizes) and `eda_summary.json`.
 
-Patient_Yoruba:
-  "Ọmọ mi ti ń sọ̀rọ̀ ikọ́ fún ọjọ́ mẹ́fà."
+**Corpus class balance — the data is imbalanced, not balanced.** Across 15,000 rows:
 
-Clinical_Translation_English:
-  "The child has experienced a productive cough for six days."
-```
+| Category | Share |
+|---|---:|
+| Characteristics | **44.95%** |
+| Relieving | 17.88% |
+| Timing | 8.24% |
+| Onset | 7.90% |
+| Aggravating | 7.71% |
+| Duration | 5.19% |
+| Location | 4.65% |
+| Severity | 3.49% |
 
-A secondary file `patient_profiles.csv` contains patient demographic metadata.
+> **Correction to earlier drafts:** the corpus is **long-tailed, dominated by `Characteristics` (~45%)**, with six of eight categories below the 12% line. It should be described as *imbalanced* (mitigated downstream by class weighting), **not** as a "reasonably balanced distribution."
 
-### 4.2 JW300 Supplementary Corpus
+Diacritic density: mean **33%**, 0 rows below the 4% threshold — confirming corpus generation enforced proper Yorùbá orthography.
 
-The script `src/asr/01_load_datasets.py` downloads 50 preview samples from the
-**JW300 Yoruba-English parallel corpus** via HuggingFace Datasets:
-
-```python
-from datasets import load_dataset
-dataset = load_dataset("opus100", "en-yo", split="train", streaming=True)
-```
-
-This provides additional general-domain Yoruba-English sentence pairs.
-
-### 4.3 Dataset Loading Script
-
-Run `src/asr/01_load_datasets.py`:
-
-```powershell
-python src/asr/01_load_datasets.py
-```
-
-What it does:
-1. Copies `medical_dialogues.csv` and `patient_profiles.csv` to `data/raw/text/`
-2. Downloads and saves 50 JW300 pairs to `data/raw/text/jw300_yo_en_preview.csv`
-3. Prints row counts and column names to confirm loading
-
-### 4.4 Diacritic Validation — Why It Matters
-
-Yoruba is a tonal language. The same sequence of letters with different tones means different
-words. In a medical context, the difference between "ilé" (house) and "ìlé" (building), or
-between "òògùn" (medicine) and "oogún" (witchcraft), could cause catastrophic misinterpretation.
-
-The diacritic validator `src/utils/diacritic_validator.py` checks each Yoruba string for:
-
-- **Tonal marks**: à á è é ì í ò ó (low and high tone acute/grave)
-- **Underdot characters**: ọ ẹ ṣ (open vowels and retroflex sibilant)
-- **Density ratio**: `(diacritic_count / char_count)` must exceed 4% threshold
-
-```python
-def compute_diacritic_density(text: str) -> float:
-    diacritics = set("àáèéìíòóọẹṣÀÁÈÉÌÍÒÓỌẸṢ")
-    count = sum(1 for c in text if c in diacritics)
-    return count / max(len(text), 1)
-```
-
-### 4.5 Preprocessing Script
-
-Run `src/utils/02_preprocess.py`:
-
-```powershell
-python src/utils/02_preprocess.py
-```
-
-Steps performed:
-1. Load `data/raw/text/medical_dialogues.csv`
-2. Run diacritic validation on the `Patient_Yoruba` column
-3. Apply text cleaning (Unicode NFC normalization, strip control characters)
-4. Stratified 80/10/10 train-val-test split using scikit-learn's `train_test_split`
-5. Save splits to `data/processed/train/`, `val/`, `test/`
-
-Results:
-- Train: 800 rows → `data/processed/train/medical_dialogues_train.csv`
-- Validation: 100 rows → `data/processed/val/medical_dialogues_val.csv`
-- Test: 100 rows → `data/processed/test/medical_dialogues_test.csv`
-- All 1000 rows passed diacritic validation (100% pass rate, avg density 34.59%)
-
-A full audit JSON is also written to `evaluation/diacritic_audit.json`.
+### 4.5 Diacritic validation
+`src/utils/02_preprocess.py` / `diacritic_validator.py` NFC-normalise and check for tonal marks (à á è é ì í ò ó ù ú — precomposed **and** combining) and underdots (ọ ẹ ṣ). Used for data-quality auditing and the live API warning layer.
 
 ---
 
-## 5. Phase 2 — ASR Baseline (Whisper)
+## 5. Phase 2 — ASR (Whisper)
 
-### 5.1 What is Whisper?
-
-OpenAI Whisper is a large multilingual ASR model trained on 680,000 hours of audio. It supports
-Yoruba (yo) as a language code but was not heavily trained on it, leading to high WER on Yoruba
-speech.
-
-### 5.2 ASR Baseline Evaluation
-
-Script: `src/asr/03_whisper_baseline.py`
-
-```powershell
-python src/asr/03_whisper_baseline.py
-```
-
-What it does:
-1. Loads `google/fleurs` dataset, `yo_ng` (Yoruba Nigeria) test split
-2. Takes the first 20 audio samples
-3. Transcribes each using `whisper.load_model("medium")`
-4. Computes Word Error Rate (WER) with `jiwer.wer(reference, hypothesis)`
-5. Saves all per-sample results + aggregate WER to `evaluation/asr_baseline_wer.json`
-
-```python
-import whisper, jiwer
-model = whisper.load_model("medium")
-result = model.transcribe(audio_path, language="yo")
-wer = jiwer.wer(reference_text, result["text"])
-```
-
-**Result**: Average WER = **103.65%** — indicating that Whisper Medium struggles significantly
-with Yoruba, often producing more word errors than correct words (insertions + substitutions
-combined exceed reference length).
-
-### 5.3 Why Such High WER?
-
-- Yoruba was under-represented in Whisper's training data
-- Tonal information is lost in phonetic transcription
-- The model sometimes outputs transliteration rather than proper Yoruba orthography
-- This is documented and acknowledged as a limitation in the project
-
-### 5.4 How ASR is Used in the API
-
-Despite the high zero-shot WER, Whisper is still used in the Flask API because there are no
-readily available fine-tuned Yoruba ASR models that can be deployed locally. The API uses
-`whisper.load_model("small")` (lighter than Medium) for acceptable inference speed.
+- **Model:** OpenAI Whisper **small**, fine-tuned on Yorùbá → `models/whisper-small-yoruba-finetuned/`. Processor loaded from base `openai/whisper-small`.
+- **Baseline eval** (`src/asr/03_whisper_baseline.py`, FLEURS yo_ng, 20 samples): zero-shot WER **103.65%** (>100% because the zero-shot model hallucinated foreign-script tokens, inserting more words than the reference).
+- **Fine-tuned:** WER **63.40%** (`evaluation/asr_finetuned_wer.json`) — a **−40.25 pp** improvement; hallucination eliminated. Residual WER is largely diacritic mismatch (partially-diacritised output vs fully-diacritised references).
+- In the API, language + task tokens are forced (`get_decoder_prompt_ids`) so Whisper doesn't run unreliable language detection.
 
 ---
 
-## 6. Phase 3 — Neural Machine Translation
+## 6. Phase 3 — Neural Machine Translation (bidirectional)
 
-### 6.1 Base Model: Helsinki-NLP/opus-mt-yo-en
+### 6.1 Domain-balanced fine-tuning — why
+Fine-tuning **only** on medical text caused **domain collapse / catastrophic forgetting** — every input (even "Good morning") came back as a clinical sentence. The fix: each training run blends three sources so general ability is preserved:
+- **Medical** (~52%) — `data/splits/train.csv`
+- **General** (~45%) — `opus-100` en-yo pairs (`Helsinki-NLP/opus-100`)
+- **Greetings/small-talk** (~4%) — hand-written, oversampled
 
-The MarianMT family provides pre-trained translation models. For Yoruba→English, the model is:
-
-```
-Helsinki-NLP/opus-mt-yo-en
-```
-
-It was pre-trained on the OPUS corpus (primarily news/wiki/religious text), which differs
-significantly from the medical domain.
-
-### 6.2 NMT Baseline Evaluation
-
-Script: `src/nmt/marian_baseline.py`
-
+### 6.2 Training (`src/nmt/marian_finetune.py`)
+One script, both directions:
 ```powershell
-python src/nmt/marian_baseline.py
+python src/nmt/marian_finetune.py --direction yo-en
+python src/nmt/marian_finetune.py --direction en-yo
 ```
-
-Steps:
-1. Load test set from `data/processed/test/medical_dialogues_test.csv`
-2. Load `Helsinki-NLP/opus-mt-yo-en` from HuggingFace
-3. Translate 50 Yoruba patient utterances
-4. Compute BLEU and chrF scores against reference translations
-
-```python
-from transformers import MarianMTModel, MarianTokenizer
-tokenizer = MarianTokenizer.from_pretrained("Helsinki-NLP/opus-mt-yo-en")
-model = MarianMTModel.from_pretrained("Helsinki-NLP/opus-mt-yo-en")
-inputs = tokenizer(texts, return_tensors="pt", padding=True, truncation=True)
-translated = model.generate(**inputs, num_beams=4)
-```
-
-**Baseline Result**: BLEU = **0.45**, chrF = **12.73**
-
-### 6.3 NMT Fine-Tuning on Medical Corpus
-
-Script: `src/nmt/marian_finetune.py`
-
-```powershell
-python src/nmt/marian_finetune.py
-```
-
-#### Training Configuration
-
 | Parameter | Value |
 |---|---|
-| Base model | Helsinki-NLP/opus-mt-yo-en |
-| Epochs | 3 |
-| Learning rate | 5e-5 |
-| Batch size | 8 |
-| Gradient accumulation | 2 (effective batch = 16) |
-| Max source length | 128 tokens |
-| Max target length | 128 tokens |
-| Precision | fp16 (on CUDA), fp32 (CPU fallback) |
-| Optimizer | AdamW (via HuggingFace Trainer default) |
+| yo→en base | `Helsinki-NLP/opus-mt-yo-en` |
+| en→yo base | `Helsinki-NLP/opus-mt-en-nic` (source prefixed `>>yor<< `) |
+| Epochs | 5 |
+| Learning rate | 3e-5 |
+| Effective batch | 16 (8 × grad-accum 2) |
+| Eval set | **validation split** (not test → no leakage) |
+| Best model | highest **val** BLEU; `EarlyStoppingCallback` |
+| Generation guards | `no_repeat_ngram_size=3`, `repetition_penalty=1.5` (kill degenerate repetition) |
 
-#### Training Pipeline
+Outputs save to `models/marian-yoruba-medical/` and `models/marian-english-yoruba/` (top-level — the API loads from there). Cross-session training is supported via Google Drive checkpointing + auto-resume (see `notebooks/train_marian_colab.ipynb`).
 
-```python
-from transformers import (
-    MarianMTModel, MarianTokenizer,
-    Seq2SeqTrainer, Seq2SeqTrainingArguments,
-    DataCollatorForSeq2Seq
-)
+### 6.3 Results (clean-text, component-level)
+| Direction | BLEU | chrF | Baseline BLEU |
+|---|---:|---:|---:|
+| Yorùbá → English | **54.32** | 66.28 | 0.45 |
+| English → Yorùbá | **50.32** | 65.02 | ~0 |
 
-# 1. Tokenize source (Yoruba) and target (English)
-def preprocess(examples):
-    inputs = tokenizer(examples["Patient_Yoruba"], max_length=128, truncation=True)
-    targets = tokenizer(
-        examples["Clinical_Translation_English"], max_length=128, truncation=True
-    )
-    inputs["labels"] = targets["input_ids"]
-    return inputs
-
-# 2. Define training arguments
-args = Seq2SeqTrainingArguments(
-    output_dir="models/marian-yoruba-medical",
-    num_train_epochs=3,
-    per_device_train_batch_size=8,
-    gradient_accumulation_steps=2,
-    learning_rate=5e-5,
-    fp16=torch.cuda.is_available(),
-    predict_with_generate=True,
-    logging_steps=50,
-    save_strategy="epoch"
-)
-
-# 3. Train
-trainer = Seq2SeqTrainer(
-    model=model,
-    args=args,
-    train_dataset=train_dataset,
-    eval_dataset=val_dataset,
-    data_collator=DataCollatorForSeq2Seq(tokenizer, model)
-)
-trainer.train()
-trainer.save_model("models/marian-yoruba-medical")
-```
-
-#### Fine-Tuning Result
-
-| Metric | Baseline | Fine-Tuned | Improvement |
-|---|---|---|---|
-| BLEU | 0.45 | 2.51 | +456% |
-| chrF | 12.73 | 22.29 | +75% |
-
-The fine-tuned checkpoint is saved to `models/marian-yoruba-medical/`. The API loads this
-checkpoint directly.
+Both went from near-zero to strong, and the greeting sanity check now passes both ways (`Ẹ kú àárọ̀ ↔ Good morning`). **These are clean-text scores** (NMT fed perfect reference text) — see §10 for the end-to-end picture.
 
 ---
 
-## 7. Phase 4 — Text-to-Speech Synthesis
+## 7. Phase 4 — Text-to-Speech
 
-### 7.1 TTS Engine Selection
-
-| Engine | Quality | Yoruba Support | Used For |
-|---|---|---|---|
-| Coqui TTS (VITS) | High | No | English synthesis demo |
-| gTTS | Medium | No (Hausa fallback) | API production TTS |
-| pyttsx3 SAPI | Low | No | Windows offline fallback |
-
-### 7.2 Coqui TTS Demo
-
-Script: `src/tts/coqui_tts_demo.py`
-
-```powershell
-python src/tts/coqui_tts_demo.py
-```
-
-This script:
-1. Instantiates the Coqui TTS engine with model `tts_models/en/ljspeech/vits`
-2. Synthesises 5 English medical phrases:
-   - "The patient presents with fever and cough."
-   - "Please open your mouth and say ahh."
-   - "You need to take this medicine twice daily."
-   - "How long have you had this pain?"
-   - "We will run some blood tests."
-3. Saves each to `evaluation/tts_samples/phrase_0{1-5}.wav`
-4. Writes a manifest JSON to `evaluation/tts_manifest.json`
-
-```python
-from TTS.api import TTS
-tts = TTS(model_name="tts_models/en/ljspeech/vits", progress_bar=False)
-tts.tts_to_file(text=phrase, file_path=output_path)
-```
-
-If VITS fails (VRAM OOM), it falls back to `tts_models/en/ljspeech/tacotron2-DDC`,
-and then to pyttsx3 on Windows.
-
-### 7.3 gTTS in the Production API
-
-The Flask API uses gTTS because it requires no local model downloads:
-
-```python
-from gtts import gTTS
-import io
-
-def synthesize_speech(text: str, lang: str = "en") -> bytes:
-    tts = gTTS(text=text, lang=lang, slow=False)
-    buf = io.BytesIO()
-    tts.write_to_fp(buf)
-    return buf.getvalue()
-```
-
-**Yoruba TTS limitation**: gTTS does not support Yoruba (`yo`). The API falls back to
-Hausa (`ha`) as the closest available West African language on gTTS. This is acknowledged
-as a limitation.
-
----
-
-## 8. Phase 5 — Flask API Integration
-
-### 8.1 Starting the API
-
-```powershell
-.\venv\Scripts\Activate.ps1
-python src/api/app.py
-```
-
-The server starts on `http://0.0.0.0:5000`.
-
-### 8.2 API Endpoints
-
-#### `GET /health`
-
-Returns system status:
-```json
-{"status": "ok", "models_loaded": true}
-```
-
-#### `POST /translate`
-
-Accepts multipart FormData or JSON:
-
-| Field | Type | Description |
+| Output | Engine | Format |
 |---|---|---|
-| `audio` | File (optional) | WebM audio from browser |
-| `text` | String (optional) | Direct text input |
-| `direction` | String | `"yo-en"` or `"en-yo"` |
+| Yorùbá | `facebook/mms-tts-yor` (VITS, 16 kHz) | WAV |
+| English | Microsoft Edge-TTS `en-US-AriaNeural` → gTTS fallback | MP3 |
 
-Response:
-```json
-{
-  "transcript": "Ọmọ mi ti ń sọ̀rọ̀ ikọ́...",
-  "translation": "My child has been coughing...",
-  "audio_base64": "<base64-encoded MP3>",
-  "latency_ms": 87,
-  "diacritic_flags": {
-    "density": 0.34,
-    "missing_tones": false,
-    "missing_underdots": false,
-    "warning": null
-  }
-}
-```
+MMS-TTS produces correctly-toned Yorùbá when given diacritised input. (`src/tts/coqui_tts_demo.py` is an earlier prototype, not in the live pipeline.)
 
-### 8.3 Model Loading Strategy
+---
 
-The API uses thread-safe lazy loading — models are loaded on the first request, not at startup:
+## 8. Phase 5 — Flask API
 
-```python
-_models = {}
-_load_lock = threading.Lock()
+`src/api/app.py`, host `0.0.0.0:5000`. All models load once at startup (`load_all_models`, thread-locked).
 
-def get_models():
-    with _load_lock:
-        if "whisper" not in _models:
-            _models["whisper"] = whisper.load_model("small")
-            _models["nmt_yo_en"] = MarianMTModel.from_pretrained(
-                "models/marian-yoruba-medical"
-            )
-            _models["nmt_tokenizer"] = MarianTokenizer.from_pretrained(
-                "models/marian-yoruba-medical"
-            )
-        return _models
-```
+- `GET /health` → `{"status":"ok","models_loaded":true}`
+- `POST /translate` (multipart `audio`+`direction`, or JSON `text`+`direction`) → `transcript, translation, audio_base64, latency_ms, diacritic_density, diacritic_flags, tts_note`.
 
-### 8.4 Full Pipeline in `POST /translate`
-
-```python
-@app.route("/translate", methods=["POST"])
-def translate():
-    direction = request.form.get("direction", "yo-en")
-
-    # 1. Get input text (from audio or direct text)
-    if "audio" in request.files:
-        audio_file = request.files["audio"]
-        audio_path = save_temp_audio(audio_file)
-        transcript = models["whisper"].transcribe(audio_path, language="yo")["text"]
-    else:
-        transcript = request.form.get("text", "")
-
-    # 2. Validate diacritics (Yoruba input only)
-    diacritic_info = validate_diacritics(transcript) if direction == "yo-en" else {}
-
-    # 3. Translate
-    translation = run_nmt(transcript, direction, models)
-
-    # 4. Synthesise speech
-    tts_lang = "en" if direction == "yo-en" else "ha"
-    audio_bytes = synthesize_speech(translation, lang=tts_lang)
-    audio_b64 = base64.b64encode(audio_bytes).decode("utf-8")
-
-    # 5. Log request
-    log_request(transcript, translation, latency_ms)
-
-    return jsonify({
-        "transcript": transcript,
-        "translation": translation,
-        "audio_base64": audio_b64,
-        "latency_ms": latency_ms,
-        "diacritic_flags": diacritic_info
-    })
-```
-
-### 8.5 Request Logging
-
-Every API request is appended to `evaluation/api_logs.json`:
-
-```json
-[
-  {
-    "timestamp": "2025-05-31T14:23:01",
-    "direction": "yo-en",
-    "input_length": 54,
-    "latency_ms": 87,
-    "diacritic_density": 0.34
-  }
-]
-```
+The en→yo model loads from the local fine-tuned folder if present, otherwise falls back to off-the-shelf `opus-mt-en-nic`. Audio MIME is set per direction (WAV for Yorùbá, MP3 for English). Requests are logged to `evaluation/api_logs.json`.
 
 ---
 
 ## 9. Phase 6 — React Frontend
 
-### 9.1 Setup
-
-```powershell
-cd src/frontend
-npm install
-npm start
-```
-
-Runs at `http://localhost:3000`. The dev server proxies API calls to `http://localhost:5000`.
-
-### 9.2 Application Structure
-
-The entire frontend is in `src/frontend/src/App.js` (743 lines), implementing a
-single-page application.
-
-### 9.3 Component Breakdown
-
-#### Language Toggle
-
-```jsx
-const [direction, setDirection] = useState("yo-en");
-
-<button onClick={() => setDirection(
-  direction === "yo-en" ? "en-yo" : "yo-en"
-)}>
-  {direction === "yo-en" ? "Yoruba → English" : "English → Yoruba"}
-</button>
-```
-
-#### Audio Recording
-
-Uses the browser's `MediaRecorder` API:
-
-```jsx
-const startRecording = async () => {
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  const recorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
-  const chunks = [];
-  recorder.ondataavailable = (e) => chunks.push(e.data);
-  recorder.onstop = () => {
-    const blob = new Blob(chunks, { type: "audio/webm" });
-    sendToAPI(blob);
-  };
-  recorder.start();
-  setMediaRecorder(recorder);
-  setIsRecording(true);
-};
-```
-
-#### API Call
-
-```jsx
-const sendToAPI = async (audioBlob) => {
-  const formData = new FormData();
-  formData.append("audio", audioBlob, "recording.webm");
-  formData.append("direction", direction);
-
-  const response = await axios.post(
-    "http://localhost:5000/translate",
-    formData,
-    { timeout: 120000 }
-  );
-
-  setTranscript(response.data.transcript);
-  setTranslation(response.data.translation);
-  setAudioBase64(response.data.audio_base64);
-  setDiacriticFlags(response.data.diacritic_flags);
-};
-```
-
-#### Diacritic Warning Alert
-
-Shown when `diacritic_flags.warning` is non-null:
-
-```jsx
-{diacriticFlags?.warning && (
-  <div style={{ background: "#FFF3CD", border: "1px solid #FFCC00", padding: 12 }}>
-    ⚠️ Diacritic Warning: {diacriticFlags.warning}
-    <br/>Density: {(diacriticFlags.density * 100).toFixed(1)}%
-  </div>
-)}
-```
-
-#### Audio Playback
-
-```jsx
-{audioBase64 && (
-  <audio controls>
-    <source src={`data:audio/mp3;base64,${audioBase64}`} type="audio/mp3" />
-  </audio>
-)}
-```
-
-#### Results Grid
-
-```jsx
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-  <div>
-    <h3>Transcript</h3>
-    <p>{transcript}</p>
-  </div>
-  <div>
-    <h3>Translation</h3>
-    <p>{translation}</p>
-  </div>
-</div>
-```
+`src/frontend/src/App.js` (React 19 + Axios). Single page: direction toggle, mic recorder (`MediaRecorder`, webm), animated pipeline stages, results panel (transcript / translation / audio / metrics). The displayed latency uses the **server's** `latency_ms`; a low-diacritic-density warning banner alerts clinicians to tonally ambiguous transcripts. `npm test` runs smoke tests for the header + direction toggles.
 
 ---
 
 ## 10. Evaluation & Metrics
 
-### 10.1 Summary of All Evaluation Results
+> **This section is deliberately split into Component evaluation and End-to-End evaluation.** Reporting only the component (clean-text) NMT score overstates the real system, because ASR errors propagate into translation. Keep the two tiers clearly separate.
 
+### 10.1 Component evaluation (each stage in isolation)
 | Component | Metric | Value | File |
 |---|---|---|---|
-| ASR (Whisper Medium, zero-shot) | WER | 103.65% | `evaluation/asr_baseline_wer.json` |
-| NMT Baseline (opus-mt-yo-en) | BLEU | 0.45 | `evaluation/nmt_baseline.json` |
-| NMT Baseline | chrF | 12.73 | `evaluation/nmt_baseline.json` |
-| NMT Fine-tuned | BLEU | 2.51 (+456%) | `evaluation/nmt_finetuned.json` |
-| NMT Fine-tuned | chrF | 22.29 (+75%) | `evaluation/nmt_finetuned.json` |
-| Data Quality (diacritics) | Pass rate | 100% | `evaluation/diacritic_audit.json` |
-| API Latency | Avg ms | ~87ms | `evaluation/api_logs.json` |
-| TTS | Samples | 5 WAV files | `evaluation/tts_samples/` |
+| ASR (Whisper small) | WER before → after | 103.65% → **63.40%** | `asr_*_wer.json` |
+| NMT yo→en | BLEU / chrF (clean text) | **54.32 / 66.28** | `nmt_finetuned_yo-en.json` |
+| NMT en→yo | BLEU / chrF (clean text) | **50.32 / 65.02** | `nmt_finetuned_en-yo.json` |
+| TTS | MOS (1–5, human) | *to collect* | `mos_ratings.csv` |
 
-### 10.2 Running the End-to-End Integration Test
+### 10.2 End-to-end evaluation (speech → translation)
+`src/eval/end_to_end_eval.py` runs the **full chain** — Yorùbá audio → Whisper → MarianMT → English — and compares it against the clean-text path on the same 100 test sentences:
 
-```powershell
-python test_translate.py
-```
+| Evaluation | BLEU | chrF |
+|---|---:|---:|
+| Clean-text NMT (component) | 54.32 | 66.28 |
+| **End-to-end (speech→EN)** | **5.65** | 23.80 |
+| **Error-propagation gap** | **48.67** | 42.48 |
 
-This script:
-1. Hits `GET /health` to confirm the API is live
-2. Sends a Yoruba text string (`yo-en` direction) via POST
-3. Sends an audio file via POST (`en-yo` direction)
-4. Validates response structure
-5. Saves result to `evaluation/translate_test_result.json`
+ASR WER on this synthesized set: **70.79%**.
 
-### 10.3 Interpreting BLEU and chrF
+**Interpretation:** the component BLEU (54.32) collapses to **5.65** once translation runs on Whisper's actual output — a ~49-point gap that quantifies ASR error propagation. The ASR stage is the dominant bottleneck.
 
-- **BLEU** (Bilingual Evaluation Understudy): Measures n-gram overlap between hypothesis and
-  reference. Range 0–100; a BLEU of 2.51 on a niche medical domain with limited training data
-  is reasonable.
-- **chrF** (Character n-gram F-score): More suitable for morphologically rich languages like
-  Yoruba. A chrF of 22.29 indicates meaningful partial word-level overlap.
-- Both metrics improved substantially after fine-tuning, validating the domain adaptation
-  approach.
+**Caveat (important for the write-up):** audio here is **synthesized** with MMS-TTS, which is *out-of-domain* for a Whisper fine-tuned on real FLEURS speech — this **inflates WER**, so the end-to-end 5.65 is a **pessimistic / worst-case** bound. A real-speech evaluation (`--mode recorded`, 50–100 utterances, 2–4 speakers) would give a fairer figure and is the recommended next step.
+
+### 10.3 OLDCARTS classification — where ROC-AUC actually applies
+`src/eval/oldcarts_classification_eval.py` trains a transparent **TF-IDF + Logistic Regression** classifier on the Gemini labels (80/20 stratified, `class_weight="balanced"` to counter the imbalance) and reports:
+
+| Metric | Value |
+|---|---:|
+| Accuracy | 74.97% |
+| Macro-F1 | 0.736 |
+| **Macro ROC-AUC** | **0.964** |
+
+Plus a confusion matrix and per-class one-vs-rest ROC curves (`evaluation/report/oldcarts_*`).
+
+> **ROC-AUC scope.** ROC-AUC requires class labels and probability scores, so it is meaningful **only for the OLDCARTS classification task** — **not** for translation (BLEU/chrF) or ASR (WER), which are sequence-generation tasks with no threshold to sweep. (Caveat: Gemini's labels are treated as ground truth, so this measures the scheme's learnability/consistency rather than agreement with human gold labels.)
+
+### 10.4 Metric definitions
+- **WER** = (S+D+I)/N; lower better; can exceed 100% when insertions exceed reference length.
+- **BLEU** — n-gram precision with brevity penalty; 0–100; higher better.
+- **chrF** — character n-gram F-score; more robust for morphologically rich/low-resource Yorùbá.
+- **MOS** — mean human rating (1–5) of TTS naturalness; subjective.
+- **Diacritic density** — fraction of diacritised chars; data-quality/safety check.
+
+### 10.5 Report builder
+`src/eval/results_report.py` regenerates all figures (`wer_improvement`, `e2e_comparison`, per-direction `training_curves_*` / `bleu_vs_epoch_*`, `oldcarts_*`, `mos`) and `results_tables.md` into `evaluation/report/`.
 
 ---
 
 ## 11. Running the Full System
 
-### Step-by-Step from Cold Start
-
-**Terminal 1 — Start Backend API**
 ```powershell
-cd c:\Users\Admin\fyp_s2st
+# Terminal 1 — API
 .\venv\Scripts\Activate.ps1
-python src/api/app.py
-```
-Wait for: `Running on http://0.0.0.0:5000`
+python src/api/app.py            # http://0.0.0.0:5000
 
-**Terminal 2 — Start Frontend**
+# Terminal 2 — Frontend
+cd src/frontend
+npm start                        # http://localhost:3000
+```
+
+Re-running pipeline phases:
 ```powershell
-cd c:\Users\Admin\fyp_s2st\src\frontend
-npm start
+python src/utils/02_preprocess.py            # preprocess + diacritic audit
+python src/asr/03_whisper_baseline.py        # ASR WER
+python src/nmt/marian_finetune.py --direction yo-en   # NMT (and en-yo)
+python src/eval/end_to_end_eval.py --n 100   # end-to-end eval
+python src/eval/results_report.py            # figures + tables
+python src/eval/oldcarts_classification_eval.py
+python src/utils/eda_oldcarts.py
 ```
-Wait for: `Compiled successfully! Local: http://localhost:3000`
 
-**Open in browser**: `http://localhost:3000`
-
-### Using the Application
-
-1. Select translation direction (Yoruba → English or English → Yoruba)
-2. Click the **Record** button — browser will request microphone permission
-3. Speak your medical phrase
-4. Click **Stop & Translate**
-5. View:
-   - **Transcript**: What Whisper heard
-   - **Translation**: MarianMT output
-   - **Audio player**: gTTS synthesized speech
-   - **Diacritic warning** (if applicable for Yoruba input)
-   - **Latency metric** at the bottom
-
-Alternatively, type text directly into the text input field and click **Translate Text**.
-
-### Re-running Individual Pipeline Phases
-
-```powershell
-# Phase 1 - Load datasets
-python src/asr/01_load_datasets.py
-
-# Phase 1 - Preprocess + validate
-python src/utils/02_preprocess.py
-
-# Phase 2 - ASR baseline evaluation
-python src/asr/03_whisper_baseline.py
-
-# Phase 3 - NMT baseline evaluation
-python src/nmt/marian_baseline.py
-
-# Phase 3 - NMT fine-tuning (requires GPU for speed)
-python src/nmt/marian_finetune.py
-
-# Phase 4 - TTS synthesis demo
-python src/tts/coqui_tts_demo.py
-
-# Integration test
-python test_translate.py
-```
+Training on Colab (GPU): open `notebooks/train_marian_colab.ipynb` (clone → install → Drive checkpoints → train both directions → download into `models/`).
 
 ---
 
 ## 12. Known Limitations & Future Work
 
-### Current Limitations
+| Limitation | Status / impact |
+|---|---|
+| **ASR is the end-to-end bottleneck** | 63.4% WER (real) / 70.8% (synth) propagates into NMT, collapsing end-to-end BLEU to ~5.65 (worst case). Biggest lever for system quality. |
+| Synth-speech eval is pessimistic | MMS-TTS audio is OOD for the FLEURS-tuned Whisper; real-speech eval needed for a fair number. |
+| Corpus imbalance | `Characteristics` ~45%; mitigated with class weighting; more balanced generation would help. |
+| TTS MOS not yet collected | Human listening test pending (see `mos_ratings_TEMPLATE.csv`). |
+| MMS-TTS latency | Can spike on long Yorùbá sentences. |
+| `_append_log` not concurrency-safe | Acceptable for a single-user demo. |
 
-| Issue | Root Cause | Impact |
-|---|---|---|
-| High ASR WER (103%) | Whisper not fine-tuned on Yoruba | Transcription errors cascade into NMT |
-| Low absolute BLEU (2.51) | Small 800-sample training corpus | Translations may be imprecise for rare medical terms |
-| No Yoruba TTS | gTTS/Coqui lack yo-NG voice | Yoruba audio output uses Hausa fallback — not clinically ideal |
-| Real-time latency | Whisper + NMT inference chain | ~87ms average; spikes on first load due to cold model start |
-| Single-speaker TTS | gTTS has only one English voice | No voice customization for patient/doctor distinction |
-
-### Recommended Future Improvements
-
-1. **ASR Fine-tuning**: Fine-tune Whisper on FLEURS yo_ng or BABEL Yoruba corpus to reduce WER
-   from >100% to sub-30%
-2. **Larger NMT Corpus**: Augment the 800-row training set with OPUS100, JW300, or generated
-   synthetic pairs to push BLEU above 15
-3. **Yoruba TTS**: Integrate Mozilla TTS or Meta's MMS-TTS which has a native Yoruba voice model
-4. **Speaker Diarisation**: Separate doctor/patient audio streams using pyannote.audio
-5. **Offline Deployment**: Package with ONNX Runtime to remove internet dependency for gTTS
-6. **Clinical Validation**: Expert review by Yoruba-speaking clinicians to assess translation
-   adequacy beyond automatic BLEU metrics
+### Future work
+1. **More/better ASR fine-tuning** (more Yorùbá speech; diacritic-consistent references) to cut WER below ~30% — the single biggest end-to-end win.
+2. **Real-speech end-to-end evaluation** (50–100 recordings, multiple speakers) alongside the synth worst-case.
+3. **Balanced corpus regeneration** across OLDCARTS categories.
+4. **Clinical validation** by Yorùbá-speaking clinicians beyond automatic metrics.
 
 ---
 
-*This guide covers the complete implementation of MedSpeak YO-EN, from raw data ingestion
-through model fine-tuning, API integration, and frontend deployment. Every script listed exists
-in the codebase and can be executed in the order shown.*
+*Every script referenced exists in the repository and runs in the order shown. Component vs end-to-end evaluation is kept separate by design — the end-to-end figure, not the clean-text BLEU, represents real system quality.*

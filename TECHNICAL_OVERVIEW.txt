@@ -64,8 +64,8 @@ The full pipeline operates in four sequential stages for each request:
       │
       ▼
   [STAGE 3] NMT — Neural Machine Translation
-      yo→en: Fine-tuned MarianMT (Helsinki-NLP/opus-mt-yo-en)
-      en→yo: Helsinki-NLP/opus-mt-en-nic with >>yor<< language prefix
+      yo→en: Fine-tuned MarianMT (base Helsinki-NLP/opus-mt-yo-en)
+      en→yo: Fine-tuned MarianMT (base Helsinki-NLP/opus-mt-en-nic, >>yor<< prefix)
       Produces translated text
       │
       ▼
@@ -93,9 +93,15 @@ Technology stack:
 
 File: data/raw/medical_dialogues_15k.csv
 Rows: ~15,000 parallel Yoruba ↔ English sentence pairs
-Domain: Nigerian medical consultations (OLDCARTS framework — Onset, Location,
-        Duration, Character, Alleviating/Aggravating factors, Radiation,
-        Temporal pattern, Severity)
+Domain: Nigerian medical consultations. Doctor questions are classified into the
+        eight OLDCARTS categories: Onset, Location, Duration, Characteristics,
+        Aggravating, Relieving, Timing, Severity.
+
+        NOTE — class balance: the corpus is IMBALANCED, not balanced. EDA
+        (src/utils/eda_oldcarts.py → evaluation/eda/) shows Characteristics ~45%,
+        Relieving ~18%, and the remaining six categories each below 12% — a
+        long-tailed distribution. Downstream classification uses class weighting
+        to compensate. (Do NOT describe this as a "balanced distribution".)
 
 The corpus was generated using Gemini 2.5 Flash (see src/utils/generate_corpus.py)
 and covers clinical scenarios including:
@@ -271,20 +277,24 @@ does not filter training data — it informs post-training analysis.
   (Pre-trained on OPUS corpus — primarily JW300 religious texts and subtitle
    data; very limited medical vocabulary)
 
-  Fine-tuning script: src/nmt/marian_finetune.py
-  Fine-tuned model (deployed): models/marian-yoruba-medical/marian-15k-best/
-  (YO_EN_MODEL_PATH now points directly to the marian-15k-best subfolder)
+  Fine-tuning script: src/nmt/marian_finetune.py  (--direction yo-en | en-yo)
+  Fine-tuned model (deployed): models/marian-yoruba-medical/  (top-level)
+
+  Domain-balanced training: each run blends medical (~52%) + opus-100 general
+  en-yo (~45%) + hand-written greetings (~4%). This prevents the domain collapse
+  / catastrophic forgetting seen with medical-only fine-tuning (where even
+  "Good morning" was translated as a clinical sentence).
 
   Training configuration:
-    Epochs                  : 3
-    Learning rate           : 5e-5 (with cosine warmup)
-    Warmup steps            : 20% of steps per epoch
+    Epochs                  : 5  (EarlyStoppingCallback, patience 2)
+    Learning rate           : 3e-5
     Per-device batch size   : 8
     Gradient accumulation   : 2 steps → effective batch = 16
     Weight decay            : 0.01
     Mixed precision (fp16)  : enabled on GPU
-    Evaluation strategy     : per epoch (on test split)
-    Best model selection    : highest BLEU on eval set
+    Evaluation strategy     : per epoch on the VALIDATION split (no test leakage)
+    Best model selection    : highest BLEU on the validation set
+    Generation guards       : no_repeat_ngram_size=3, repetition_penalty=1.5
     Tokenisation max length : 128 tokens (source), 256 tokens (target)
 
   Training hardware: NVIDIA GTX 1650 Ti (4 GB VRAM)
@@ -293,54 +303,80 @@ does not filter training data — it informs post-training analysis.
 
   Evaluation metric during training: corpus BLEU (sacrebleu, effective_order=True)
 
-7.3 NMT Evaluation Results
+7.3 NMT Evaluation Results (CLEAN-TEXT / component level)
 
   Evaluation files:
-    evaluation/nmt_baseline.json     — zero-shot, 50 test rows
-    evaluation/nmt_finetuned.json    — early fine-tune run (~150 steps), 50 test rows
-    evaluation/nmt_finetuned_15k.json — full 15k fine-tune run, 100 test rows
+    evaluation/nmt_baseline.json        — zero-shot yo→en, 50 test rows
+    evaluation/nmt_finetuned_yo-en.json — fine-tuned yo→en, 100 test rows
+    evaluation/nmt_finetuned_en-yo.json — fine-tuned en→yo, 100 test rows
 
-  ┌──────────────────────────────────────────────────┬────────┬────────┐
-  │ Model                                            │  BLEU  │  chrF  │
-  ├──────────────────────────────────────────────────┼────────┼────────┤
-  │ Baseline (opus-mt-yo-en, zero-shot, 50 rows)     │  0.45  │ 12.73  │
-  │ Fine-tuned early run (~150 steps, 50 rows)       │  2.51  │ 22.29  │
-  │ Fine-tuned marian-15k-best (12k train, 100 rows) │ 49.82  │ 61.04  │
-  ├──────────────────────────────────────────────────┼────────┼────────┤
-  │ Improvement (baseline → marian-15k-best)         │ +49.37 │ +48.31 │
-  └──────────────────────────────────────────────────┴────────┴────────┘
+  ┌──────────────────────────────────────────────┬────────┬────────┐
+  │ Model                                        │  BLEU  │  chrF  │
+  ├──────────────────────────────────────────────┼────────┼────────┤
+  │ Baseline yo→en (opus-mt-yo-en, zero-shot)    │  0.45  │ 12.73  │
+  │ Fine-tuned yo→en (domain-balanced, 5 epochs) │ 54.32  │ 66.28  │
+  │ Fine-tuned en→yo (domain-balanced, 5 epochs) │ 50.32  │ 65.02  │
+  └──────────────────────────────────────────────┴────────┴────────┘
 
-  BLEU (Bilingual Evaluation Understudy): measures n-gram overlap between
-  hypothesis and reference translation. The jump from 0.45 to 49.82 reflects
-  the model successfully learning domain-specific medical vocabulary and
-  sentence structure from the 12,000-row training set.
+  Both directions go from near-zero to strong. These are CLEAN-TEXT scores: the
+  NMT model is fed perfect reference text, so they measure the translator in
+  isolation. The greeting sanity check passes both ways ("Ẹ kú àárọ̀" ↔ "Good
+  morning"), confirming the domain-collapse bug is fixed by the balanced blend.
 
-  chrF (Character F-score): measures character n-gram overlap. More suitable
-  for morphologically rich languages and agglutinative text. chrF 61.04
-  indicates strong surface-level alignment between hypothesis and reference.
+  IMPORTANT: clean-text BLEU OVERSTATES real system quality because it excludes
+  ASR error propagation — see 7.5 for the end-to-end figure.
 
-  The early fine-tune run (nmt_finetuned.json, ~150 training steps) produced
-  BLEU 2.51 due to insufficient training — the model had not converged.
-  The full 15k run (marian-15k-best) with 3 epochs across 12,000 training
-  pairs converges to genuinely useful medical translations.
+7.4 English → Yoruba (Fine-Tuned Model)
 
-  Note on evaluation consistency: the 15k result uses 100 test rows vs 50 for
-  the earlier runs. The improvement is genuine and not an artefact of test set
-  size — larger test sets produce more stable BLEU estimates.
+  Base model: Helsinki-NLP/opus-mt-en-nic (English → Niger-Congo). The Yoruba
+  target is selected with a prefix token prepended to every source string, in
+  BOTH training and inference:
 
-7.4 English → Yoruba (Pre-trained Model)
+    src = ">>yor<< " + english_text
 
-  Model: Helsinki-NLP/opus-mt-en-nic
-  This model translates English into multiple Niger-Congo languages.
-  Target language is selected via a prefix token prepended to every input:
+  en→yo is now FINE-TUNED on the same domain-balanced corpus (reversed), saved
+  to models/marian-english-yoruba/. The API loads this local model and falls
+  back to off-the-shelf opus-mt-en-nic only if the folder is absent.
 
-    src_nic = ">>yor<< " + transcript
+7.5 END-TO-END EVALUATION (the system-level metric)
 
-  The >>yor<< token signals the decoder to generate Yoruba output.
-  This model is used as-is (no fine-tuning) because English→Yoruba is the
-  clinician-to-patient direction where the input (English) is clean,
-  high-resource text and the model's Yoruba output quality is acceptable
-  for conveying clinical instructions.
+  Script: src/eval/end_to_end_eval.py   File: evaluation/end_to_end_eval.json
+  Runs the full chain on 100 test sentences — Yoruba audio → Whisper → MarianMT
+  → English — and scores it against the reference, alongside the clean-text path.
+
+  ┌────────────────────────────────────┬────────┬────────┐
+  │ Evaluation                         │  BLEU  │  chrF  │
+  ├────────────────────────────────────┼────────┼────────┤
+  │ Clean-text NMT (component)         │ 54.32  │ 66.28  │
+  │ END-TO-END (speech → English)      │  5.65  │ 23.80  │
+  │ Error-propagation gap              │ 48.67  │ 42.48  │
+  └────────────────────────────────────┴────────┴────────┘
+  ASR WER on this (synthesized) set: 70.79%.
+
+  Interpretation: clean-text BLEU (54.32) collapses to 5.65 once the NMT runs on
+  Whisper's actual output — a ~49-point gap quantifying ASR error propagation.
+  ASR is the dominant bottleneck. Separating COMPONENT from END-TO-END evaluation
+  is the honest way to report the system; the clean-text number alone is misleading.
+
+  CAVEAT: audio is synthesized with MMS-TTS, which is out-of-domain for a Whisper
+  fine-tuned on real FLEURS speech, so WER (and the end-to-end score) is INFLATED.
+  Treat 5.65 as a pessimistic / worst-case bound; a real-speech evaluation
+  (end_to_end_eval.py --mode recorded, 50–100 utterances, 2–4 speakers) would
+  give a fairer figure.
+
+7.6 OLDCARTS CLASSIFICATION (where ROC-AUC applies)
+
+  Script: src/eval/oldcarts_classification_eval.py
+  A TF-IDF + Logistic Regression classifier (80/20 stratified, class_weight=
+  "balanced" to counter the corpus imbalance), trained on the Gemini labels:
+    Accuracy 74.97% | Macro-F1 0.736 | Macro ROC-AUC 0.964
+  Plus a confusion matrix and one-vs-rest ROC curves (evaluation/report/).
+
+  ROC-AUC SCOPE: ROC-AUC needs class labels + probability scores, so it is
+  meaningful ONLY for this classification task — NOT for translation (BLEU/chrF)
+  or ASR (WER), which are sequence-generation tasks with no threshold to sweep.
+  (Gemini labels serve as ground truth, so this measures the scheme's
+  learnability/consistency, not agreement with human gold labels.)
 
 
 --------------------------------------------------------------------------------
@@ -440,8 +476,9 @@ does not filter training data — it informs post-training analysis.
   Load order:
     1. WhisperProcessor from openai/whisper-small (HuggingFace Hub)
        + WhisperForConditionalGeneration from models/whisper-small-yoruba-finetuned/ (local)
-    2. yo-en tokeniser + model from models/marian-yoruba-medical/marian-15k-best/ (local)
-    3. en-yo tokeniser + model from Helsinki-NLP/opus-mt-en-nic (HuggingFace Hub)
+    2. yo-en tokeniser + model from models/marian-yoruba-medical/ (local, fine-tuned)
+    3. en-yo tokeniser + model from models/marian-english-yoruba/ (local, fine-tuned;
+       falls back to Helsinki-NLP/opus-mt-en-nic if the local folder is absent)
     4. MMS-TTS tokeniser + VitsModel from facebook/mms-tts-yor (HuggingFace Hub)
 
   Models 3 and 4 are downloaded from HuggingFace Hub on first run (~300 MB each)
@@ -533,6 +570,20 @@ does not filter training data — it informs post-training analysis.
     diacritised characters; a diacritic density near 0% indicates the ASR
     output has stripped all tone marks, making the text tonally ambiguous.
 
+  End-to-End BLEU/chrF and Error-Propagation Gap
+    The same BLEU/chrF, but computed on the speech→translation output (NMT fed
+    Whisper's transcript, not clean text). gap = clean-text − end-to-end is the
+    accuracy lost to ASR errors. This is the SYSTEM-level quality metric;
+    clean-text BLEU is only a component metric.
+
+  ROC-AUC (CLASSIFICATION ONLY)
+    Area under the ROC curve; 0.5 = random, 1.0 = perfect; multiclass via
+    one-vs-rest. Requires probability scores, so it applies to the OLDCARTS
+    classifier — NOT to BLEU/chrF (MT) or WER (ASR), which have no threshold.
+
+  MOS (Mean Opinion Score)
+    Mean human rating (1–5, ITU-T P.800) of TTS naturalness; subjective.
+
 
 --------------------------------------------------------------------------------
 12. KNOWN LIMITATIONS
@@ -562,12 +613,12 @@ does not filter training data — it informs post-training analysis.
      on the GTX 1650 Ti is acceptable (~2-5 seconds), but can spike for
      long clinical translations.
 
-  4. ELEVENLABS CLIENT INITIALISED BUT UNUSED
-     The ElevenLabs client is initialised at module load
-     (el_client = ElevenLabs(api_key=ELEVENLABS_API_KEY)) but no route
-     currently calls it. This was an earlier design option that was replaced
-     by Edge-TTS. The import and initialisation have no effect on functionality
-     but consume a small amount of startup time.
+  4. ASR IS THE END-TO-END BOTTLENECK (see 7.5)
+     Component NMT BLEU is strong (54.32 yo→en clean text) but END-TO-END BLEU
+     is only 5.65, because ASR errors (~63% real / ~71% synth WER) propagate
+     into the translation. Reducing WER is the single biggest lever for system
+     quality. (The previously-unused ElevenLabs client has been REMOVED from
+     the code.)
 
   5. API LOG NOT CONCURRENCY-SAFE
      _append_log() reads the full JSON file, appends, and rewrites it on every
@@ -602,18 +653,20 @@ does not filter training data — it informs post-training analysis.
   │   │   ├── diacritic_validator.py ← Standalone diacritic checker
   │   │   ├── generate_corpus.py  ← Gemini 2.5 Flash corpus generator
   │   │   └── split_dataset.py    ← 80/10/10 train/val/test splitter
+  │   ├── eval/
+  │   │   ├── end_to_end_eval.py          ← Speech→translation (component vs E2E)
+  │   │   ├── results_report.py           ← Figures + results_tables.md
+  │   │   └── oldcarts_classification_eval.py ← ROC-AUC + confusion matrix
   │   └── frontend/
   │       └── src/App.js          ← React 19 single-page application
+  ├── notebooks/
+  │   └── train_marian_colab.ipynb ← Colab GPU training (both directions)
   ├── models/
   │   ├── whisper-small-yoruba-finetuned/  ← Fine-tuned Whisper weights (local)
-  │   │   ├── model.safetensors
-  │   │   ├── config.json
-  │   │   ├── preprocessor_config.json    ← Manually created (Colab export bug)
-  │   │   └── tokenizer / vocab files
-  │   └── marian-yoruba-medical/
-  │       ├── marian-15k-best/    ← Final deployed yo→en model (12k training rows)
-  │       ├── checkpoint-100/     ← Intermediate training checkpoint
-  │       └── checkpoint-150/     ← Intermediate training checkpoint
+  │   ├── marian-yoruba-medical/   ← Deployed yo→en (top-level, fine-tuned)
+  │   │   └── model.safetensors (git-ignored) + config/spm/vocab + trainer_state.json
+  │   └── marian-english-yoruba/   ← Deployed en→yo (top-level, fine-tuned)
+  │       └── model.safetensors (git-ignored) + config/spm/vocab + trainer_state.json
   ├── data/
   │   ├── raw/
   │   │   ├── medical_dialogues_15k.csv   ← Main 15k corpus
@@ -626,14 +679,17 @@ does not filter training data — it informs post-training analysis.
   │       ├── train/ val/ test/           ← Preprocessed per-split CSVs
   ├── evaluation/
   │   ├── api_logs.json              ← Per-request pipeline logs
-  │   ├── asr_baseline_wer.json      ← Whisper-small zero-shot WER (103.65%)
-  │   ├── asr_finetuned_wer.json     ← Whisper-small fine-tuned WER (63.4%)
+  │   ├── asr_baseline_wer.json      ← Whisper zero-shot WER (103.65%)
+  │   ├── asr_finetuned_wer.json     ← Whisper fine-tuned WER (63.40%)
   │   ├── nmt_baseline.json          ← Zero-shot BLEU/chrF (0.45 / 12.73)
-  │   ├── nmt_finetuned.json         ← Early fine-tune results (2.51 / 22.29)
-  │   ├── nmt_finetuned_15k.json     ← Full 15k results (49.82 / 61.04)
-  │   ├── diacritic_audit.json       ← Corpus-level diacritic quality audit
-  │   ├── tts_manifest.json          ← TTS sample metadata
-  │   └── tts_samples/               ← phrase_01..05.wav reference audio files
+  │   ├── nmt_finetuned_yo-en.json   ← yo→en clean-text (54.32 / 66.28)
+  │   ├── nmt_finetuned_en-yo.json   ← en→yo clean-text (50.32 / 65.02)
+  │   ├── end_to_end_eval.json       ← End-to-end (5.65 BLEU, gap 48.67)
+  │   ├── oldcarts_classification_eval.json ← Classifier (ROC-AUC 0.964)
+  │   ├── mos_ratings_TEMPLATE.csv   ← MOS survey template
+  │   ├── diacritic_audit.json       ← Corpus diacritic quality audit
+  │   ├── eda/                       ← OLDCARTS pie/bar, length, diacritic, splits
+  │   └── report/                    ← Generated figures + results_tables.md
   ├── tts_src/
   │   └── TTS-0.22.0/             ← Coqui TTS source (prototype, not deployed)
   ├── requirements.txt            ← Python dependencies
@@ -666,13 +722,14 @@ does not filter training data — it informs post-training analysis.
   accelerate       — HuggingFace training accelerator
   sentencepiece    — MarianMT subword tokenisation
 
-  Additional (not in requirements.txt but required):
+  Now also IN requirements.txt:
   edge-tts         — Microsoft Edge neural TTS (async streaming)
-  elevenlabs       — ElevenLabs client (initialised, not actively used)
-  python-dotenv    — .env file loading (ELEVENLABS_API_KEY)
-  flask-cors       — CORS middleware
   scipy            — WAV file writing for MMS-TTS output
-  google-genai     — Gemini 2.5 Flash API for corpus generation
+  python-dotenv    — .env loading (e.g. GEMINI_API_KEY)
+  google-genai     — Gemini 2.5 Flash API (corpus generation + OLDCARTS labels)
+  matplotlib       — EDA / results figures
+  requests         — integration test client
+  (The unused ElevenLabs dependency has been removed.)
 
 
 --------------------------------------------------------------------------------
