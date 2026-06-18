@@ -19,8 +19,11 @@ their GAP (the cost of error propagation) in one table.
 AUDIO SOURCE
 ────────────
   --mode synth   (default) : synthesize the test Yorùbá with MMS-TTS, then ASR it.
-                             Fully automatic; TTS speech is cleaner than human
-                             speech, so treat this as an optimistic upper bound.
+                             Fully automatic. NOTE: the Whisper model was fine-tuned
+                             on REAL (FLEURS) speech, so synthetic TTS audio is
+                             out-of-domain and tends to INFLATE WER — treat synth
+                             end-to-end as a pessimistic / worst-case bound. Use
+                             --mode recorded with real speech for a fair figure.
   --mode recorded          : use real WAVs from --audio-dir named <row>.wav
                              (row index into the test CSV). Most rigorous.
 
@@ -34,6 +37,14 @@ import os
 import sys
 
 os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
+
+# Windows consoles default to cp1252 and crash on → / — in our prints when output
+# is redirected; force UTF-8 so progress logging never aborts the run.
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
 
 import numpy as np
 import pandas as pd

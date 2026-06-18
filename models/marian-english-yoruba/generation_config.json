@@ -3,10 +3,10 @@
   "assistant_lookbehind": 10,
   "bad_words_ids": [
     [
-      56835
+      61555
     ]
   ],
-  "decoder_start_token_id": 56835,
+  "decoder_start_token_id": 61555,
   "diversity_penalty": 0.0,
   "do_sample": false,
   "early_stopping": false,
@@ -28,7 +28,7 @@
   "num_beams": 4,
   "num_return_sequences": 1,
   "output_scores": false,
-  "pad_token_id": 56835,
+  "pad_token_id": 61555,
   "remove_invalid_values": false,
   "renormalize_logits": true,
   "repetition_penalty": 1.5,

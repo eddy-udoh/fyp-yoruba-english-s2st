@@ -19,6 +19,14 @@ import glob
 import json
 import os
 import re
+import sys
+
+# Windows consoles default to cp1252 and crash on → / — when output is redirected.
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
 
 import matplotlib
 matplotlib.use("Agg")
@@ -32,6 +40,7 @@ EVAL    = os.path.join(_REPO, "evaluation")
 SPLITS  = os.path.join(_REPO, "data", "splits")
 RAW_CSV = os.path.join(_REPO, "data", "raw", "medical_dialogues_15k.csv")
 MODEL_YOEN = os.path.join(_REPO, "models", "marian-yoruba-medical")
+MODEL_ENYO = os.path.join(_REPO, "models", "marian-english-yoruba")
 OUT     = os.path.join(EVAL, "report")
 MOS_CSV = os.path.join(EVAL, "mos_ratings.csv")
 
@@ -61,24 +70,24 @@ def _save(fig, name):
     print(f"  [FIG]   {path}")
 
 
-def find_trainer_state():
+def find_trainer_state(model_dir):
     """Prefer top-level trainer_state.json, else the highest checkpoint-*/ one."""
-    top = os.path.join(MODEL_YOEN, "trainer_state.json")
+    top = os.path.join(model_dir, "trainer_state.json")
     if os.path.exists(top):
         return top
-    ckpts = glob.glob(os.path.join(MODEL_YOEN, "checkpoint-*", "trainer_state.json"))
+    ckpts = glob.glob(os.path.join(model_dir, "checkpoint-*", "trainer_state.json"))
     if not ckpts:
         return None
     ckpts.sort(key=lambda p: int(re.search(r"checkpoint-(\d+)", p).group(1)))
     return ckpts[-1]
 
 
-# ── training curves + BLEU vs epoch ─────────────────────────────────────────
-def training_figures(md: list):
-    ts_path = find_trainer_state()
+# ── training curves + BLEU vs epoch (per direction) ─────────────────────────
+def training_figures(md: list, model_dir: str, label: str, suffix: str):
+    ts_path = find_trainer_state(model_dir)
     state = _load(ts_path) if ts_path else None
     if not state or "log_history" not in state:
-        print("  [skip] no trainer_state.json — training curves skipped.")
+        print(f"  [skip] no trainer_state.json for {label} — curves skipped.")
         return
 
     hist = state["log_history"]
@@ -94,9 +103,9 @@ def training_figures(md: list):
         ax.plot([e for e, _, _ in evals], [v for _, v, _ in evals], color=AMBER, marker="s",
                 label="Validation loss", linewidth=2)
     ax.set_xlabel("Epoch"); ax.set_ylabel("Loss")
-    ax.set_title("Training vs Validation Loss", fontsize=14, fontweight="bold", pad=12)
+    ax.set_title(f"Training vs Validation Loss ({label})", fontsize=14, fontweight="bold", pad=12)
     ax.legend(frameon=False); _style(ax)
-    _save(fig, "training_curves.png")
+    _save(fig, f"training_curves_{suffix}.png")
 
     # bleu vs epoch
     bleus = [(e, b) for e, _, b in evals if b is not None]
@@ -106,12 +115,12 @@ def training_figures(md: list):
         for e, b in bleus:
             ax.text(e, b, f"{b:.2f}", ha="center", va="bottom", fontsize=9, color=INK)
         ax.set_xlabel("Epoch"); ax.set_ylabel("Validation BLEU")
-        ax.set_title("BLEU Score vs Epoch", fontsize=14, fontweight="bold", pad=12)
+        ax.set_title(f"BLEU Score vs Epoch ({label})", fontsize=14, fontweight="bold", pad=12)
         _style(ax)
-        _save(fig, "bleu_vs_epoch.png")
+        _save(fig, f"bleu_vs_epoch_{suffix}.png")
 
     # tables
-    md.append("## Training loss per epoch\n")
+    md.append(f"## Training loss per epoch — {label}\n")
     md.append("| Epoch | Training loss | Validation loss | Validation BLEU |")
     md.append("|------:|--------------:|----------------:|----------------:|")
     eval_by_epoch = {round(e): (vl, vb) for e, vl, vb in evals}
@@ -263,7 +272,8 @@ def main():
     nmt_table(md)
     e2e_figure(md)
     mos_figure(md)
-    training_figures(md)
+    training_figures(md, MODEL_YOEN, "yo→en", "yo-en")
+    training_figures(md, MODEL_ENYO, "en→yo", "en-yo")
 
     md_path = os.path.join(OUT, "results_tables.md")
     with open(md_path, "w", encoding="utf-8") as fh:

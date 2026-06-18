@@ -1,0 +1,10 @@
+{
+  "direction": "yo-en",
+  "model": "models/marian-yoruba-medical",
+  "base_model": "Helsinki-NLP/opus-mt-yo-en",
+  "n_test_rows": 100,
+  "bleu": 54.32,
+  "chrf": 66.28,
+  "baseline_bleu": 0.45,
+  "baseline_chrf": 12.73
+}

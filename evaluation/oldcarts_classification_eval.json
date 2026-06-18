@@ -1,0 +1,173 @@
+{
+  "model": "TF-IDF (1-2gram) + LogisticRegression",
+  "n_rows": 15000,
+  "n_test": 3000,
+  "classes": [
+    "Aggravating",
+    "Characteristics",
+    "Duration",
+    "Location",
+    "Onset",
+    "Relieving",
+    "Severity",
+    "Timing"
+  ],
+  "accuracy": 0.7497,
+  "macro_f1": 0.7364,
+  "weighted_f1": 0.7554,
+  "macro_roc_auc": 0.9639,
+  "per_class_roc_auc": {
+    "Aggravating": 0.9225,
+    "Characteristics": 0.9315,
+    "Duration": 0.9931,
+    "Location": 0.9911,
+    "Onset": 0.9574,
+    "Relieving": 0.9573,
+    "Severity": 0.9851,
+    "Timing": 0.9735
+  },
+  "per_class_report": {
+    "Aggravating": {
+      "precision": 0.4503105590062112,
+      "recall": 0.6277056277056277,
+      "f1-score": 0.5244122965641953,
+      "support": 231.0
+    },
+    "Characteristics": {
+      "precision": 0.9213147410358565,
+      "recall": 0.6862017804154302,
+      "f1-score": 0.7865646258503401,
+      "support": 1348.0
+    },
+    "Duration": {
+      "precision": 0.8848484848484849,
+      "recall": 0.9358974358974359,
+      "f1-score": 0.9096573208722741,
+      "support": 156.0
+    },
+    "Location": {
+      "precision": 0.649746192893401,
+      "recall": 0.920863309352518,
+      "f1-score": 0.7619047619047619,
+      "support": 139.0
+    },
+    "Onset": {
+      "precision": 0.5907473309608541,
+      "recall": 0.70042194092827,
+      "f1-score": 0.640926640926641,
+      "support": 237.0
+    },
+    "Relieving": {
+      "precision": 0.7302631578947368,
+      "recall": 0.8268156424581006,
+      "f1-score": 0.7755458515283843,
+      "support": 537.0
+    },
+    "Severity": {
+      "precision": 0.6126760563380281,
+      "recall": 0.8285714285714286,
+      "f1-score": 0.7044534412955465,
+      "support": 105.0
+    },
+    "Timing": {
+      "precision": 0.7402135231316725,
+      "recall": 0.8421052631578947,
+      "f1-score": 0.7878787878787878,
+      "support": 247.0
+    }
+  },
+  "confusion_matrix": {
+    "labels": [
+      "Aggravating",
+      "Characteristics",
+      "Duration",
+      "Location",
+      "Onset",
+      "Relieving",
+      "Severity",
+      "Timing"
+    ],
+    "matrix": [
+      [
+        145,
+        21,
+        2,
+        6,
+        32,
+        17,
+        5,
+        3
+      ],
+      [
+        114,
+        925,
+        10,
+        59,
+        68,
+        120,
+        34,
+        18
+      ],
+      [
+        0,
+        4,
+        146,
+        0,
+        1,
+        3,
+        1,
+        1
+      ],
+      [
+        0,
+        9,
+        1,
+        128,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        18,
+        13,
+        2,
+        0,
+        166,
+        9,
+        2,
+        27
+      ],
+      [
+        34,
+        16,
+        2,
+        2,
+        6,
+        444,
+        9,
+        24
+      ],
+      [
+        2,
+        9,
+        0,
+        1,
+        1,
+        5,
+        87,
+        0
+      ],
+      [
+        9,
+        7,
+        2,
+        1,
+        7,
+        9,
+        4,
+        208
+      ]
+    ]
+  }
+}

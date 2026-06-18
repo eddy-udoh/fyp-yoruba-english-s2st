@@ -1,0 +1,919 @@
+{
+  "mode": "synth",
+  "n": 100,
+  "asr_wer_pct": 70.79,
+  "end_to_end": {
+    "bleu": 5.65,
+    "chrf": 23.8
+  },
+  "clean_text_nmt": {
+    "bleu": 54.32,
+    "chrf": 66.28
+  },
+  "error_propagation_gap": {
+    "bleu": 48.67,
+    "chrf": 42.48
+  },
+  "per_row": [
+    {
+      "row": 0,
+      "ref_yoruba": "Ìrora náà ti dínkù díẹ̀, ṣùgbọ́n ó ṣì ń dùn mí díẹ̀.",
+      "asr_yoruba": "ìòránà tídí kò díẹ̀ ṣùgbọ́n oṣìndúmi díẹ̀",
+      "asr_wer": 0.75,
+      "e2e_english": "Epiphany yam but a little tingling",
+      "clean_english": "The pain has reduced a bit, but it still hurts a little.",
+      "ref_english": "The pain has reduced a bit, but it's still slightly painful."
+    },
+    {
+      "row": 1,
+      "ref_yoruba": "Bẹ́ẹ̀ni, etí mi ń dún bí agogo, kò sì gbọ́ dáadáa.",
+      "asr_yoruba": "bẹ́ẹ̀ni tí mìndún bí agogo kò sì gbọ́dàdá",
+      "asr_wer": 0.5455,
+      "e2e_english": "No one can't swallow properly according to the day's format",
+      "clean_english": "Yes, my ear sounds like a morning, and I can't hear properly.",
+      "ref_english": "Yes, my ears are ringing like a bell, and I can't hear properly."
+    },
+    {
+      "row": 2,
+      "ref_yoruba": "Ó ti pẹ́ díẹ̀ báyìí tí ara mi ti ń rẹ̀ mí láìsí agbára.",
+      "asr_yoruba": "ó ti pé jẹ́ bá yìí tí ara mi tí ń rẹ̀ mi iláìsí agbára",
+      "asr_wer": 0.5,
+      "e2e_english": "It's been a long time now when I'm feeling extremely tired",
+      "clean_english": "It's been a while now that I've been feeling tired without strength.",
+      "ref_english": "It's been a while now that I've been feeling weak and tired."
+    },
+    {
+      "row": 3,
+      "ref_yoruba": "Bẹ́ẹ̀ni, kò sí oorun lójú mi rárá. Èmi kì í sùn.",
+      "asr_yoruba": "bẹ́nìí kò sí ọ̀rún ǹ ló jù mì ára ẹ̀mì kìí ṣùn",
+      "asr_wer": 0.9091,
+      "e2e_english": "No more than five times a day, and nothing else",
+      "clean_english": "Yes, I have no sleep at all. I don't sleep.",
+      "ref_english": "Yes, I can't sleep at all. I don't get any sleep."
+    },
+    {
+      "row": 4,
+      "ref_yoruba": "Mo ti subú lulẹ̀, gbogbo nǹkan sì ti dúdú fún mi fún ìgbà díẹ̀.",
+      "asr_yoruba": "o ti su gbolulẹ̀ gbogbo nkan ti ti dulo fun mi fun ibadẹ",
+      "asr_wer": 0.7143,
+      "e2e_english": "You have vomited all over the world for me",
+      "clean_english": "I fell down, and everything has been dark for a while.",
+      "ref_english": "I fell to the ground, and everything went black for a while."
+    },
+    {
+      "row": 5,
+      "ref_yoruba": "Bẹ́ẹ̀ni, mo rí omi kan tó ń jáde láti abẹ́ mi tí kò wọ́pọ̀.",
+      "asr_yoruba": "bẹ́ni mú orí omi kan tó ń jáde láti abẹ́mí tí kò wọ́pọ̀",
+      "asr_wer": 0.3571,
+      "e2e_english": "No one takes a watery discharge from an unswell",
+      "clean_english": "Yes, I noticed a discharge coming out of my lower abdomen.",
+      "ref_english": "Yes, I noticed an unusual discharge from my vagina."
+    },
+    {
+      "row": 6,
+      "ref_yoruba": "Bẹ́ẹ̀ ni, àárẹ̀ àìlólóge ti mú mi fún ìgbà díẹ̀ báyìí.",
+      "asr_yoruba": "bẹ́ ní àrẹ̀ àlọ́lógì ètímúmì fún ìgbàjì ẹ̀báyè",
+      "asr_wer": 0.9091,
+      "e2e_english": "It's an allergy for the weather",
+      "clean_english": "Yes, I've been feeling unwell for a while now.",
+      "ref_english": "Yes, I've been feeling unusually tired for a while now."
+    },
+    {
+      "row": 7,
+      "ref_yoruba": "Bẹ́ẹ̀ni, Dókítà. Ọfun mi ńdun mí, ó sì máa ńṣòro láti gbé oúnjẹ mì.",
+      "asr_yoruba": "bẹ́nìdó kítà ọ̀fùn minúlùn mi o sì ma nú ṣòro láti gbé ń jẹ́mìyìn",
+      "asr_wer": 0.8571,
+      "e2e_english": "It's in my lower abdomen, and it's difficult to move",
+      "clean_english": "Yes, Doctor. My throat hurts, and it's difficult to swallow food.",
+      "ref_english": "Yes, Doctor. My throat is painful, and it's difficult to swallow food."
+    },
+    {
+      "row": 8,
+      "ref_yoruba": "Bẹ́ẹ̀ni, mo ń mu oògùn ìbílẹ̀ fún àìsàn orí, àti oògùn inú ilé ìwòsàn fún ríro gbogbo ara.",
+      "asr_yoruba": "bẹ́ni mún mọ̀ ogun ìbílẹ̀ fún àìsàn orí àti ogun inú ilé ìwòsàn fún rí rò gbogbo ara",
+      "asr_wer": 0.4444,
+      "e2e_english": "No one is aware of the long history of a head disease and the hospital effort for general health",
+      "clean_english": "Yes, I am taking traditional medicine for diabetes, and the medication in the hospital for general discomfort.",
+      "ref_english": "Yes, I am taking herbal medicine for headache, and hospital medication for general body pain."
+    },
+    {
+      "row": 9,
+      "ref_yoruba": "Nígbà tí mo bá dìde, gbogbo rẹ̀ máa ń yí mi ká, mo sì máa ń fẹ́ subú.",
+      "asr_yoruba": "nígbàtí mún bá di dé gbogbo rẹ̀ máa yìí mìká mún sì máa fẹ́sùgbó",
+      "asr_wer": 0.7222,
+      "e2e_english": "When they get all of it done, they become numb and feel like hearing",
+      "clean_english": "When I stand up, everything spins around me, and I often feel like falling.",
+      "ref_english": "When I stand up, everything spins around me, and I feel like falling."
+    },
+    {
+      "row": 10,
+      "ref_yoruba": "Ó ti lé ní ọdún mẹ́ta báyìí, mo sì ti gbàgbé láti lọ síbẹ̀ léraléra.",
+      "asr_yoruba": "ó ti lé ní ọdún mẹta báìí òsítí gbàgbẹ́ láti lọ sígbẹ́ lérálérá",
+      "asr_wer": 0.5333,
+      "e2e_english": "It's been more than three years now when I have diabetes to go to the ground",
+      "clean_english": "It's been more than three years now, and I forgot to go repeatedly.",
+      "ref_english": "It has been more than three years now, and I have forgotten to go there repeatedly."
+    },
+    {
+      "row": 11,
+      "ref_yoruba": "Mo ti lọ sí ilé ìgbọ̀nsẹ̀ ní ohun tó lé ní ẹ̀ẹ̀mẹ́wàá lónìí, gbogbo rẹ̀ sì rí omi ṣọn-ṣọn.",
+      "asr_yoruba": "wọ́n tilọ́ sí ilé gbọ́sẹ̀ ni ohun tó lé ní ẹ̀mẹ́wà lónìí ògòrẹ̀ sí rí yóòmí ṣọ̀ṣàn",
+      "asr_wer": 0.5789,
+      "e2e_english": "They have gone to the house immediately more than an eight times today",
+      "clean_english": "I've been to the toilet more than ten times today, and it's all watery.",
+      "ref_english": "I've been to the toilet more than ten times today, and it's all watery."
+    },
+    {
+      "row": 12,
+      "ref_yoruba": "Bẹ́ẹ̀ni, mo ṣẹ̀ṣẹ̀ dé láti orílẹ̀-èdè Ghana ní ọ̀sẹ̀ tó kọjá.",
+      "asr_yoruba": "bẹ́nìí mún ṣẹ́ṣẹ́ dé láti ó lẹ̀dè ganá ní ọ̀sẹ́ tó kọjá",
+      "asr_wer": 0.6364,
+      "e2e_english": "No, they just returned from them very much last week",
+      "clean_english": "Yes, I just returned from Ghana last week.",
+      "ref_english": "Yes, I just returned from Ghana last week."
+    },
+    {
+      "row": 13,
+      "ref_yoruba": "Ah! Ìyẹn dùn mí gan-an ni dókítà. Jọ̀wọ́, má fúnra púpọ̀.",
+      "asr_yoruba": "aniye dun igan nidokita jowo ma fun apu po",
+      "asr_wer": 1.0,
+      "e2e_english": "He had diarrhoe pain in his body",
+      "clean_english": "Oh! That's what hurts me a lot. Please, don't it much.",
+      "ref_english": "Ah! That hurts me so much, doctor. Please, don't press too hard."
+    },
+    {
+      "row": 14,
+      "ref_yoruba": "Bẹ́ẹ̀ni, mo gbọ́ye rẹ̀, mo sì fọwọ́ sí i pé kí ẹ ṣe iṣẹ́ abẹ́ náà.",
+      "asr_yoruba": "bẹ́nìmú gbọ́yìrẹ̀ mọ́sì fọ́wọ́sì pé kí ẹ̀ṣe ìsàbẹ̀ náà",
+      "asr_wer": 0.8125,
+      "e2e_english": "Please accept the vaccination for the injection",
+      "clean_english": "Yes, I understand it, and I consent for you to perform the surgery.",
+      "ref_english": "Yes, I understand, and I consent to the surgery."
+    },
+    {
+      "row": 15,
+      "ref_yoruba": "Ìfúnpá gíga mi ti pẹ́, ṣùgbọ́n mo ń gba ìtọ́jú fún un.",
+      "asr_yoruba": "ìfún pàá dígamì tí pé ṣùgbọ́n mú gbá ìtọ́jú fún",
+      "asr_wer": 0.75,
+      "e2e_english": "The relative size of the encoding is a valid value",
+      "clean_english": "My high blood pressure has been severe, but I am receiving treatment for it.",
+      "ref_english": "I have had high blood pressure for a long time, but I am receiving treatment for it."
+    },
+    {
+      "row": 16,
+      "ref_yoruba": "Bẹ́ẹ̀ni, Penicillin máa ń jẹ mí lára púpọ̀, ara mi á sì wú.",
+      "asr_yoruba": "bẹ́nìkẹ́nìlín ma n jẹ́mi lára kó pọ̀ ara mi a sí wú",
+      "asr_wer": 0.7692,
+      "e2e_english": "There is a rashing in my body",
+      "clean_english": "Yes, Penicillin usually affects me a lot, and my body swells.",
+      "ref_english": "Yes, Penicillin makes me itch a lot, and my body swells up."
+    },
+    {
+      "row": 17,
+      "ref_yoruba": "Ó tó mẹ́jọ sí mẹ́sàn-án. Kò sì jẹ́ kí n lè sùn láàárín òru, nítorí ìdí nìyẹn.",
+      "asr_yoruba": "oto mejo si mesan ko si jẹ́kìlèsun laani oro nitori idi ni iyan",
+      "asr_wer": 1.0,
+      "e2e_english": "Encoding is the most important form of birth",
+      "clean_english": "It's about an eight or nine. It prevents me from sleeping in the middle of the night, because that's why.",
+      "ref_english": "It's an eight or nine. It doesn't let me sleep at night, for that reason."
+    },
+    {
+      "row": 18,
+      "ref_yoruba": "Bẹ́ẹ̀ni, apá àti ẹsẹ̀ mi máa ń sùn, ó sì máa ń kẹ́dùn.",
+      "asr_yoruba": "bẹ́ẹ̀ni àpáàtí ẹ̀sẹ̀mí ma n sùn òsì ma n kẹdùn",
+      "asr_wer": 0.8462,
+      "e2e_english": "There is ankle of difficulty sleeping left to the ground",
+      "clean_english": "Yes, my arms and legs often feel numb, and it's painful.",
+      "ref_english": "Yes, my arms and legs usually feel numb and tingly."
+    },
+    {
+      "row": 19,
+      "ref_yoruba": "Bẹ́ẹ̀ni, ìrọra wà nínú ikùn mi, ó sì ń wá nígbà gbogbo, bíi pé ó fẹ́ẹ̀ bímọ.",
+      "asr_yoruba": "bẹ́ẹ̀ni ìrọ̀ra wà nínú ìkùnmí o sì wá nígbà gbogbogbí pé ó fẹ́ èbìmọ̀",
+      "asr_wer": 0.5294,
+      "e2e_english": "There's a rash in the airyness of life and you always come down to the ground",
+      "clean_english": "Yes, there's a rash in my abdomen, and it comes constantly, as if it wants to give birth.",
+      "ref_english": "Yes, I have abdominal pain, and it's coming regularly, like I'm about to give birth."
+    },
+    {
+      "row": 20,
+      "ref_yoruba": "Bẹ́ẹ̀ni, ọ̀nà ọ̀fun mi ń dun mí púpọ̀, ó sì ń ṣòro fún mi láti gbé.",
+      "asr_yoruba": "bẹ́ẹ̀ni ọ̀nà fún mì ǹdúnmi púpọ̀ o sì ṣòlò fún mì láti gbé",
+      "asr_wer": 0.5625,
+      "e2e_english": "There is a way for me a lot of time, and you have saved for a long time",
+      "clean_english": "Yes, my throat hurts a lot, and it's difficult for me to swallow.",
+      "ref_english": "Yes, my throat is very painful, and it's difficult for me to swallow."
+    },
+    {
+      "row": 21,
+      "ref_yoruba": "Ó dára. Ọjọ́ wo ni yóò dára jù lọ fún yín, Dókítà?",
+      "asr_yoruba": "ó dárajó ogó ní yóó dárajó lọ́fùn yí n dò kítà",
+      "asr_wer": 0.9167,
+      "e2e_english": "Good morning is goodby day, and I've been able to prevent it",
+      "clean_english": "Okay. Which day will be best for you, Doctor?",
+      "ref_english": "Okay. Which day would be best for you, Doctor?"
+    },
+    {
+      "row": 22,
+      "ref_yoruba": "Bẹ́ẹ̀kọ́, gbogbo ohun tí mo bá jẹ tàbí mu ni ó máa ń jáde lẹ́sẹ̀kẹsẹ̀.",
+      "asr_yoruba": "bẹ́ẹ̀kọ̀ ogbun ti mún bá jẹ́ tàbí mún ní o máa n jáde lẹ́sẹ̀ kẹsẹ",
+      "asr_wer": 0.8,
+      "e2e_english": "Not at all, if you are caught or taken out immediately",
+      "clean_english": "No, everything I eat or drink comes out immediately.",
+      "ref_english": "No, everything I eat or drink comes out immediately."
+    },
+    {
+      "row": 23,
+      "ref_yoruba": "Ó jẹ́ irora tí ń pọ́n mi lára, ó sì ń tẹ̀lé mi nígbà gbogbo.",
+      "asr_yoruba": "ó jẹ́ ẹ̀rọra tí ń pọ̀mì lára ó sì ń tẹ̀lẹ́mì nígbàbòbọ́",
+      "asr_wer": 0.4667,
+      "e2e_english": "It's a throbbing pain, and it's tingling sometimes",
+      "clean_english": "It's a throbbing pain, and it always radiates to me.",
+      "ref_english": "It's a cramping pain, and it's constantly bothering me."
+    },
+    {
+      "row": 24,
+      "ref_yoruba": "Bẹ́ẹ̀ni, orí mi ń fọ́ mi gan-an, àti pé ẹ̀yìn mi tún ń dùn mí.",
+      "asr_yoruba": "bẹ́nì orí mí fọ́mìgbọ́n àti pé ẹ̀yìn mí tún dúmì",
+      "asr_wer": 0.6667,
+      "e2e_english": "I have a headache, and my back is also grateful",
+      "clean_english": "Yes, I have a severe headache, and my back also hurts.",
+      "ref_english": "Yes, I have a very bad headache, and my back also aches."
+    },
+    {
+      "row": 25,
+      "ref_yoruba": "Ìyàrá mi ni, ó sì ń ta mí lára bíi pé wọ́n ń gun mi lókùnrin.",
+      "asr_yoruba": "ìyàrá mí ní ó sì ń tàmì lára bí pé wọ́n gùn mìlò kùn rí",
+      "asr_wer": 0.5625,
+      "e2e_english": "My high blood pressure is throbbing, and it's tingling as if someone is being thrown off by it",
+      "clean_english": "It's my high blood pressure, and it feels like I'm being stabbed.",
+      "ref_english": "It's in my lower abdomen, and it feels like sharp, stabbing pain."
+    },
+    {
+      "row": 26,
+      "ref_yoruba": "Bẹ́ẹ̀ ni, mo ti bì lẹ́ẹ̀mẹ́ta lónìí. Oúnjẹ tó wà nínú ikùn mi ni ó kọ́kọ́ jáde.",
+      "asr_yoruba": "bẹ́ẹ̀ni mú tí bí lẹ́mẹ́ta ló ní wọ́n jẹ́ tó wà nínú ìkùnmí ní ó kọ́kọ́ jáde",
+      "asr_wer": 0.7059,
+      "e2e_english": "A car of about three times has a written record",
+      "clean_english": "Yes, I have vomited three times today. He first rejected food in my abdomen.",
+      "ref_english": "Yes, I have vomited three times today. It was primarily the food from my stomach that came out."
+    },
+    {
+      "row": 27,
+      "ref_yoruba": "Ó ti lé ní ẹ̀ẹ̀mẹ́ta tẹ́lẹ̀ àti pé kò sí ohun tí mo jẹ tí kò jáde.",
+      "asr_yoruba": "ó ti lé ní ẹ̀mẹ́ta tẹ́lẹ̀ àti péé kò sí ohun tí mú jẹ́ tí kò jáde",
+      "asr_wer": 0.2353,
+      "e2e_english": "It's been more than three times already, and there's nothing that hasn't come out",
+      "clean_english": "It's been more than three times already, and I haven't eaten anything that didn't come out.",
+      "ref_english": "It has been more than three times already, and nothing I eat stays down."
+    },
+    {
+      "row": 28,
+      "ref_yoruba": "Ṣé ó dájú pé gbogbo ẹ̀yà ara mi á tún padà sí ipò lẹ́yìn ìṣẹ́ abẹ́?",
+      "asr_yoruba": "ṣódájú pé gbogbo yára míyá tún padà sí ipò lẹ́yìn ṣe abẹ́",
+      "asr_wer": 0.5,
+      "e2e_english": "It's not too long for me to recover quickly after surgery",
+      "clean_english": "Are you sure all my organs will recover to position after the surgery?",
+      "ref_english": "Are you sure that all my body parts will return to normal after the surgery?"
+    },
+    {
+      "row": 29,
+      "ref_yoruba": "Ó wà ní àárín àyà mi, ó sì ń ràn lọ sí apá òsì mi.",
+      "asr_yoruba": "ó wà níyà rìn àyà mìí o sí ń rán ọ̀lọ sí apá o sí mìí",
+      "asr_wer": 0.6667,
+      "e2e_english": "It's in the middle of a heart that sends you to life",
+      "clean_english": "It's in the center of my chest, and it radiates to my left arm.",
+      "ref_english": "It's in the center of my chest, and it's radiating to my left arm."
+    },
+    {
+      "row": 30,
+      "ref_yoruba": "Ẹ káàárọ̀, Orí fífọ̀ àti àìsàn ibà ń mú mi wá ilé-ìwòsàn lónìí.",
+      "asr_yoruba": "ẹ̀káàrọ̀ orí fífọ̀ àti àìsàn ìbàná múmí wá ilé òsàn lónì",
+      "asr_wer": 0.6923,
+      "e2e_english": "Epiphany headache and fatigue brought to the afternoon",
+      "clean_english": "Good morning, I have a headache and malaria fever today.",
+      "ref_english": "Good morning, I am presenting with a headache and a febrile illness today."
+    },
+    {
+      "row": 31,
+      "ref_yoruba": "Ojú ibi tí wọ́n ti ṣe iṣẹ́ abẹ náà ti ń yọ mi lẹ́nu, ó sì rí pupa.",
+      "asr_yoruba": "ojú ibi tí wọ́n ti ṣe ṣe ẹ̀ràbẹ̀ náà tí yọ milenu ó sì rípópá",
+      "asr_wer": 0.4444,
+      "e2e_english": "The site where the vision was made that I've had a rash and a headache",
+      "clean_english": "The site where the surgery was performed has been bothering me, and it looks red.",
+      "ref_english": "The incision site is itching me, and it looks red."
+    },
+    {
+      "row": 32,
+      "ref_yoruba": "Ọwọ́ mi ń yá mí lọpọlọpọ, ó sì jẹ́ omi tútù lásán.",
+      "asr_yoruba": "ọwọ́mìyàmi lọ́kọ́ọ̀pọ̀ o sì jẹ́mì tuntunà sá ń",
+      "asr_wer": 0.9167,
+      "e2e_english": "And you are having a new cough",
+      "clean_english": "My hand is throbbing intensely, and it's just cold water.",
+      "ref_english": "I have frequent bowel movements, and it's just watery stool."
+    },
+    {
+      "row": 33,
+      "ref_yoruba": "Ó ti fẹ́rẹ̀ẹ́ tó ọ̀sẹ̀ kan báyìí tí ikùn mi ti ń rùn mí.",
+      "asr_yoruba": "ó ti fẹrẹ̀ tó ọ̀sẹ̀ kan báyí tí kùn mí tí ń rún mí",
+      "asr_wer": 0.4286,
+      "e2e_english": "It's almost a week if I'm vomiting for a while",
+      "clean_english": "It's been almost a week now that my stomach has been aching.",
+      "ref_english": "It's been almost a week now that I've had this stomach discomfort."
+    },
+    {
+      "row": 34,
+      "ref_yoruba": "Bẹ́ẹ̀ ni, ara mi ò gbéra rárá, ó sì máa ń rẹ mí gan-an.",
+      "asr_yoruba": "bẹ́ẹ̀ni ara mi ògbẹ́ arara o si ma n remi ga",
+      "asr_wer": 0.8571,
+      "e2e_english": "Isn't my whole body strong enough to breathe?",
+      "clean_english": "Yes, my body doesn't move at all, and I feel very tired.",
+      "ref_english": "Yes, my body feels completely weak, and I'm extremely tired."
+    },
+    {
+      "row": 35,
+      "ref_yoruba": "Gẹ́gẹ́ bí àsìkò nkan oṣù mi kẹ́hìn, mo ti tó ọ̀sẹ̀ méjìdínlógún báyìí.",
+      "asr_yoruba": "ẹ́gẹ́ bí a sí kókan oṣù mí kẹ́yìn mún títọ́ sẹ̀míjìdìlógún báyí",
+      "asr_wer": 0.9231,
+      "e2e_english": "If I was to be given my last menstrual period",
+      "clean_english": "According to my last menstrual period, I've been about an eight weeks now.",
+      "ref_english": "According to my last menstrual period, I am about sixteen weeks pregnant now."
+    },
+    {
+      "row": 36,
+      "ref_yoruba": "Ó dára, Dọ́kítà. Ọlọ́run yóò ràn mí lọ́wọ́.",
+      "asr_yoruba": "ó dáradá kítà ọ̀lọ́rùn yóòrán mílọ́wọ́",
+      "asr_wer": 0.875,
+      "e2e_english": "It's good for me to get well",
+      "clean_english": "Okay, Doctor. God will help me.",
+      "ref_english": "Okay, Doctor. God will help me."
+    },
+    {
+      "row": 37,
+      "ref_yoruba": "Bẹ́ẹ̀ni, oògùn 'Penicillin' kò gbà mí rárá, ara mi sì máa ńyún púpọ̀.",
+      "asr_yoruba": "bẹ́ẹ̀ni ogun pe ni iléyìn kò gbámíára rámí sí márín púpọ̀",
+      "asr_wer": 0.8462,
+      "e2e_english": "Yes, the back room doesn't have much difficulty breathing",
+      "clean_english": "Yes, Penicillin' doesn't agree with me at all, and my body is very itchy.",
+      "ref_english": "Yes, Penicillin does not agree with me at all; my body usually gets very itchy."
+    },
+    {
+      "row": 38,
+      "ref_yoruba": "Bẹ́ẹ̀ni, mo ti ṣubú lórí àtẹ̀gùn ní ọ̀sẹ̀ tó kọjá, mo sì gbọn orí mi díẹ̀.",
+      "asr_yoruba": "bẹ́ẹ̀ni wọ́n ti ṣùbú lórí àtẹ́gbò ní ọ̀sẹ̀ tó kọjá wọ́n sì gbò oríni díẹ̀",
+      "asr_wer": 0.4375,
+      "e2e_english": "Yes, they fell on the ground last week and a bit lost weight",
+      "clean_english": "Yes, I fell on the stairs last week, and I hit my head a little.",
+      "ref_english": "Yes, I fell on the stairs last week, and I bumped my head a little."
+    },
+    {
+      "row": 39,
+      "ref_yoruba": "Ó ti dákú lójijì, àti pé mi ò mọ̀ bóyá ó ń mí tàbí kò mí.",
+      "asr_yoruba": "ó ti dá kùlọ́jìjì àti pẹ̀mì òmọ̀bóyá omi tàbíkò mì",
+      "asr_wer": 0.8125,
+      "e2e_english": "He is left on the stairs and watery, or doesn't swallow",
+      "clean_english": "He suddenly collapsed, and I don't know if it's breathing or breathing.",
+      "ref_english": "He suddenly fainted, and I don't know if he is breathing or not."
+    },
+    {
+      "row": 40,
+      "ref_yoruba": "Ọmọ mi jẹ́ ọdún márùn-ún gba kíkún lónìí.",
+      "asr_yoruba": "wọ́nmì jẹ́ ọdó márùn gba kíkún lónìyìn",
+      "asr_wer": 0.625,
+      "e2e_english": "The last time five young people received a full name",
+      "clean_english": "My child is five years old today.",
+      "ref_english": "My child is five years old today."
+    },
+    {
+      "row": 41,
+      "ref_yoruba": "Bẹ́ẹ̀ ni, ẹsẹ̀ mi wú fùfù, pàápàá ní abẹ́ kókó ẹsẹ̀ mi.",
+      "asr_yoruba": "bẹ́ẹ̀ni ṣẹ́mí wúfufufu pàápàá ní abẹ́ kókò ṣẹ́mí",
+      "asr_wer": 0.75,
+      "e2e_english": "No one is very happy even with Paracetamin",
+      "clean_english": "Yes, my legs are very swollen, especially on my ankles.",
+      "ref_english": "Yes, my legs are very swollen, especially below my ankles."
+    },
+    {
+      "row": 42,
+      "ref_yoruba": "Ǹjẹ́ àìlera kankan kò ní wáyé lẹ́yìn rẹ̀ bí?",
+      "asr_yoruba": "ìjẹ́ àìlira kọ̀kọ̀ níwáyé lẹ́yìnrẹ̀ bí",
+      "asr_wer": 0.8889,
+      "e2e_english": "Epiphany cough in the back of the tab",
+      "clean_english": "Will there not be any weakness after it?",
+      "ref_english": "Will there be any complications or adverse effects after it?"
+    },
+    {
+      "row": 43,
+      "ref_yoruba": "Ẹ káàárọ̀, orí mi ń fọ́ púpọ̀ àti ara mi gbóná.",
+      "asr_yoruba": "ẹ̀káàrọ̀ orí ìmín fọ́púpọ̀ àti arámí gbúná",
+      "asr_wer": 0.8182,
+      "e2e_english": "Loading and breathing level",
+      "clean_english": "Good morning, I have a severe headache and a high fever.",
+      "ref_english": "Good morning, I have a severe headache and a high fever."
+    },
+    {
+      "row": 44,
+      "ref_yoruba": "Bẹ́ẹ̀ni, àwọ̀ rẹ̀ ti yí padà sí pípọ́n, àti ojú rẹ̀ pẹ̀lú.",
+      "asr_yoruba": "bẹ́nì àwọ́rẹ̀ tí yí pálà sí pípọ́n àtijú rẹ̀pẹ̀lú",
+      "asr_wer": 0.75,
+      "e2e_english": "The color color that has changed to the previous configuration and care for it",
+      "clean_english": "Yes, his color has changed to a reddish position, and his eyes too.",
+      "ref_english": "Yes, their skin has changed to yellowish, and their eyes too."
+    },
+    {
+      "row": 45,
+      "ref_yoruba": "Ojú ń yí mi láti òwúrọ̀ yìí, mo sì rò pé mo fẹ́ subú ni gbogbo ìgbà.",
+      "asr_yoruba": "olúnyìmí láti òwòrọ̀ yìí mú sì rò pé mú fẹ́sùgbò ní gbogbo ìgbà",
+      "asr_wer": 0.5882,
+      "e2e_english": "I'm grateful from this trade, and it feels like I've been feeling dizzy all the time",
+      "clean_english": "I've been feeling dizzy since this morning, and I feel like I'm about to fall all the time.",
+      "ref_english": "I've been feeling dizzy since this morning, and I constantly feel like I'm going to fall."
+    },
+    {
+      "row": 46,
+      "ref_yoruba": "Kí ni àwọn ewu tó wà nínú rẹ̀? Ṣé yóò pẹ́ tó?",
+      "asr_yoruba": "kini awon ewu to ba ninu re se yopeto",
+      "asr_wer": 0.9167,
+      "e2e_english": "Defaulting dangerous background is the last time you've had it.",
+      "clean_english": "What are the risks involved? Will it take long?",
+      "ref_english": "What are the risks involved? How long will it take?"
+    },
+    {
+      "row": 47,
+      "ref_yoruba": "Wọ́n ń wá ní ìṣẹ́jú mẹ́wàá sí mẹ́ẹ̀ẹ́dógún láàárín.",
+      "asr_yoruba": "wọ́n wà ní ṣejú mẹ́gbà sí mẹ́ ẹ̀lógúnhún láàrin",
+      "asr_wer": 0.7778,
+      "e2e_english": "They are located every day to the ground between four and four times",
+      "clean_english": "They are coming every ten to 15 minutes.",
+      "ref_english": "They are coming every 10 to 15 minutes."
+    },
+    {
+      "row": 48,
+      "ref_yoruba": "Ibà àti àárẹ̀ ni ó kọ́kọ́ mú mi, ara mi sì ń gbọ̀n láìdáwọ́dúró.",
+      "asr_yoruba": "ìdá àti àrẹ̀ ni ó kókò mú mì arámí sí ń gbọn láàdà ọdúró",
+      "asr_wer": 0.7143,
+      "e2e_english": "It's freeness and weakness that prevents breathing",
+      "clean_english": "I have had fatigue and fatigue, and my body aches constantly.",
+      "ref_english": "Fever and fatigue were my initial symptoms, and my body is constantly shaking."
+    },
+    {
+      "row": 49,
+      "ref_yoruba": "Bẹ́ẹ̀ni, ó ń dun mí nígbà tí mo bá ń tọ̀, àti wípé ó ń ṣíṣan lẹ́kọ́lẹ́kọ́.",
+      "asr_yoruba": "bẹ́nìrún dúmí nígbàtì múnbá ń tọ̀ àti wípé ohun sísàn lẹ́kọ́lẹ́kọ́",
+      "asr_wer": 0.7059,
+      "e2e_english": "There is a lot of sleep in the morning and to say things to the sun",
+      "clean_english": "Yes, it hurts when I urinate, and I feel a burning sensation.",
+      "ref_english": "Yes, it pains me when I urinate, and it flows frequently."
+    },
+    {
+      "row": 50,
+      "ref_yoruba": "Mo gbọ́ ohun tí ẹ sọ, ṣùgbọ́n ẹ̀rù ń bà mí díẹ̀ nítorí bí ó ti tóbi.",
+      "asr_yoruba": "mú gbọ́nwù tí ẹ̀sọ́ ṣùgbọ́n ẹ̀rọ̀ mú bá mì díẹ̀ nítorí biotitobi",
+      "asr_wer": 0.7647,
+      "e2e_english": "took a small lump that was given, but the machine caused a little difficulty because of a high fever",
+      "clean_english": "I understand what you said, but I'm a bit scared because of how big it's.",
+      "ref_english": "I understand what you said, but I am a little scared because of its magnitude."
+    },
+    {
+      "row": 51,
+      "ref_yoruba": "Bẹ́ẹ̀ni, oríkèé mi máa ń dun mí, pàápàá ní orúnkún mi.",
+      "asr_yoruba": "bẹ́ẹ̀ni oríkè mẹ́n mándún mì pápà ní orókun wẹ́n",
+      "asr_wer": 0.8182,
+      "e2e_english": "There is still a high fever in the morning",
+      "clean_english": "Yes, my joints hurt, especially in my knees.",
+      "ref_english": "Yes, my joints hurt, especially my knees."
+    },
+    {
+      "row": 52,
+      "ref_yoruba": "Ẹ káàrọ́, Dókítà. Orí mi ń fọ́, ara mi sì ń gbóná púpọ̀.",
+      "asr_yoruba": "ẹ̀kọ̀rọ́dó kítà àorí mín fọ́ àrá mísìn gbúnà púpọ̀",
+      "asr_wer": 0.8462,
+      "e2e_english": "I have a severe headache",
+      "clean_english": "Good morning, Doctor. I have a headache and a high fever.",
+      "ref_english": "Good morning, Doctor. I have a headache and a very high fever."
+    },
+    {
+      "row": 53,
+      "ref_yoruba": "Bẹ́ẹ̀ni, bàbá bàbá mi kú nípasẹ̀ àrùn ọkàn, ìyá mi náà sì ní ìfúnpá gíga.",
+      "asr_yoruba": "bẹ́nì bàbàbàmì kú nípasè àrùn ọ̀kan yámì náà sí ní ìfúnpadígáá",
+      "asr_wer": 0.7333,
+      "e2e_english": "Ibark of copper died from the same illness",
+      "clean_english": "Yes, my grandfather died from heart disease, and my mother also has high blood pressure.",
+      "ref_english": "Yes, my grandfather died from heart disease, and my mother also has high blood pressure."
+    },
+    {
+      "row": 54,
+      "ref_yoruba": "Ó ti lé ní oṣù méjì báyìí, kò sì gbẹ rárá.",
+      "asr_yoruba": "ó tilé ní òṣòmíjì báyé òsì gbẹ́ráá",
+      "asr_wer": 0.8182,
+      "e2e_english": "It has been home in the middle of the night",
+      "clean_english": "It's been more than two months now, and it hasn't been dry at all.",
+      "ref_english": "It's been more than two months now, and it hasn't healed at all."
+    },
+    {
+      "row": 55,
+      "ref_yoruba": "Bẹ́ẹ̀ni, gbogbo ara rẹ̀ ń gbọ̀n, ó sì ti padanu ìmọ̀ rẹ̀ fún ìṣẹ́jú díẹ̀.",
+      "asr_yoruba": "bẹ́ẹ̀ni gbogbo ara rẹ̀ gbọ́n o si ti padá nú ìmọ̀rẹ̀ fún ìṣẹ́jú díẹ̀",
+      "asr_wer": 0.4667,
+      "e2e_english": "All of it has been added to your skin for a few minutes",
+      "clean_english": "Yes, his whole body is shivering, and he has lost consciousness for a few minutes.",
+      "ref_english": "Yes, his whole body is shaking, and he lost consciousness for a few minutes."
+    },
+    {
+      "row": 56,
+      "ref_yoruba": "Mo ti lọ sí ilé ìgbọ̀nsẹ̀ ní nǹkan bí máàrún tàbí mẹ́fà báyìí.",
+      "asr_yoruba": "wọ́n ti lọ sí ilé ìgbọ́nsẹ̀ ní kan bí mọ́rùn ń tàrímẹ́fà bá yìí",
+      "asr_wer": 0.6154,
+      "e2e_english": "They have gone to the toilet one time as they please if it's six times now",
+      "clean_english": "I've been to the toilet about five or six times now.",
+      "ref_english": "I have been to the toilet about five or six times now."
+    },
+    {
+      "row": 57,
+      "ref_yoruba": "Ó jẹ́ ọmọ ọdún márùn-ún, ó sì máa ń rẹ ara mi púpọ̀.",
+      "asr_yoruba": "ó jẹ́ ọmọ̀dún márùn òó sì márùn rẹ́ arámì púpọ̀ ọ",
+      "asr_wer": 0.7692,
+      "e2e_english": "He is five years old and is not five years pregnant",
+      "clean_english": "He is five years old, and I feel very tired.",
+      "ref_english": "He/She is five years old, and I often feel very tired."
+    },
+    {
+      "row": 58,
+      "ref_yoruba": "Bẹ́ẹ̀ni, ó ń tẹ́tẹ̀ mí lọ́pọ̀ ìgbà, púpọ̀ ju ti tẹ́lẹ̀ lọ.",
+      "asr_yoruba": "bẹ́nìíún tẹ́tẹ̀mí lọ́pọ̀ ẹgbà kúpọ̀ ojú títẹ́lẹ̀ lọ",
+      "asr_wer": 0.8333,
+      "e2e_english": "Please, a few times a week, the eyes of the ground are blurry",
+      "clean_english": "Yes, it's throbbing frequently, more than before.",
+      "ref_english": "Yes, he's kicking me frequently, much more than before."
+    },
+    {
+      "row": 59,
+      "ref_yoruba": "Oh, Dókítà, kí ni èyí túmọ̀ sí? Ṣé mo ní àìsàn ṣúgà báyìí ni?",
+      "asr_yoruba": "odo kita kinii tumo si se mo ni aisa n suga bayi ni",
+      "asr_wer": 0.9286,
+      "e2e_english": "Encoding and I am a paracetamo",
+      "clean_english": "Oh, Doctor, what does this mean? Do I have diabetes now?",
+      "ref_english": "Oh, Doctor, what does this mean? Do I have diabetes now?"
+    },
+    {
+      "row": 60,
+      "ref_yoruba": "Bẹ́ẹ̀ni, mo bọ́ lójijì ní ọjọ́ méjì sẹ́yìn, orí mi sì lu ilẹ̀.",
+      "asr_yoruba": "bẹ́nìmú bọ́ọ̀lọ́jìjì ní ọjọ́ méjì sẹ́yìn orímísì lú ilẹ̀",
+      "asr_wer": 0.6154,
+      "e2e_english": "There was a cough two days ago after the Tab",
+      "clean_english": "Yes, I suddenly fell down two days ago, and my head hit the ground.",
+      "ref_english": "Yes, I fell suddenly two days ago, and my head hit the ground."
+    },
+    {
+      "row": 61,
+      "ref_yoruba": "Bẹ́ẹ̀kọ́, Dọ́kítà. Mi ò ní àléjì sí oògùn kankan tí mo mọ̀.",
+      "asr_yoruba": "bẹ́ẹ̀kọ́dọ́ fitami ò ní àlejì sí ogun kọ́kàn tí mú mọ̀",
+      "asr_wer": 0.5833,
+      "e2e_english": "No, there is a cough in the right frame of mind",
+      "clean_english": "No, Doctor. I don't have an allergy to any medication I know of.",
+      "ref_english": "No, Doctor. I don't have any known allergies to any medication."
+    },
+    {
+      "row": 62,
+      "ref_yoruba": "Rárá, ó ń mí hìhì, ó sì ń yára mí jù, bí ẹni pé ó sáré.",
+      "asr_yoruba": "ara omi osinyara mejo bi enipe osare",
+      "asr_wer": 1.0,
+      "e2e_english": "Default's body is watery",
+      "clean_english": "No, he's breathing heavily, and I feel like he ran too fast.",
+      "ref_english": "No, he's wheezing, and his breathing is very rapid, as if he ran."
+    },
+    {
+      "row": 63,
+      "ref_yoruba": "Bẹ́ẹ̀ ni, mo ti gba àjẹsára fún àìsàn tífóò ní ọdún méjì sẹ́yìn.",
+      "asr_yoruba": "bẹ́nìí mò tí gba àdésárá fún àìsàn ǹ tí fóní ọdún méjìsẹ́yìn",
+      "asr_wer": 0.7692,
+      "e2e_english": "Okay, who received Parace disease two years ago",
+      "clean_english": "Yes, I received an vaccination for typhoid two years ago.",
+      "ref_english": "Yes, I received the typhoid vaccine two years ago."
+    },
+    {
+      "row": 64,
+      "ref_yoruba": "Bẹ́ẹ̀ni, mo ti ṣe àyẹ̀wò ilé, ó sì fihàn pé mo lóyún.",
+      "asr_yoruba": "bẹ́ni mọ́ tí ṣe àyàwò ilé ó sì fi ọ̀pẹ́ mú lóyìnwùn",
+      "asr_wer": 0.6667,
+      "e2e_english": "No one is aware of the chest and takes it with a palm on the back",
+      "clean_english": "Yes, I have had a home check-up, and it showed that I am pregnant.",
+      "ref_english": "Yes, I have done a home test, and it showed that I am pregnant."
+    },
+    {
+      "row": 65,
+      "ref_yoruba": "Bẹ́ẹ̀kọ́, mi ò tíì gbọ́ irú àìsàn bẹ́ẹ̀ ní ìdílé wa rí.",
+      "asr_yoruba": "bẹ́ẹ̀kọ̀mì òti gbọ́ ìrò àìsàn bẹ́ẹ̀ ní ìdílẹ́wàrí",
+      "asr_wer": 0.6667,
+      "e2e_english": "Isn't aware of this condition at all?",
+      "clean_english": "No, I haven't heard such a illness in our family before.",
+      "ref_english": "No, I haven't heard of such illnesses in our family before."
+    },
+    {
+      "row": 66,
+      "ref_yoruba": "Ọ̀fun mi wú, gbogbo ohun tí mo bá gbìyànjú láti gbé mì sì máa ń dun mi.",
+      "asr_yoruba": "ọ̀fúnmíwó ogbún tímú bá gbìn ọjú láti gbé ní ìsímán domín",
+      "asr_wer": 0.8824,
+      "e2e_english": "A life - style when you plant a page to keep in check",
+      "clean_english": "My throat is swollen, and everything I try to swallow is painful.",
+      "ref_english": "My throat is swollen, and everything I try to swallow causes me pain."
+    },
+    {
+      "row": 67,
+      "ref_yoruba": "Ṣé omi lásán ni tàbí mo lè mu ohun mímu mìíràn?",
+      "asr_yoruba": "ṣe omi asani tàbí mule mú omi nùmìràn",
+      "asr_wer": 0.8182,
+      "e2e_english": "Save water or drink",
+      "clean_english": "Is it just water or can I drink other drinks?",
+      "ref_english": "Is it just water or can I drink other beverages?"
+    },
+    {
+      "row": 68,
+      "ref_yoruba": "Bẹ́ẹ̀ni, Dókítà. Mo máa ń gbọ̀n púpọ̀, ara mi á sì máa lọ́rin nínú òru.",
+      "asr_yoruba": "bẹ́nìdó kítà mú ma ń gbọ́púpọ̀ rámí aṣì málọ́rì nínú òrò",
+      "asr_wer": 0.8667,
+      "e2e_english": "It's possible for a letter to make it difficult for us to breathe in word",
+      "clean_english": "Yes, Doctor. I usually feel very breathless, and my body breaks out in the middle of the night.",
+      "ref_english": "Yes, Doctor. I shiver a lot, and I sweat at night."
+    },
+    {
+      "row": 69,
+      "ref_yoruba": "Kò rí jẹun dáadáa mọ́, kò sì fẹ́ ohunkóhun bíi ti tẹ́lẹ̀.",
+      "asr_yoruba": "kòrídìí ọ̀dáàdámọ́ ọ̀kò sì fẹ́ ọ̀nkún bíti tẹ̀lẹ̀",
+      "asr_wer": 0.8333,
+      "e2e_english": "He hasn't had a car accident, and he wants to cry like before",
+      "clean_english": "He's not eating well anymore, and he doesn't want anything like before.",
+      "ref_english": "He cannot eat properly anymore, and he doesn't want anything like before."
+    },
+    {
+      "row": 70,
+      "ref_yoruba": "Mo máa ń mu tábúlẹ̀ méjì nígbà kan náà, lẹ́yìn oúnjẹ.",
+      "asr_yoruba": "ó máa mú tàbúlẹ̀ méjì ìgbà kan náà lẹ́yìn un jẹ́",
+      "asr_wer": 0.6364,
+      "e2e_english": "It will cause two applets at the same time after it",
+      "clean_english": "I take two tablets at the same time, after meals.",
+      "ref_english": "I usually take two tablets at a time, after food."
+    },
+    {
+      "row": 71,
+      "ref_yoruba": "Ó ń jáde láti inú imú mi, ó sì ti pọ̀ tó báyìí tí mo ti fẹ́ dákú.",
+      "asr_yoruba": "ó jáde látinú imu mi o si ti pọ̀ tó bá yìí ti mọ́ ti fẹ́dá kó",
+      "asr_wer": 0.6667,
+      "e2e_english": "It's coming out of my urine again as soon as it's supposed to be",
+      "clean_english": "It's coming out of my nose, and it's been so severe now that I'm about to collapse.",
+      "ref_english": "It's coming from my nose, and I've lost so much blood that I almost fainted."
+    },
+    {
+      "row": 72,
+      "ref_yoruba": "Bẹ́ẹ̀ni, Dókítà. Mo ti bì lẹ́ẹ̀mejì lánàá, ìgbẹ́ ríro sì ń lọ mí nígbà gbogbo.",
+      "asr_yoruba": "bẹ́nìdó kítà wọ́n ti bílẹ̀ méjì lána ìgbẹ̀rírò sí ń lọ́mí nígbàwòbó",
+      "asr_wer": 0.8667,
+      "e2e_english": "This is where two out of the mornings are born during check-ups",
+      "clean_english": "Yes, Doctor. I have vomited twice yesterday, and I'm constantly having diarrhoea.",
+      "ref_english": "Yes, Doctor. I vomited twice yesterday, and I'm experiencing frequent diarrhea."
+    },
+    {
+      "row": 73,
+      "ref_yoruba": "Bẹ́ẹ̀kọ́, mi ò mọ̀ pé mo ní àìfaradà sí òògùn kankan.",
+      "asr_yoruba": "bẹ́ẹ̀kọ́mì òmọ̀pé mú ní àìfárádà sí ogun kankan",
+      "asr_wer": 0.7273,
+      "e2e_english": "But the most grateful one is at peace in the sight of any type of conflict",
+      "clean_english": "No, I am not aware of any allergies to medication.",
+      "ref_english": "No, I am not aware of any drug allergies."
+    },
+    {
+      "row": 74,
+      "ref_yoruba": "Mi ò lè jẹ ẹja, nítorí ó máa ń yọ mí lórí ara, ó sì máa ń jẹ́ kí mo kọ́.",
+      "asr_yoruba": "ní ó lè jẹ́ẹ́jáá nítorí ó máa yọ̀ mílórí ara o sì máa jẹ́ kímù kọ́",
+      "asr_wer": 0.5714,
+      "e2e_english": "It's possible to be numb because it will cause me a rash",
+      "clean_english": "I can't eat fish, because it causes a rash on my body, and it makes me cough.",
+      "ref_english": "I cannot eat fish because it causes a rash and makes me cough."
+    },
+    {
+      "row": 75,
+      "ref_yoruba": "Bẹ́ẹ̀ni, mo ń mu vitamin C àti B-complex.",
+      "asr_yoruba": "bẹ́nìí mọ́mọ́ ìtami àti bó ń blé",
+      "asr_wer": 1.0,
+      "e2e_english": "There's a dry cough and a tingling sensation",
+      "clean_english": "Yes, I am taking vitamin C and Burcillin.",
+      "ref_english": "Yes, I am taking vitamin C and B-complex."
+    },
+    {
+      "row": 76,
+      "ref_yoruba": "Bẹ́ẹ̀ni, mo ṣe iṣẹ́ abẹ appendicitis ní ọdún mẹ́wàá sẹ́yìn.",
+      "asr_yoruba": "bẹ́ni mọ̀ṣe iṣẹ́ abẹ́ apendittis ní ọdún mẹ́wà sáyìn",
+      "asr_wer": 0.7,
+      "e2e_english": "No one was aware of the Parac surgery last year",
+      "clean_english": "Yes, I had an appendectomy ten years ago.",
+      "ref_english": "Yes, I had an appendectomy ten years ago."
+    },
+    {
+      "row": 77,
+      "ref_yoruba": "Ó bẹ̀rẹ̀ ní ọ̀sán lánàá, ó sì ń gbóná sí i ní alẹ́.",
+      "asr_yoruba": "ó bẹ̀rẹ̀ ní ọ̀sànlá náà o sí gbóná sí ní àlẹ́",
+      "asr_wer": 0.5385,
+      "e2e_english": "It started in the nineth of the day",
+      "clean_english": "It started last afternoon, and it gets worse at night.",
+      "ref_english": "It started yesterday afternoon, and it got hotter at night."
+    },
+    {
+      "row": 78,
+      "ref_yoruba": "Bẹ́ẹ̀ni, ó bọ́ lójijì láti orí aga ní ọjọ́ méjì sẹ́yìn.",
+      "asr_yoruba": "bẹ́nìyàn gbọ́ lójìjì láti orí agá ní ọjọ́ méjìsẹ́yìn",
+      "asr_wer": 0.6364,
+      "e2e_english": "There was a cough since two days ago",
+      "clean_english": "Yes, he suddenly fell from a white on two days ago.",
+      "ref_english": "Yes, he fell suddenly from the chair two days ago."
+    },
+    {
+      "row": 79,
+      "ref_yoruba": "Bẹ́ẹ̀ni, Dọ́kítà. Mo gbọ́ ohun tí ẹ sọ, mo sì ti ṣetan láti fọwọ́ sí i.",
+      "asr_yoruba": "bẹ́nìdọ́kítà àmù gbọ́n tí ẹ̀sọ́ mún sítí ṣètàn láti fọwọ́ sí",
+      "asr_wer": 0.75,
+      "e2e_english": "There is a Doctor who has had you choose to sign",
+      "clean_english": "Yes, Doctor. I understand what you said, and I've done much to sign it.",
+      "ref_english": "Yes, Doctor. I understand what you said, and I am ready to give my consent."
+    },
+    {
+      "row": 80,
+      "ref_yoruba": "Bẹ́ẹ̀ni, mo máa ń mú òògùn mi lójúmọ́, ṣùgbọ́n mo gbàgbé lánàá.",
+      "asr_yoruba": "bẹ́ni o ma mú ogun mi ilojúmọ̀ ṣùgbọ́mù gbàgbọ̀ ìlànà",
+      "asr_wer": 0.8333,
+      "e2e_english": "No one takes my fight for it, but you agree with the procedure",
+      "clean_english": "Yes, I take my medication daily, but I forgot yesterday.",
+      "ref_english": "Yes, I usually take my medication daily, but I forgot yesterday."
+    },
+    {
+      "row": 81,
+      "ref_yoruba": "Bẹ́ẹ̀ ni, ó ti fẹ́ tán, kò sì fi bẹ́ẹ̀ pẹ́ mọ́.",
+      "asr_yoruba": "bẹ́ẹ̀niyó ti fẹ́tàn kò sì fi bẹ́ẹ̀pàmọ́",
+      "asr_wer": 0.6667,
+      "e2e_english": "There's also a cary and not so much",
+      "clean_english": "Yes, it's almost finished, and it hasn't really reduced.",
+      "ref_english": "Yes, it's almost finished, and it won't last much longer."
+    },
+    {
+      "row": 82,
+      "ref_yoruba": "Ó ti lé ní oṣù kan báyìí tí ẹ̀yìn mi ti ń dùn mí léraléra.",
+      "asr_yoruba": "ó ti lé ní òṣòkán báyé tí ẹ̀yìnmí tí n dúmí lérálérá",
+      "asr_wer": 0.6667,
+      "e2e_english": "It's been more than seven times a week since I gave birth",
+      "clean_english": "It's been more than a month now that my back has been hurting repeatedly.",
+      "ref_english": "It's been over a month now that my back has been hurting me repeatedly."
+    },
+    {
+      "row": 83,
+      "ref_yoruba": "Bẹ́ẹ̀ni, ẹ̀jẹ̀ ń tú jáde lára mi láti ibi tí ó ti farapa lágbára.",
+      "asr_yoruba": "bẹ́nìí ẹ̀jẹ́n tó jáde lára mi láti bi tí ó ti fọra pálápàra",
+      "asr_wer": 0.5,
+      "e2e_english": "There is a blood pressure from me to ask who has had a rash",
+      "clean_english": "Yes, blood is flowing out from my body from a strong place.",
+      "ref_english": "Yes, blood is gushing out heavily from where I was severely injured."
+    },
+    {
+      "row": 84,
+      "ref_yoruba": "Bẹ́ẹ̀ni, èémí mi ń gbàgìrì, ó sì ń le mí ju ti tẹ́lẹ̀ lọ.",
+      "asr_yoruba": "bẹ́ẹ̀ni ẹ̀mí mì ń gbàdiri o sì ilémi ìjù ti tẹ́lẹ̀ lọ",
+      "asr_wer": 0.5714,
+      "e2e_english": "No one is breathing, and you've been feeling breathless before",
+      "clean_english": "Yes, I'm short of breath, and it's harder than before.",
+      "ref_english": "Yes, my breathing is wheezing, and it's more difficult than before."
+    },
+    {
+      "row": 85,
+      "ref_yoruba": "Mo ti lọ sí ilé ìyàgbẹ́ tó ju márùn-ún lọ láti ìgbà tí mo ti jí lówùúrọ̀ yìí.",
+      "asr_yoruba": "mútìlọ sí ilé yàgbẹ̀ tó jù márùn lọ láti ìgbà tí mútí jí ìlóúrọ̀ yìí",
+      "asr_wer": 0.5,
+      "e2e_english": "Import the most five diarrhoea since this morning",
+      "clean_english": "I've been to the toilet more than five times since I woke up this morning.",
+      "ref_english": "I've been to the toilet more than five times since I woke up this morning."
+    },
+    {
+      "row": 86,
+      "ref_yoruba": "Bẹ́ẹ̀ni, ara mi máa ń yún mi, mo sì rí àwọ̀-òrá díẹ̀ lórí apá mi.",
+      "asr_yoruba": "bẹ́nìára mìí ma náyún mìí mò sì rí àwòra jẹ́ lórí apá mìí",
+      "asr_wer": 0.7333,
+      "e2e_english": "There's an allergic reaction to pregnancy, and it's visible on the skin",
+      "clean_english": "Yes, my body usually itches, and I see a little rash on my arm.",
+      "ref_english": "Yes, my body often itches, and I've seen a slight rash on my arm."
+    },
+    {
+      "row": 87,
+      "ref_yoruba": "Ó ti fẹ́rẹ̀ẹ́ jẹ́ ọ̀sẹ̀ méjì báyìí, ó sì jẹ́ ikọ́ gbígbẹ nígbà púpọ̀.",
+      "asr_yoruba": "ó ti fẹrẹ̀ jẹ́ ṣẹ́ méjì bá yìí o sì jẹ́ ìkọ́bùgbọ́ nígbà gbọ́",
+      "asr_wer": 0.5714,
+      "e2e_english": "It's almost two times this way, and you've been there for a long time",
+      "clean_english": "It's been almost two weeks now, and it's a dry cough many times.",
+      "ref_english": "It's been almost two weeks now, and it's mostly a dry cough."
+    },
+    {
+      "row": 88,
+      "ref_yoruba": "Ó ti fẹ́rẹ̀ẹ́ tó ọjọ́ mẹ́ta báyìí, àmọ́ ò tiẹ̀ dáwọ́ dúró rárá.",
+      "asr_yoruba": "ó ti fẹrẹ̀ tó ojú mẹ́ta bá yìí àmọ́ ó ti ẹ̀dáwọ́dú rára",
+      "asr_wer": 0.6923,
+      "e2e_english": "It's almost three eyes if it's already broken.",
+      "clean_english": "It's been almost three days now, but it hasn't stopped at all.",
+      "ref_english": "It has been almost three days now, and it hasn't stopped at all."
+    },
+    {
+      "row": 89,
+      "ref_yoruba": "Bẹ́ẹ̀ni, mó ti bì àti pé mó tún ti yà gbuuru léraléra láti àná.",
+      "asr_yoruba": "bẹ́nìí mú tí bèyí àti pé mú tó ti yàgbó lérálérá láti à náà",
+      "asr_wer": 0.7857,
+      "e2e_english": "The cough is sharp, and it's making him dizzy before the cough",
+      "clean_english": "Yes, I've vomited and also vomited repeatedly since yesterday.",
+      "ref_english": "Yes, I have vomited and I have also had repeated diarrhoea since yesterday."
+    },
+    {
+      "row": 90,
+      "ref_yoruba": "Bẹ́ẹ̀ni, ọwọ́ àti ẹsẹ̀ mi máa ń kán lọ títí dé ìka mi, ó sì máa ń ṣe bí ìtànná.",
+      "asr_yoruba": "bẹ́nì ọwọ́ ọ̀tí ẹsẹ́mí ma n kan lọ títí dé ìkami o sì ma ń sebi ìtàn náà",
+      "asr_wer": 0.7,
+      "e2e_english": "There is one foot of a leg, all the way to my fingers and you tend to swallow the history",
+      "clean_english": "Yes, my hands and feet often feel numb to my fingers, and it feels like a tingling sensation.",
+      "ref_english": "Yes, my hands and feet often tingle and feel like pins and needles, extending to my fingers and toes."
+    },
+    {
+      "row": 91,
+      "ref_yoruba": "Bẹ́ẹ̀ni, mo ti rù gẹ́gẹ́ bí mo ti gbájúmọ́, ṣùgbọ́n mi ò rò pé ó yẹ kí ó jẹ́ bẹ́ẹ̀.",
+      "asr_yoruba": "bẹ́nìmọ̀ tíro ẹgẹ́bí mú ti gbájúmọ́ ṣùmọ́mi ọ̀rọ̀ pé ó yẹ kí o jẹ́ bẹ́ẹ̀",
+      "asr_wer": 0.6,
+      "e2e_english": "There's a child with a rash that is supposed to be such",
+      "clean_english": "Yes, I've lost weight as I did, but I don't think it should be so.",
+      "ref_english": "Yes, I've lost weight quickly, but I don't think it should be like that."
+    },
+    {
+      "row": 92,
+      "ref_yoruba": "Bẹ́ẹ̀ni, ó máa ń wò mí káàkiri, pàápàá nígbà tí mo bá yára dìde láti jókòó.",
+      "asr_yoruba": "bẹ́ẹ̀ni o ma ń wò mì kàkiri pàápàá nígbàtì mún bá yára dídé láti jò kò",
+      "asr_wer": 0.625,
+      "e2e_english": "That's why you even feel dizzy when they speed up quickly",
+      "clean_english": "Yes, I feel dizzy, especially when I stand up quickly.",
+      "ref_english": "Yes, I often feel dizzy, especially when I quickly get up from sitting."
+    },
+    {
+      "row": 93,
+      "ref_yoruba": "Mo ti lóyún fún oṣù márùn-ún báyìí, ikùn mi ò sì ti tóbi bẹ́ẹ̀.",
+      "asr_yoruba": "mọ̀tí lóyún fún òṣùn márán báyí ìkùnmí òsítító bí bẹ̀ẹ̀",
+      "asr_wer": 0.8571,
+      "e2e_english": "know how to conceive for a certain level of pregnancy if it doesn't change the spirit of the true spirit",
+      "clean_english": "I am five months pregnant now, and my stomach isn't very big.",
+      "ref_english": "I've been pregnant for five months now, and my belly hasn't grown that big."
+    },
+    {
+      "row": 94,
+      "ref_yoruba": "Bẹ́ẹ̀ ni, gbogbo ayé ń yí mi lọ́jú, mo sì máa ń fẹ́ subú.",
+      "asr_yoruba": "bẹ́nìgbogbo ayé ìyẹ́mì lọ́jú òsìmá ń fẹ́sùgbó",
+      "asr_wer": 0.7857,
+      "e2e_english": "The whole world feels like it wants to be heard",
+      "clean_english": "Yes, the whole world is spinning around me, and I often feel like falling.",
+      "ref_english": "Yes, the whole world is spinning around me, and I feel like falling."
+    },
+    {
+      "row": 95,
+      "ref_yoruba": "Bẹ́ẹ̀ni, ìyá bàbá mi kú sí àrùn jẹjẹrẹ láyé àtijọ́.",
+      "asr_yoruba": "bẹ́nìyá bábámíkú sí àwọn jẹ́dẹ́rẹ̀ láyé àtijọ́",
+      "asr_wer": 0.7,
+      "e2e_english": "There is a high risk of injurying on both sides of the world",
+      "clean_english": "Yes, my grandfather's grandmother died of cancer on the day.",
+      "ref_english": "Yes, my paternal grandmother died of cancer a long time ago."
+    },
+    {
+      "row": 96,
+      "ref_yoruba": "Ṣé omi tí wọ́n ti fi àmúṣùn mọ́ ni kò níléwu?",
+      "asr_yoruba": "ṣe omi ti wọ́n ti fi amúsun mọ́ níkò nílẹ̀wò",
+      "asr_wer": 0.5455,
+      "e2e_english": "Default water has been added to the toilet in check",
+      "clean_english": "Is the water that has been used to keep water down, or is it safe at home?",
+      "ref_english": "Is purified water safe?"
+    },
+    {
+      "row": 97,
+      "ref_yoruba": "Ó jẹ́ ọmọ ọdún méjì gbáko. Kò ní ìfẹ́ sí oúnjẹ rárá.",
+      "asr_yoruba": "ó jẹ́ mọ́dún míjì bá kòkò ní ìfẹ́ sí ń jẹ́ rára",
+      "asr_wer": 0.6667,
+      "e2e_english": "It's a sharp pain for me when I have no appetite for it.",
+      "clean_english": "He is exactly two years old. He doesn't have any appetite at all.",
+      "ref_english": "He is exactly two years old. He has no appetite at all."
+    },
+    {
+      "row": 98,
+      "ref_yoruba": "Ó ti dín kù díẹ̀, ṣùgbọ́n ó ṣì ń dun mi lára púpọ̀.",
+      "asr_yoruba": "ò ti dínkù díẹ̀ ṣùgbọ́n oṣin dúmi lára gúpọ̀",
+      "asr_wer": 0.6923,
+      "e2e_english": "I'ven't been feeling a bit better, but you thank me on a regular scale",
+      "clean_english": "It has reduced a bit, but it still hurts me a lot.",
+      "ref_english": "It has reduced a little, but it's still hurting me a lot."
+    },
+    {
+      "row": 99,
+      "ref_yoruba": "Mo máa ń lò ó ní ẹ̀ẹ̀mejì lọ́jọ́, tàbí nígbà tí èémí bá fúfù sí i.",
+      "asr_yoruba": "ó máan ló ní ẹ̀mì ìlọ́jọ́ tàmí nígbà tí ẹ̀mí bá fufufu sí",
+      "asr_wer": 0.6875,
+      "e2e_english": "It will be difficult for them to breathe easily when they are exposed to Penicillin",
+      "clean_english": "I use it twice a day, or when I'm short of breath.",
+      "ref_english": "I use it twice a day, or when my breathing becomes more difficult."
+    }
+  ]
+}

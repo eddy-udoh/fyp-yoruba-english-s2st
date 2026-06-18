@@ -1,0 +1,49 @@
+{
+  "oldcarts": {
+    "total": 15000,
+    "counts": {
+      "Onset": 1185,
+      "Location": 697,
+      "Duration": 778,
+      "Characteristics": 6742,
+      "Aggravating": 1157,
+      "Relieving": 2682,
+      "Timing": 1236,
+      "Severity": 523
+    },
+    "percent": {
+      "Onset": 7.9,
+      "Location": 4.65,
+      "Duration": 5.19,
+      "Characteristics": 44.95,
+      "Aggravating": 7.71,
+      "Relieving": 17.88,
+      "Timing": 8.24,
+      "Severity": 3.49
+    }
+  },
+  "word_counts": {
+    "yoruba_source": {
+      "mean": 14.31,
+      "median": 14,
+      "min": 5,
+      "max": 33
+    },
+    "english_target": {
+      "mean": 12.58,
+      "median": 12,
+      "min": 4,
+      "max": 32
+    }
+  },
+  "diacritic_density": {
+    "mean_pct": 33.19,
+    "median_pct": 33.33,
+    "below_4pct": 0
+  },
+  "splits": {
+    "train": 12000,
+    "val": 1500,
+    "test": 1500
+  }
+}

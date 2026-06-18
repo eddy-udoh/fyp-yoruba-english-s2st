@@ -1,0 +1,10 @@
+{
+  "direction": "en-yo",
+  "model": "models/marian-english-yoruba",
+  "base_model": "Helsinki-NLP/opus-mt-en-nic",
+  "n_test_rows": 100,
+  "bleu": 50.32,
+  "chrf": 65.02,
+  "baseline_bleu": 0.0,
+  "baseline_chrf": 0.0
+}
