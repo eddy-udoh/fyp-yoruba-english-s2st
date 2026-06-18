@@ -36,7 +36,9 @@ import argparse
 import inspect
 import json
 import os
+import random
 import sys
+import unicodedata
 import warnings
 
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -100,6 +102,9 @@ DIRECTIONS = {
         "output_dir": os.path.join("models", "marian-yoruba-medical"),
         "baseline_bleu": 0.45,
         "baseline_chrf": 12.73,
+        # Yoruba is the SOURCE here, and Whisper emits inconsistent diacritics,
+        # so augment the in-domain source with stripped/partial-diacritic copies.
+        "augment_src_diacritics": True,
     },
     "en-yo": {
         "base":       "Helsinki-NLP/opus-mt-en-nic",
@@ -111,6 +116,9 @@ DIRECTIONS = {
         "output_dir": os.path.join("models", "marian-english-yoruba"),
         "baseline_bleu": 0.0,
         "baseline_chrf": 0.0,
+        # Yoruba is the TARGET here — we want the model to PRODUCE diacritics,
+        # so do NOT strip them.
+        "augment_src_diacritics": False,
     },
 }
 
@@ -202,6 +210,28 @@ def general_frame(cfg: dict, max_rows: int) -> pd.DataFrame:
     src_list = [r["translation"][cfg["opus_src"]] for r in ds]
     tgt_list = [r["translation"][cfg["opus_tgt"]] for r in ds]
     return _frame(src_list, tgt_list, cfg["src_prefix"])
+
+def _strip_combining(text: str, p: float = 1.0) -> str:
+    """Drop each combining diacritic with probability p (NFD → remove → NFC).
+    p=1.0 removes all tone marks/underdots; 0<p<1 gives a partial, ASR-like strip."""
+    out = []
+    for ch in unicodedata.normalize("NFD", str(text)):
+        if unicodedata.combining(ch) and random.random() < p:
+            continue
+        out.append(ch)
+    return unicodedata.normalize("NFC", "".join(out))
+
+
+def augment_diacritics(df: pd.DataFrame) -> pd.DataFrame:
+    """Return diacritic-stripped variants of a src/tgt frame (target unchanged).
+    Teaches the yo→en model to translate the imperfectly-diacritised Yoruba that
+    Whisper actually outputs. Adds one fully-stripped + one partial-strip copy."""
+    full = df.copy()
+    full["src"] = full["src"].map(lambda t: _strip_combining(t, 1.0))
+    part = df.copy()
+    part["src"] = part["src"].map(lambda t: _strip_combining(t, 0.6))
+    return pd.concat([full, part], ignore_index=True)
+
 
 def greetings_frame(cfg: dict, oversample: int) -> pd.DataFrame:
     if cfg["opus_src"] == "yo":          # yo→en : source=Yoruba, target=English
@@ -301,13 +331,24 @@ def main():
     print(f"  Greetings train: {len(greet_train)} rows "
           f"({len(GREETINGS)} unique × {GREETING_OVERSAMPLE})")
 
-    train_blend = pd.concat([med_train, gen_train, greet_train], ignore_index=True)
-    train_blend = train_blend.sample(frac=1, random_state=42).reset_index(drop=True)
+    frames = [med_train, gen_train, greet_train]
+    aug_n = 0
+    if cfg.get("augment_src_diacritics"):
+        random.seed(42)
+        aug = augment_diacritics(pd.concat([med_train, greet_train], ignore_index=True))
+        frames.append(aug)
+        aug_n = len(aug)
 
-    print(f"\n  Blended TRAIN  : {len(train_blend)} rows total")
-    print(f"    medical   : {len(med_train)}  ({len(med_train)/len(train_blend)*100:.1f}%)")
-    print(f"    general   : {len(gen_train)}  ({len(gen_train)/len(train_blend)*100:.1f}%)")
-    print(f"    greetings : {len(greet_train)}  ({len(greet_train)/len(train_blend)*100:.1f}%)")
+    train_blend = pd.concat(frames, ignore_index=True)
+    train_blend = train_blend.sample(frac=1, random_state=42).reset_index(drop=True)
+    tot = len(train_blend)
+
+    print(f"\n  Blended TRAIN  : {tot} rows total")
+    print(f"    medical                : {len(med_train)}  ({len(med_train)/tot*100:.1f}%)")
+    print(f"    general                : {len(gen_train)}  ({len(gen_train)/tot*100:.1f}%)")
+    print(f"    greetings              : {len(greet_train)}  ({len(greet_train)/tot*100:.1f}%)")
+    if aug_n:
+        print(f"    diacritic-stripped aug : {aug_n}  ({aug_n/tot*100:.1f}%)")
 
     train_dataset = Dataset.from_pandas(train_blend)
     eval_dataset  = Dataset.from_pandas(med_val)   # VAL, not test — no leakage
