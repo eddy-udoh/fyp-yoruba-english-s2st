@@ -68,6 +68,16 @@ function WaveBar({ delay, active }) {
   );
 }
 
+// Lightweight language-mismatch guard for typed input.
+const YO_DIA = /[àáèéìíòóùúÀÁÈÉÌÍÒÓÙÚọỌẹẸṣṢ̣̀́̂]/;
+const EN_WORDS = /\b(the|is|are|am|my|your|you|have|has|please|morning|how|long|been|feeling|feel|hurts?|headache|fever|cough|doctor|patient|blood|test|medicine|chest|stomach|breath|days?|weeks?|sick|swollen|pregnan)\b/i;
+function detectLang(t) {
+  if (!t || !t.trim()) return "unknown";
+  if (YO_DIA.test(t)) return "yoruba";    // diacritics ⇒ Yorùbá (English has none)
+  if (EN_WORDS.test(t)) return "english"; // distinctive English words
+  return "unknown";                       // e.g. undiacritised Yorùbá — don't flag
+}
+
 export default function App() {
   const [direction, setDirection]     = useState("yo-en");
   const [recState, setRecState]       = useState("idle");
@@ -81,6 +91,7 @@ export default function App() {
   const [audioSrc, setAudioSrc]       = useState(null);
   const [warnDia, setWarnDia]         = useState(false);
   const [hasResult, setHasResult]     = useState(false);
+  const [textInput, setTextInput]     = useState("");
   const mediaRef = useRef(null);
   const chunksRef = useRef([]);
   const audioRef  = useRef(null);
@@ -164,6 +175,45 @@ export default function App() {
     }
   };
 
+  const sendText = async () => {
+    const text = textInput.trim();
+    if (!text || recState === "recording" || recState === "processing") return;
+    resetStages();
+    setHasResult(false);
+    setTranscript(""); setTranslation(""); setDirectTrans("");
+    setAudioSrc(null); setLatency(null); setDensity(null);
+    setRecState("processing");
+    try {
+      activateStage("asr");
+      const t0 = Date.now();
+      const res = await axios.post(`${API}/translate`, { direction, text }, {
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = res.data;
+      completeStage("asr"); await delay(150);
+      activateStage("norm"); await delay(300); completeStage("norm"); await delay(150);
+      activateStage("nmt"); await delay(400); completeStage("nmt"); await delay(150);
+      activateStage("tts"); await delay(250); completeStage("tts");
+      setTranscript(data.transcript || text);
+      setTranslation(data.translation || "");
+      setDirectTrans(data.direct_translation || "");
+      setDensity(data.diacritic_density);
+      setLatency(data.latency_ms != null ? Math.round(data.latency_ms) : Math.round(Date.now() - t0));
+      setTtsEngine(data.tts_note || "");
+      setWarnDia(data.diacritic_density && data.diacritic_density < 0.08);
+      if (data.audio_base64) {
+        const mime = direction === "en-yo" ? "audio/wav" : "audio/mpeg";
+        setAudioSrc(`data:${mime};base64,${data.audio_base64}`);
+      }
+      setHasResult(true);
+    } catch (e) {
+      console.error("API error:", e);
+      resetStages();
+    } finally {
+      setRecState("idle");
+    }
+  };
+
   useEffect(() => {
     if (audioSrc && audioRef.current) {
       audioRef.current.load();
@@ -175,6 +225,9 @@ export default function App() {
   const isRecording   = recState === "recording";
   const isProcessing  = recState === "processing";
   const isBusy        = isRecording || isProcessing;
+  const inputLang     = detectLang(textInput);
+  const expectedLang  = direction === "yo-en" ? "yoruba" : "english";
+  const langMismatch  = inputLang !== "unknown" && inputLang !== expectedLang;
 
   return (
     <div style={{
@@ -265,6 +318,55 @@ export default function App() {
           <div style={{ marginTop: 10, fontSize: 12, fontWeight: 500, color: "#6A9E88" }}>
             {isRecording ? "Tap to stop" : isProcessing ? "Translating..." : "Tap to record"}
           </div>
+        </div>
+
+        {/* ── Text input (bypasses the microphone / ASR) ───────────────── */}
+        <div style={{ marginBottom: 24 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+            <div style={{ flex: 1, height: 1, background: "#DDF0E6" }} />
+            <span style={{ fontSize: 11, color: "#9EC8B5", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>or type text</span>
+            <div style={{ flex: 1, height: 1, background: "#DDF0E6" }} />
+          </div>
+          <textarea
+            value={textInput}
+            onChange={e => setTextInput(e.target.value)}
+            disabled={isBusy}
+            rows={2}
+            placeholder={direction === "yo-en"
+              ? "Type Yorùbá text…  e.g. Orí mi ń dùn mí"
+              : "Type English text…  e.g. How long have you had this fever?"}
+            style={{
+              width: "100%", boxSizing: "border-box", resize: "vertical",
+              padding: "10px 12px", borderRadius: 10, border: "1px solid #C8E6D8",
+              fontFamily: "inherit", fontSize: 14, color: "#0A2E1F", background: "#fff", outline: "none",
+            }}
+          />
+          {langMismatch && (
+            <div style={{
+              display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
+              marginTop: 8, padding: "8px 12px", borderRadius: 10,
+              background: "#FFFBEB", border: "1px solid #FCD34D",
+              fontSize: 12, color: "#92400E", fontWeight: 500,
+            }}>
+              <span>⚠ This looks like {inputLang === "english" ? "English" : "Yorùbá"}, but you’re in {direction === "yo-en" ? "Yorùbá → English" : "English → Yorùbá"} mode.</span>
+              <button onClick={() => setDirection(direction === "yo-en" ? "en-yo" : "yo-en")} style={{
+                border: "none", background: "#0F6E56", color: "#fff", borderRadius: 8,
+                padding: "4px 10px", fontFamily: "inherit", fontSize: 12, fontWeight: 600, cursor: "pointer",
+              }}>Switch direction</button>
+            </div>
+          )}
+          <button
+            onClick={sendText}
+            disabled={isBusy || !textInput.trim()}
+            style={{
+              marginTop: 8, width: "100%", padding: "11px 0", borderRadius: 10, border: "none",
+              background: (isBusy || !textInput.trim()) ? "#C8E6D8" : "#0F6E56",
+              color: "#fff", fontFamily: "inherit", fontSize: 14, fontWeight: 600,
+              cursor: (isBusy || !textInput.trim()) ? "not-allowed" : "pointer",
+              transition: "background 0.25s",
+            }}>
+            Translate text
+          </button>
         </div>
 
         {(isProcessing || hasResult) && (

@@ -1,6 +1,6 @@
 openai-whisper
-transformers
-datasets
+transformers>=4.46          # Trainer uses processing_class (not tokenizer=)
+datasets<3.0               # opus100 loader needs trust_remote_code (removed in 3.x)
 torch
 torchaudio
 sacrebleu

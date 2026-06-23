@@ -36,6 +36,13 @@ Audio source: **synth** speech · ASR WER on this set: **70.79%** · n = 100
 | **End-to-end (speech→EN)** | 5.65 | 23.80 |
 | Error-propagation gap | 48.67 | 42.48 |
 
+## TTS results (MOS)
+
+| Metric | Value |
+|--------|------:|
+| Mean Opinion Score | 3.74 |
+| Respondents | 139 |
+
 ## Training loss per epoch — yo→en
 
 | Epoch | Training loss | Validation loss | Validation BLEU |
