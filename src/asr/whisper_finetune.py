@@ -61,6 +61,10 @@ from typing import Any, Dict, List, Optional, Union
 
 warnings.filterwarnings("ignore", category=UserWarning)
 os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
+# Reduce CUDA fragmentation OOMs on a T4 (must be set before torch inits CUDA).
+# Whisper-medium fine-tuning sits near the 16 GB ceiling; this lets the allocator
+# grow segments instead of failing on reserved-but-unallocated memory.
+os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 
 # Yorùbá transcripts contain chars (ẹ ọ ṣ + tone marks) the Windows cp1252 console
 # can't encode → print() would crash. Force UTF-8 stdout/stderr (no-op on Colab).
