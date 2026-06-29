@@ -133,7 +133,11 @@ GRAD_ACCUM  = 2              # effective batch = BATCH_SIZE × GRAD_ACCUM
 WARMUP      = 500
 MAX_LABEL_LEN = 225          # Whisper's decoding cap is 448; transcripts are short
 
-EARLY_STOP_PATIENCE = 2
+# step-based checkpointing so a Colab disconnect costs minutes, not a whole epoch
+SAVE_EVAL_STEPS = 200        # checkpoint + eval every N steps (capped to steps/epoch)
+EVAL_SUBSET     = 300        # clips used for the in-training eval metric (keeps it fast)
+
+EARLY_STOP_PATIENCE = 4      # in EVAL events; eval now fires ~2x/epoch, so allow more grace
 
 # ── audio augmentation knobs (TRAIN ONLY, applied on the fly) ───────────────
 AUG_PROB    = 0.5            # probability a given clip is augmented at all
@@ -416,6 +420,14 @@ def main():
                    help=f"Per-device train batch (default {BATCH_SIZE}; drop to 4 if a T4 OOMs).")
     p.add_argument("--grad-accum", type=int, default=GRAD_ACCUM)
     p.add_argument("--lr", type=float, default=LR)
+    p.add_argument("--save-steps", type=int, default=SAVE_EVAL_STEPS,
+                   help=f"Checkpoint + eval every N steps (default {SAVE_EVAL_STEPS}). Step-based "
+                        "so a Colab disconnect costs minutes, not a whole epoch. Capped to "
+                        "steps-per-epoch automatically.")
+    p.add_argument("--eval-subset", type=int, default=EVAL_SUBSET,
+                   help=f"Cap clips used for the in-training eval metric (default {EVAL_SUBSET}) so "
+                        "frequent step-based eval stays fast. The final held-out FLEURS-test eval "
+                        "always uses ALL test clips.")
     p.add_argument("--no-resume", action="store_true", help="Ignore existing checkpoint.")
     p.add_argument("--smoke", action="store_true",
                    help="Fast pipeline check: tiny model, 32 rows/source, 1 epoch, no augment.")
@@ -426,6 +438,7 @@ def main():
         args.max_per_source = 32
         args.epochs = 1
         args.augment = False
+        args.eval_subset = 16        # keep the smoke's in-loop eval fast
 
     base_id    = SIZE_TO_BASE[args.model_size]
     output_dir = args.output_dir or os.path.join(
@@ -497,9 +510,15 @@ def main():
     # ── 3/4  train ───────────────────────────────────────────────
     sep("3 / 4  Fine-tuning")
     steps_per_epoch = max(1, len(train_ds) // (args.batch_size * args.grad_accum))
+    # checkpoint + eval every N steps, but at least once per epoch (and never 0)
+    eval_save_steps = max(1, min(args.save_steps, steps_per_epoch))
+    # cap the eval set so frequent step-based eval stays fast (val_ds is shuffled,
+    # so a head slice is a mix of FLEURS + SLR86); final test eval uses ALL clips
+    eval_ds = val_ds.select(range(min(args.eval_subset, len(val_ds))))
     print(f"  Epochs        : {args.epochs}")
     print(f"  Steps / epoch : {steps_per_epoch}")
-    print(f"  Total steps   : {steps_per_epoch * args.epochs}\n")
+    print(f"  Total steps   : {steps_per_epoch * args.epochs}")
+    print(f"  Save/eval every: {eval_save_steps} steps  (eval on {len(eval_ds)} clips)\n")
 
     targs = Seq2SeqTrainingArguments(
         output_dir                  = output_dir,
@@ -514,13 +533,15 @@ def main():
         fp16                        = gpu,
         predict_with_generate       = True,
         generation_max_length       = MAX_LABEL_LEN,
-        eval_strategy               = "epoch",
-        save_strategy               = "epoch",
+        eval_strategy               = "steps",
+        eval_steps                  = eval_save_steps,
+        save_strategy               = "steps",
+        save_steps                  = eval_save_steps,
         save_total_limit            = 2,
         load_best_model_at_end      = True,
         metric_for_best_model       = "wer",
         greater_is_better           = False,      # lower WER is better
-        logging_steps               = max(1, steps_per_epoch // 5),
+        logging_steps               = max(1, eval_save_steps // 2),
         report_to                   = "none",
         remove_unused_columns       = False,      # collator needs the raw audio column
     )
@@ -529,7 +550,7 @@ def main():
         model           = model,
         args            = targs,
         train_dataset   = train_ds,
-        eval_dataset    = val_ds,
+        eval_dataset    = eval_ds,
         data_collator   = train_collator,
         eval_collator   = eval_collator,
         compute_metrics = make_compute_metrics(processor),
