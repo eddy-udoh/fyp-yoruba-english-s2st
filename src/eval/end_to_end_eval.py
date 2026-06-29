@@ -68,8 +68,8 @@ MODELS_DIR = os.path.join(_REPO, "models")
 TEST_CSV   = os.path.join(_REPO, "data", "splits", "test.csv")
 OUT_JSON   = os.path.join(_REPO, "evaluation", "end_to_end_eval.json")
 
-WHISPER_MODEL_PATH = os.path.join(MODELS_DIR, "whisper-small-yoruba-finetuned")
-WHISPER_BASE_ID    = "openai/whisper-small"
+WHISPER_MODEL_PATH = os.path.join(MODELS_DIR, "whisper-medium-yoruba-finetuned")
+WHISPER_BASE_ID    = "openai/whisper-medium"
 YO_EN_MODEL_PATH   = os.path.join(MODELS_DIR, "marian-yoruba-medical")
 MMS_TTS_ID         = "facebook/mms-tts-yor"
 

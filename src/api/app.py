@@ -59,9 +59,9 @@ LOG_FILE   = os.path.join(EVAL_DIR, "api_logs.json")
 # yo→en: load from the top-level folder — this is where marian_finetune.py saves
 # (matches the en→yo convention below). Drop a freshly trained model straight here.
 YO_EN_MODEL_PATH    = os.path.join(MODELS_DIR, "marian-yoruba-medical")
-WHISPER_MODEL_PATH  = os.path.join(MODELS_DIR, "whisper-small-yoruba-finetuned")
+WHISPER_MODEL_PATH  = os.path.join(MODELS_DIR, "whisper-medium-yoruba-finetuned")
 # Processor (feature extractor + tokenizer) is unchanged by fine-tuning; load from base
-WHISPER_BASE_ID     = "openai/whisper-small"
+WHISPER_BASE_ID     = "openai/whisper-medium"
 # en→yo: prefer the locally fine-tuned model; fall back to off-the-shelf opus-mt-en-nic.
 # Both are based on opus-mt-en-nic (English → Niger-Congo), so the >>yor<< prefix is
 # still required at inference to select Yoruba output.
@@ -318,6 +318,11 @@ def translate():
         transcript = text_in
     else:
         return _cors({"error": "Provide 'audio' file or 'text' string"}, 400)
+
+    # ── guard: no speech detected (empty/blank ASR output) ────────────────────
+    if not transcript.strip():
+        return _cors({"error": "No speech detected. Please record again and speak "
+                               "clearly, close to the microphone."}, 422)
 
     # ── pipeline ──────────────────────────────────────────────────────────────
     if direction == "yo-en":
