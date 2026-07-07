@@ -37,6 +37,7 @@ src/frontend/build/
 
 # Specific model directories too large for GitHub
 models/whisper-small-yoruba-finetuned/
+models/whisper-medium-yoruba-finetuned/
 models/marian-yoruba-medical/checkpoint-100/
 models/marian-yoruba-medical/checkpoint-150/
 models/marian-yoruba-medical/marian-15k-best/
