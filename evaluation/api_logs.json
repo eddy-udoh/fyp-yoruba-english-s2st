@@ -316,5 +316,569 @@
     "diacritic_density": null,
     "diacritic_flags": [],
     "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-18T06:18:20Z",
+    "direction": "yo-en",
+    "transcript": "Ẹ kú àárọ̀, orí mi ń dùn mí gan-an",
+    "translation": "Good morning, my head hurts a lot",
+    "latency_ms": 8392.9,
+    "diacritic_density": 0.3077,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T06:18:24Z",
+    "direction": "en-yo",
+    "transcript": "Good morning, how long have you had this fever?",
+    "translation": "Ẹ káàárọ̀, ṣé ó pẹ́ tó tí ẹ ti ní ibà yìí?",
+    "latency_ms": 2003.5,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-18T08:52:36Z",
+    "direction": "yo-en",
+    "transcript": "ẹ̀káàrọ̀w",
+    "translation": "_Copy",
+    "latency_ms": 8045.2,
+    "diacritic_density": 0.4444,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T08:52:57Z",
+    "direction": "en-yo",
+    "transcript": "Good morning",
+    "translation": "Ẹ kú àárọ̀",
+    "latency_ms": 3187.5,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-18T08:53:16Z",
+    "direction": "yo-en",
+    "transcript": "ẹ̀kú àáró",
+    "translation": "Y co- extreme",
+    "latency_ms": 2687.8,
+    "diacritic_density": 0.625,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T08:56:36Z",
+    "direction": "yo-en",
+    "transcript": "Ẹ kú àárọ̀",
+    "translation": "Good morning",
+    "latency_ms": 1773.9,
+    "diacritic_density": 0.625,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T08:56:40Z",
+    "direction": "yo-en",
+    "transcript": "ẹ̀kú àáró",
+    "translation": "Y co- extreme",
+    "latency_ms": 1797.1,
+    "diacritic_density": 0.625,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T08:56:43Z",
+    "direction": "yo-en",
+    "transcript": "e ku aaro",
+    "translation": "_Paste",
+    "latency_ms": 1588.4,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T08:56:47Z",
+    "direction": "yo-en",
+    "transcript": "Orí mi ń dùn mí",
+    "translation": "I have a headache",
+    "latency_ms": 2093.0,
+    "diacritic_density": 0.2727,
+    "diacritic_flags": [
+      "missing_underdots"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T08:56:51Z",
+    "direction": "en-yo",
+    "transcript": "Good morning, how about you feeling today?",
+    "translation": "Ẹ káàárọ̀, báwo ni ó ṣe rí lónìí?",
+    "latency_ms": 3316.7,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-18T08:56:58Z",
+    "direction": "yo-en",
+    "transcript": "Ori mi n dun mi",
+    "translation": "My urine hurts",
+    "latency_ms": 8302.2,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T08:57:02Z",
+    "direction": "yo-en",
+    "transcript": "Ẹ kú àárọ̀, orí mi ń dùn mí gan-an",
+    "translation": "Good morning, my head hurts a lot",
+    "latency_ms": 1705.7,
+    "diacritic_density": 0.3077,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T08:57:04Z",
+    "direction": "en-yo",
+    "transcript": "Any pains in your body",
+    "translation": "Ìrora kankan nínú ara rẹ",
+    "latency_ms": 2538.8,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-18T08:57:29Z",
+    "direction": "en-yo",
+    "transcript": "Take 2 in the morning and 1 at night",
+    "translation": "Mú kejì ní òwúrọ̀ àti 1 ní alẹ́",
+    "latency_ms": 3113.8,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-18T08:57:53Z",
+    "direction": "yo-en",
+    "transcript": "ẹ̀kù ààrọ̀wò",
+    "translation": "X-up",
+    "latency_ms": 2902.3,
+    "diacritic_density": 0.5455,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T10:57:22Z",
+    "direction": "yo-en",
+    "transcript": "Ẹ kú àárọ̀",
+    "translation": "Good morning",
+    "latency_ms": 3857.9,
+    "diacritic_density": 0.625,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T10:57:26Z",
+    "direction": "yo-en",
+    "transcript": "ẹ̀kú àáró",
+    "translation": "Yraphany",
+    "latency_ms": 1417.4,
+    "diacritic_density": 0.625,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T10:57:29Z",
+    "direction": "yo-en",
+    "transcript": "e ku aaro",
+    "translation": "Good morning",
+    "latency_ms": 1556.6,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T10:57:33Z",
+    "direction": "yo-en",
+    "transcript": "Orí mi ń dùn mí",
+    "translation": "I have a headache",
+    "latency_ms": 1726.4,
+    "diacritic_density": 0.2727,
+    "diacritic_flags": [
+      "missing_underdots"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T10:57:37Z",
+    "direction": "yo-en",
+    "transcript": "Ori mi n dun mi",
+    "translation": "My head is aching",
+    "latency_ms": 1624.2,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T10:57:41Z",
+    "direction": "yo-en",
+    "transcript": "Ẹ kú àárọ̀, orí mi ń dùn mí gan-an",
+    "translation": "Good morning, my head is hurting me a lot",
+    "latency_ms": 1670.5,
+    "diacritic_density": 0.3077,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T11:04:23Z",
+    "direction": "yo-en",
+    "transcript": "ẹ̀kù àrọ̀ ó",
+    "translation": "Goodbye",
+    "latency_ms": 5098.4,
+    "diacritic_density": 0.5556,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T11:04:56Z",
+    "direction": "en-yo",
+    "transcript": "Good morning, how may I help you today?",
+    "translation": "Ẹ káàárọ̀, báwo ni mo ṣe lè ràn yín lọ́wọ́ lónìí?",
+    "latency_ms": 4529.3,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-18T11:05:10Z",
+    "direction": "yo-en",
+    "transcript": "ẹ̀kááró",
+    "translation": "Goodbye",
+    "latency_ms": 2859.1,
+    "diacritic_density": 0.5714,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T11:05:26Z",
+    "direction": "yo-en",
+    "transcript": "mó dú pẹ́",
+    "translation": "Please",
+    "latency_ms": 3247.2,
+    "diacritic_density": 0.4286,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T11:05:38Z",
+    "direction": "yo-en",
+    "transcript": "pẹ̀lẹ̀",
+    "translation": "Unknown",
+    "latency_ms": 2990.1,
+    "diacritic_density": 0.3333,
+    "diacritic_flags": [
+      "missing_tonal_marks"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-18T11:05:52Z",
+    "direction": "en-yo",
+    "transcript": "Sorry about that",
+    "translation": "Ẹ jọ̀gbọ́ lórí ìyẹn",
+    "latency_ms": 2558.2,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-18T11:06:07Z",
+    "direction": "yo-en",
+    "transcript": "ẹ̀jò ború yìíẹ̀",
+    "translation": "Cut this morning",
+    "latency_ms": 2919.5,
+    "diacritic_density": 0.4615,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-19T01:37:08Z",
+    "direction": "en-yo",
+    "transcript": "Good morning, how are you feeling today?",
+    "translation": "Ẹ káàárọ̀, báwo ni ẹ ṣe rí lónìí?",
+    "latency_ms": 8278.2,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-19T01:38:38Z",
+    "direction": "en-yo",
+    "transcript": "Is your leg hurting or your eyes paining you?",
+    "translation": "Ṣé ẹsẹ̀ rẹ ń dun ọ ni tàbí ojú rẹ ń dùn ọ?",
+    "latency_ms": 3428.8,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-19T01:39:50Z",
+    "direction": "yo-en",
+    "transcript": "ojún dúmí",
+    "translation": "Good morning",
+    "latency_ms": 4681.9,
+    "diacritic_density": 0.375,
+    "diacritic_flags": [
+      "missing_underdots"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-19T01:54:15Z",
+    "direction": "yo-en",
+    "transcript": "Ori mi dun mi",
+    "translation": "My head hurts",
+    "latency_ms": 1365.2,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-19T01:56:00Z",
+    "direction": "en-yo",
+    "transcript": "Ori mi dun mi",
+    "translation": "Ori mi dun mi",
+    "latency_ms": 982.6,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-19T01:56:57Z",
+    "direction": "en-yo",
+    "transcript": "Take 2 doses of paracetamol at night and 1 in the morning",
+    "translation": "Mú 'paracetamol' méjì ní alẹ́ àti 1 ní òwúrọ̀",
+    "latency_ms": 2379.5,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-19T02:11:13Z",
+    "direction": "yo-en",
+    "transcript": "Mo ni otutu ati Ikọaláìdúró",
+    "translation": "I have cold and fatigue",
+    "latency_ms": 1355.5,
+    "diacritic_density": 0.2174,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-19T02:12:08Z",
+    "direction": "yo-en",
+    "transcript": "Mo ni otutu ati Ikọaláìdúró",
+    "translation": "I have cold and fatigue",
+    "latency_ms": 1218.1,
+    "diacritic_density": 0.2174,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-19T02:12:29Z",
+    "direction": "yo-en",
+    "transcript": "Mo ni otutu ati orififo",
+    "translation": "I have cold and headache",
+    "latency_ms": 1742.2,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-19T12:04:03Z",
+    "direction": "yo-en",
+    "transcript": "Ori i mun dun",
+    "translation": "Well done with your work",
+    "latency_ms": 3987.4,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-19T12:04:24Z",
+    "direction": "en-yo",
+    "transcript": "Good morning how are you feeling today",
+    "translation": "Ẹ kú àárọ̀, báwo ni ẹ ṣe rí lónìí?",
+    "latency_ms": 8534.4,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-19T12:05:14Z",
+    "direction": "en-yo",
+    "transcript": "Take two doses at night and one in the morning",
+    "translation": "Mú ìwọ̀n méjì ní alẹ́ àti ìkan ní òwúrọ̀",
+    "latency_ms": 3504.8,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-19T12:06:00Z",
+    "direction": "yo-en",
+    "transcript": "orin fo mi",
+    "translation": "I have diabetes",
+    "latency_ms": 2827.8,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-19T12:06:25Z",
+    "direction": "yo-en",
+    "transcript": "orindomi",
+    "translation": "Epiphany",
+    "latency_ms": 2997.8,
+    "diacritic_density": 0.0,
+    "diacritic_flags": [
+      "missing_tonal_marks",
+      "missing_underdots",
+      "low_diacritic_density_0.0pct"
+    ],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-19T12:06:49Z",
+    "direction": "yo-en",
+    "transcript": "ẹ̀káàrọ̀",
+    "translation": "Encoding",
+    "latency_ms": 2837.1,
+    "diacritic_density": 0.5,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-24T11:54:51Z",
+    "direction": "en-yo",
+    "transcript": "I",
+    "translation": "Ìyáàge",
+    "latency_ms": 8946.7,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-24T11:55:23Z",
+    "direction": "en-yo",
+    "transcript": "Good morning, how are you feeling today?",
+    "translation": "Ẹ káàárọ̀, báwo ni ẹ ṣe rí lónìí?",
+    "latency_ms": 3285.8,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-24T14:51:27Z",
+    "direction": "yo-en",
+    "transcript": "ẹ̀kọ́ wọ́rọ̀ wọ̀tà wọ́t bí wọ́t tí wọ́n",
+    "translation": "Email letter as they should",
+    "latency_ms": 20719.4,
+    "diacritic_density": 0.3438,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-24T14:51:58Z",
+    "direction": "yo-en",
+    "transcript": "dí sí fọ́n dọ̀tẹ̀ pẹ̀ tán lẹ́sùn tí wọ́n wẹ́gb gẹ̀ sọ́gbísìííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííííí",
+    "translation": "This is an Areii-M-me of mine of mine right now.",
+    "latency_ms": 9860.9,
+    "diacritic_density": 0.9278,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-24T14:52:11Z",
+    "direction": "yo-en",
+    "transcript": "nọ̀pí ní ẹ̀wẹ́sàn àṣàlẹ̀bí",
+    "translation": "Log Out %s in Tool mode",
+    "latency_ms": 2807.4,
+    "diacritic_density": 0.4783,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
+  },
+  {
+    "timestamp": "2026-06-24T14:52:26Z",
+    "direction": "en-yo",
+    "transcript": "Why didn't that be in Seos and Christia?",
+    "translation": "Èé ṣe tí kò fi rí bẹ́ẹ̀ ní Seos àti Christia?",
+    "latency_ms": 2351.3,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-24T15:02:42Z",
+    "direction": "en-yo",
+    "transcript": "Good morning how are you feeling today",
+    "translation": "Ẹ kú àárọ̀, báwo ni ẹ ṣe rí lónìí?",
+    "latency_ms": 3505.2,
+    "diacritic_density": null,
+    "diacritic_flags": [],
+    "tts_note": "meta-mms-tts-yoruba"
+  },
+  {
+    "timestamp": "2026-06-24T15:05:00Z",
+    "direction": "yo-en",
+    "transcript": "ẹ̀kù àrọ̀",
+    "translation": "Epiphany",
+    "latency_ms": 1858.0,
+    "diacritic_density": 0.5,
+    "diacritic_flags": [],
+    "tts_note": "none"
+  },
+  {
+    "timestamp": "2026-06-29T10:20:39Z",
+    "direction": "yo-en",
+    "transcript": "Ẹ ká rọ̀ o.",
+    "translation": "Please sit down.",
+    "latency_ms": 4818.4,
+    "diacritic_density": 0.375,
+    "diacritic_flags": [],
+    "tts_note": "edge-tts-aria-neural"
   }
 ]
